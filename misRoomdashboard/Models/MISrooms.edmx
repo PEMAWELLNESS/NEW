@@ -197,33 +197,6 @@ warning 6002: The table/view 'MisRooms.dbo.ADRM_TBL_USER_MASTER' does not have a
           <Property Name="CHOLORINE_MG" Type="varchar" MaxLength="10" />
           <Property Name="values_from" Type="varchar" MaxLength="10" />
         </EntityType>
-        <EntityType Name="LeaveManagement">
-          <Key>
-            <PropertyRef Name="LeaveId" />
-          </Key>
-          <Property Name="LeaveId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Employee ID" Type="varchar" MaxLength="100" />
-          <Property Name="Employee Name" Type="varchar" MaxLength="200" />
-          <Property Name="Designation" Type="varchar" MaxLength="100" />
-          <Property Name="Type of Leave" Type="varchar" MaxLength="100" />
-          <Property Name="From_Date" Type="datetime" />
-          <Property Name="To_Date" Type="datetime" />
-          <Property Name="No of Days" Type="varchar" MaxLength="50" />
-          <Property Name="Contact Number" Type="varchar" MaxLength="50" />
-          <Property Name="Purpose of Leave" Type="varchar" MaxLength="1000" />
-          <Property Name="Leaves Entitled" Type="varchar" MaxLength="50" />
-          <Property Name="Leaves Availed" Type="varchar" MaxLength="50" />
-          <Property Name="Leaves Available" Type="varchar" MaxLength="50" />
-          <Property Name="Status of Leave" Type="varchar" MaxLength="50" />
-          <Property Name="Signed by HR" Type="varchar" MaxLength="50" />
-          <Property Name="Recommended By" Type="varchar" MaxLength="100" />
-          <Property Name="Approved By" Type="varchar" MaxLength="100" />
-          <Property Name="Date of Apply" Type="datetime" />
-          <Property Name="Created_dt" Type="datetime" />
-          <Property Name="Created_by" Type="varchar" MaxLength="50" />
-          <Property Name="Modified_dt" Type="datetime" />
-          <Property Name="Modified_by" Type="varchar" MaxLength="50" />
-        </EntityType>
         <EntityType Name="NC_TBL_APPCONFIG">
           <Key>
             <PropertyRef Name="Id" />
@@ -782,6 +755,21 @@ warning 6002: The table/view 'MisRooms.dbo.ADRM_TBL_USER_MASTER' does not have a
           <Property Name="views" Type="int" />
           <Property Name="category" Type="int" />
         </EntityType>
+        <EntityType Name="ShiftMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShiftCode" Type="varchar" MaxLength="10" />
+          <Property Name="ShiftName" Type="varchar" MaxLength="250" />
+          <Property Name="StartTime" Type="time" Precision="7" />
+          <Property Name="EndTime" Type="time" Precision="7" />
+          <Property Name="ShiftStatus" Type="varchar" MaxLength="1" />
+          <Property Name="Created_By" Type="varchar" MaxLength="20" />
+          <Property Name="Created_On" Type="datetime" />
+          <Property Name="Edited_By" Type="varchar" MaxLength="20" />
+          <Property Name="Edited_On" Type="datetime" />
+        </EntityType>
         <EntityType Name="TBL_CheckOut_File">
           <Key>
             <PropertyRef Name="ID" />
@@ -883,6 +871,14 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentAvailedOld' does not have a 
           <Property Name="StartTime" Type="time" Precision="7" />
           <Property Name="EndTime" Type="time" Precision="7" />
           <Property Name="GuestName" Type="varchar" MaxLength="100" />
+          <Property Name="Treatment_Status" Type="varchar" MaxLength="50" />
+          <Property Name="ActualStartTime" Type="time" Precision="7" />
+          <Property Name="ActualEndTime" Type="time" Precision="7" />
+          <Property Name="Reason" Type="varchar" MaxLength="1500" />
+          <Property Name="Created_by" Type="varchar" MaxLength="50" />
+          <Property Name="Created_dt" Type="datetime" />
+          <Property Name="Modified_by" Type="varchar" MaxLength="50" />
+          <Property Name="MOdified_dt" Type="datetime" />
         </EntityType>
         <EntityType Name="TreatmentFeedBack">
           <Key>
@@ -997,18 +993,6 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentRoomMasterOld' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Treatment__Treat__0E04126B">
-          <End Role="TreatmentAvailed" Type="Self.TreatmentAvailed" Multiplicity="1" />
-          <End Role="TreatmentFeedBack" Type="Self.TreatmentFeedBack" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TreatmentAvailed">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="TreatmentFeedBack">
-              <PropertyRef Name="TreatmentAvailedID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Treatment__Treat__1AD3FDA4">
           <End Role="TreatmentRoomGroups" Type="Self.TreatmentRoomGroups" Multiplicity="0..1" />
           <End Role="TreatmentRoomMaster" Type="Self.TreatmentRoomMaster" Multiplicity="*" />
@@ -1030,6 +1014,18 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentRoomMasterOld' does not have
             </Principal>
             <Dependent Role="TreatmentAvailed">
               <PropertyRef Name="TreatmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Treatment__Treat__7AF13DF7">
+          <End Role="TreatmentAvailed" Type="Self.TreatmentAvailed" Multiplicity="1" />
+          <End Role="TreatmentFeedBack" Type="Self.TreatmentFeedBack" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TreatmentAvailed">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TreatmentFeedBack">
+              <PropertyRef Name="TreatmentAvailedID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1070,7 +1066,6 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentRoomMasterOld' does not have
           <EntitySet Name="Feast_Details" EntityType="Self.Feast_Details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HealerDetails" EntityType="Self.HealerDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ingredients" EntityType="Self.Ingredients" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="LeaveManagement" EntityType="Self.LeaveManagement" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NC_TBL_APPCONFIG" EntityType="Self.NC_TBL_APPCONFIG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="nc_tbl_bill_type_master" EntityType="Self.nc_tbl_bill_type_master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NC_TBL_Billing_Trans" EntityType="Self.NC_TBL_Billing_Trans" Schema="dbo" store:Type="Tables" />
@@ -1104,6 +1099,7 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentRoomMasterOld' does not have
           <EntitySet Name="RecipeCategory" EntityType="Self.RecipeCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RecipeIngredients" EntityType="Self.RecipeIngredients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Recipes" EntityType="Self.Recipes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShiftMaster" EntityType="Self.ShiftMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TBL_CheckOut_File" EntityType="Self.TBL_CheckOut_File" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Treatment_Master" EntityType="Self.Treatment_Master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TreatmentAvailed" EntityType="Self.TreatmentAvailed" Schema="dbo" store:Type="Tables" />
@@ -1201,7 +1197,15 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentRoomMasterOld' does not have
     [TreatmentAvailedOld].[SchdeuleTime] AS [SchdeuleTime], 
     [TreatmentAvailedOld].[StartTime] AS [StartTime], 
     [TreatmentAvailedOld].[EndTime] AS [EndTime], 
-    [TreatmentAvailedOld].[GuestName] AS [GuestName]
+    [TreatmentAvailedOld].[GuestName] AS [GuestName], 
+    [TreatmentAvailedOld].[Treatment_Status] AS [Treatment_Status], 
+    [TreatmentAvailedOld].[ActualStartTime] AS [ActualStartTime], 
+    [TreatmentAvailedOld].[ActualEndTime] AS [ActualEndTime], 
+    [TreatmentAvailedOld].[Reason] AS [Reason], 
+    [TreatmentAvailedOld].[Created_by] AS [Created_by], 
+    [TreatmentAvailedOld].[Created_dt] AS [Created_dt], 
+    [TreatmentAvailedOld].[Modified_by] AS [Modified_by], 
+    [TreatmentAvailedOld].[MOdified_dt] AS [MOdified_dt]
     FROM [dbo].[TreatmentAvailedOld] AS [TreatmentAvailedOld]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="TreatmentRoomGroupsOld" EntityType="Self.TreatmentRoomGroupsOld" store:Type="Tables" store:Schema="dbo">
@@ -1233,10 +1237,6 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentRoomMasterOld' does not have
             <End Role="TreatmentRoomMaster" EntitySet="TreatmentRoomMaster" />
             <End Role="TreatmentAvailed" EntitySet="TreatmentAvailed" />
           </AssociationSet>
-          <AssociationSet Name="FK__Treatment__Treat__0E04126B" Association="Self.FK__Treatment__Treat__0E04126B">
-            <End Role="TreatmentAvailed" EntitySet="TreatmentAvailed" />
-            <End Role="TreatmentFeedBack" EntitySet="TreatmentFeedBack" />
-          </AssociationSet>
           <AssociationSet Name="FK__Treatment__Treat__1AD3FDA4" Association="Self.FK__Treatment__Treat__1AD3FDA4">
             <End Role="TreatmentRoomGroups" EntitySet="TreatmentRoomGroups" />
             <End Role="TreatmentRoomMaster" EntitySet="TreatmentRoomMaster" />
@@ -1244,6 +1244,10 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentRoomMasterOld' does not have
           <AssociationSet Name="FK__Treatment__Treat__1F98B2C1" Association="Self.FK__Treatment__Treat__1F98B2C1">
             <End Role="Treatment_Master" EntitySet="Treatment_Master" />
             <End Role="TreatmentAvailed" EntitySet="TreatmentAvailed" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Treatment__Treat__7AF13DF7" Association="Self.FK__Treatment__Treat__7AF13DF7">
+            <End Role="TreatmentAvailed" EntitySet="TreatmentAvailed" />
+            <End Role="TreatmentFeedBack" EntitySet="TreatmentFeedBack" />
           </AssociationSet>
           <AssociationSet Name="FK_Treatment_Master_TreatmentRoomGroups" Association="Self.FK_Treatment_Master_TreatmentRoomGroups">
             <End Role="TreatmentRoomGroups" EntitySet="TreatmentRoomGroups" />
@@ -2123,6 +2127,14 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentRoomMasterOld' does not have
           <Property Name="StartTime" Type="Time" Precision="7" />
           <Property Name="EndTime" Type="Time" Precision="7" />
           <Property Name="GuestName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Treatment_Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActualStartTime" Type="Time" Precision="7" />
+          <Property Name="ActualEndTime" Type="Time" Precision="7" />
+          <Property Name="Reason" Type="String" MaxLength="1500" FixedLength="false" Unicode="false" />
+          <Property Name="Created_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Created_dt" Type="DateTime" Precision="3" />
+          <Property Name="Modified_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MOdified_dt" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="TreatmentRoomGroupsOld">
           <Key>
@@ -2338,8 +2350,8 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentRoomMasterOld' does not have
             <Parameter Name="oppPRNO" Mode="InOut" Type="String" />
             <Parameter Name="oppName" Mode="InOut" Type="String" />
           </FunctionImport>
-          <EntitySet Name="LeaveManagements" EntityType="MisRoomsModel.LeaveManagement" />
           <EntitySet Name="PEMASSLs" EntityType="MisRoomsModel.PEMASSL" />
+          <EntitySet Name="ShiftMasters" EntityType="MisRoomsModel.ShiftMaster" />
         </EntityContainer>
         <ComplexType Name="GetRoomDet_Result">
           <Property Type="String" Name="RoomName" Nullable="true" MaxLength="20" />
@@ -2358,33 +2370,6 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentRoomMasterOld' does not have
           <Property Type="Int32" Name="C21to22" Nullable="false" />
           <Property Type="Int32" Name="C22to23" Nullable="false" />
         </ComplexType>
-        <EntityType Name="LeaveManagement">
-          <Key>
-            <PropertyRef Name="LeaveId" />
-          </Key>
-          <Property Name="LeaveId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Employee_ID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Employee_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Designation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Type_of_Leave" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="From_Date" Type="DateTime" Precision="3" />
-          <Property Name="To_Date" Type="DateTime" Precision="3" />
-          <Property Name="No_of_Days" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Contact_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Purpose_of_Leave" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="Leaves_Entitled" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Leaves_Availed" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Leaves_Available" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Status_of_Leave" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Signed_by_HR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Recommended_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Approved_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Date_of_Apply" Type="DateTime" Precision="3" />
-          <Property Name="Created_dt" Type="DateTime" Precision="3" />
-          <Property Name="Created_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Modified_dt" Type="DateTime" Precision="3" />
-          <Property Name="Modified_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="PEMASSL">
           <Key>
             <PropertyRef Name="ID" />
@@ -2418,6 +2403,21 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentRoomMasterOld' does not have
           <Property Name="Created_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Modified_dt" Type="DateTime" Precision="3" />
           <Property Name="Modified_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ShiftMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShiftCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ShiftName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="StartTime" Type="Time" Precision="7" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <Property Name="ShiftStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Created_By" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Created_On" Type="DateTime" Precision="3" />
+          <Property Name="Edited_By" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Edited_On" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3300,6 +3300,14 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentRoomMasterOld' does not have
           <EntitySetMapping Name="TreatmentAvailedOlds">
             <EntityTypeMapping TypeName="MisRoomsModel.TreatmentAvailedOld">
               <MappingFragment StoreEntitySet="TreatmentAvailedOld">
+                <ScalarProperty Name="MOdified_dt" ColumnName="MOdified_dt" />
+                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
+                <ScalarProperty Name="Created_dt" ColumnName="Created_dt" />
+                <ScalarProperty Name="Created_by" ColumnName="Created_by" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="ActualEndTime" ColumnName="ActualEndTime" />
+                <ScalarProperty Name="ActualStartTime" ColumnName="ActualStartTime" />
+                <ScalarProperty Name="Treatment_Status" ColumnName="Treatment_Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="PRNO" ColumnName="PRNO" />
                 <ScalarProperty Name="HealerID" ColumnName="HealerID" />
@@ -3355,34 +3363,6 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentRoomMasterOld' does not have
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetTreatmentRoomDetails" FunctionName="MisRoomsModel.Store.GetTreatmentRoomDetails" />
           <FunctionImportMapping FunctionImportName="Guest_PR_Identification" FunctionName="MisRoomsModel.Store.Guest_PR_Identification" />
-          <EntitySetMapping Name="LeaveManagements">
-            <EntityTypeMapping TypeName="MisRoomsModel.LeaveManagement">
-              <MappingFragment StoreEntitySet="LeaveManagement">
-                <ScalarProperty Name="Modified_by" ColumnName="Modified_by" />
-                <ScalarProperty Name="Modified_dt" ColumnName="Modified_dt" />
-                <ScalarProperty Name="Created_by" ColumnName="Created_by" />
-                <ScalarProperty Name="Created_dt" ColumnName="Created_dt" />
-                <ScalarProperty Name="Date_of_Apply" ColumnName="Date of Apply" />
-                <ScalarProperty Name="Approved_By" ColumnName="Approved By" />
-                <ScalarProperty Name="Recommended_By" ColumnName="Recommended By" />
-                <ScalarProperty Name="Signed_by_HR" ColumnName="Signed by HR" />
-                <ScalarProperty Name="Status_of_Leave" ColumnName="Status of Leave" />
-                <ScalarProperty Name="Leaves_Available" ColumnName="Leaves Available" />
-                <ScalarProperty Name="Leaves_Availed" ColumnName="Leaves Availed" />
-                <ScalarProperty Name="Leaves_Entitled" ColumnName="Leaves Entitled" />
-                <ScalarProperty Name="Purpose_of_Leave" ColumnName="Purpose of Leave" />
-                <ScalarProperty Name="Contact_Number" ColumnName="Contact Number" />
-                <ScalarProperty Name="No_of_Days" ColumnName="No of Days" />
-                <ScalarProperty Name="To_Date" ColumnName="To_Date" />
-                <ScalarProperty Name="From_Date" ColumnName="From_Date" />
-                <ScalarProperty Name="Type_of_Leave" ColumnName="Type of Leave" />
-                <ScalarProperty Name="Designation" ColumnName="Designation" />
-                <ScalarProperty Name="Employee_Name" ColumnName="Employee Name" />
-                <ScalarProperty Name="Employee_ID" ColumnName="Employee ID" />
-                <ScalarProperty Name="LeaveId" ColumnName="LeaveId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PEMASSLs">
             <EntityTypeMapping TypeName="MisRoomsModel.PEMASSL">
               <MappingFragment StoreEntitySet="PEMASSL">
@@ -3414,6 +3394,22 @@ warning 6002: The table/view 'MisRooms.dbo.TreatmentRoomMasterOld' does not have
                 <ScalarProperty Name="AttendanceDate" ColumnName="AttendanceDate" />
                 <ScalarProperty Name="Company" ColumnName="Company" />
                 <ScalarProperty Name="Employee_Name" ColumnName="Employee Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShiftMasters">
+            <EntityTypeMapping TypeName="MisRoomsModel.ShiftMaster">
+              <MappingFragment StoreEntitySet="ShiftMaster">
+                <ScalarProperty Name="Edited_On" ColumnName="Edited_On" />
+                <ScalarProperty Name="Edited_By" ColumnName="Edited_By" />
+                <ScalarProperty Name="Created_On" ColumnName="Created_On" />
+                <ScalarProperty Name="Created_By" ColumnName="Created_By" />
+                <ScalarProperty Name="ShiftStatus" ColumnName="ShiftStatus" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="ShiftName" ColumnName="ShiftName" />
+                <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

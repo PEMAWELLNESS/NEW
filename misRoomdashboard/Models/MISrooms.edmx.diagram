@@ -66,8 +66,8 @@
         <AssociationConnector Association="MisRoomsModel.FK__Treatment__RoomI__1EA48E88" ManuallyRouted="false" />
         <AssociationConnector Association="MisRoomsModel.FK__Treatment__Treat__0E04126B" ManuallyRouted="false" />
         <AssociationConnector Association="MisRoomsModel.FK__Treatment__Treat__1AD3FDA4" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="MisRoomsModel.LeaveManagement" Width="1.5" PointX="3.375" PointY="22.75" />
         <EntityTypeShape EntityType="MisRoomsModel.PEMASSL" Width="1.5" PointX="22.375" PointY="16.75" />
+        <EntityTypeShape EntityType="MisRoomsModel.ShiftMaster" Width="1.5" PointX="24.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

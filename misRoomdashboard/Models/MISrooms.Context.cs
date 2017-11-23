@@ -80,8 +80,8 @@ namespace Rooms.Models
         public virtual DbSet<TreatmentAvailedOld> TreatmentAvailedOlds { get; set; }
         public virtual DbSet<TreatmentRoomGroupsOld> TreatmentRoomGroupsOlds { get; set; }
         public virtual DbSet<TreatmentRoomMasterOld> TreatmentRoomMasterOlds { get; set; }
-        public virtual DbSet<LeaveManagement> LeaveManagements { get; set; }
         public virtual DbSet<PEMASSL> PEMASSLs { get; set; }
+        public virtual DbSet<ShiftMaster> ShiftMasters { get; set; }
     
         public virtual int GehealerwiseDetails(string dates)
         {

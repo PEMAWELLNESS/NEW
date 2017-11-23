@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'E:\Room Dashboard\new.Room dashboard\misRoomdashboard V32\misRoomdashboard\Models\MISrooms.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\ADMIN\Source\Repos\NEW\misRoomdashboard\Models\MISrooms.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

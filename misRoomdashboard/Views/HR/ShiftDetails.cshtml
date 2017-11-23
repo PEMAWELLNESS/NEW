@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Rooms.Models.ShiftMaster>
+
+@{
+    ViewBag.Title = "ShiftDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<center>
+    <h2>ShiftDetails</h2>
+</center>
+<p>
+    @Html.ActionLink("Add Shift Details", "AddShiftDetails")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ShiftCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShiftName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShiftStatus)
+        </th>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShiftCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShiftName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShiftStatus)
+        </td>
+    </tr>
+}
+
+</table>
