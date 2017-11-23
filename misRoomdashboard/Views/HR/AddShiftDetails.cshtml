@@ -1,0 +1,155 @@
+﻿@model Rooms.Models.ShiftMaster
+
+@{
+    ViewBag.Title = "AddShiftDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<center>
+    <h2>Add Shift Details</h2>
+</center>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    <div class="container form-horizontal">
+        <hr />
+        <div class="col-md-4"></div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.ShiftCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.ShiftCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ShiftCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ShiftName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.ShiftName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ShiftName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ShiftStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.ShiftStatus, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ShiftStatus, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="~/Content/TimePicker/include/ui-1.10.0/ui-lightness/jquery-ui-1.10.0.custom.min.css" type="text/css" />
+<link rel="stylesheet" href="~/Content/TimePicker/jquery.ui.timepicker.css?v=0.3.3" type="text/css" />
+<script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.core.min.js"></script>
+<script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.widget.min.js"></script>
+<script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.tabs.min.js"></script>
+<script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.position.min.js"></script>
+<script type="text/javascript" src="~/Content/TimePicker/jquery.ui.timepicker.js?v=0.3.3"></script>
+<style>
+    .table1 {
+        display: none;
+    }
+
+    #LoadingImage {
+        display: none;
+        margin: -48px 0px 0px 0px;
+        padding: 170px 10px 10px 10px;
+        position: absolute;
+        left: 0%;
+        top: 225px;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background: white url(Content/loader.gif) no-repeat center center !important;
+        border: 0px solid #000;
+        z-index: 1;
+    }
+
+    .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+        width: 31px !important;
+        text-align: center !important;
+    }
+
+    .ui-timepicker-table {
+        font-size: 10px !important;
+    }
+
+    .form-horizontal .form-group {
+        font-size: 15px;
+    }
+
+    .form-horizontal .control-label {
+        text-align: left !important;
+    }
+</style>
+
+<script>
+$(document).ready(function() {
+    $('#StartTime').timepicker({
+       showLeadingZero: false,
+       onSelect: tpStartSelect,
+       maxTime: {
+           hour: 16, minute: 30
+       }
+   });
+   $('#EndTime').timepicker({
+       showLeadingZero: false,
+       onSelect: tpEndSelect,
+       minTime: {
+           hour: 9, minute: 15
+       }
+   });
+});
+
+// when start time change, update minimum for end timepicker
+function tpStartSelect( time, endTimePickerInst ) {
+   $('#EndTime').timepicker('option', {
+       minTime: {
+           hour: endTimePickerInst.hours,
+           minute: endTimePickerInst.minutes
+       }
+   });
+}
+
+// when end time change, update maximum for start timepicker
+function tpEndSelect( time, startTimePickerInst ) {
+   $('#StartTime').timepicker('option', {
+       maxTime: {
+           hour: startTimePickerInst.hours,
+           minute: startTimePickerInst.minutes
+       }
+   });
+}
+</script>
+}

@@ -22,6 +22,35 @@ namespace Rooms.Controllers
         {
             return View();
         }
+        public ActionResult ShiftDetails()
+        {
+            var shiftdetails = db.ShiftMasters.ToList();
+            return View(shiftdetails);
+        }
+        public ActionResult AddShiftDetails()
+        {
+            if (string.IsNullOrEmpty(Session["LogedUserID"] as string))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View();
+            }
+        }
+        [HttpPost]
+        public ActionResult AddShiftDetails(ShiftMaster SM)
+        {
+            if(ModelState.IsValid)
+            {
+                SM.Created_By = Session["LogedUserID"] as string;
+                SM.Created_On = DateTime.Now;
+                db.ShiftMasters.Add(SM);
+                db.SaveChanges();
+                return RedirectToAction("ShiftDetails");
+            }
+            return RedirectToAction("AddShiftDetails");
+        }
         public ActionResult BiometricAttendance()
         {
             if (string.IsNullOrEmpty(Session["LogedUserID"] as string))
