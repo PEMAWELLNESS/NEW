@@ -1133,6 +1133,8 @@
     <Content Include="Views\TP\treatmentFeedback.cshtml" />
     <Content Include="Views\HR\BiometricAttendance.cshtml" />
     <Content Include="Views\HR\LeaveMangement.cshtml" />
+    <Content Include="Views\HR\AddShiftDetails.cshtml" />
+    <Content Include="Views\HR\ShiftDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
