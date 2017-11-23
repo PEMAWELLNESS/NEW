@@ -1,0 +1,451 @@
+﻿
+@{
+    ViewBag.Title = "TreatmentPlan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    @*<script src="~/Scripts/jquery-1.12.4.js"></script>*@
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <script>
+//        function dateconversion(date) {
+//    debugger;
+//    //alert(moment(date).format("DD/MM/YYYY"));
+//    if (date != null) {
+//        var pattern = /Date\(([^)]+)\)/;
+//        var results = pattern.exec(date);
+//        var IST = new Date(parseFloat(results[1])); // Clone UTC Timestamp
+//        IST.setHours(IST.getHours() + 5); // set Hours to 5 hours later
+//        IST.setMinutes(IST.getMinutes() + 30); // set Minutes to be 30 minutes later
+//        alert(IST);
+//        //debugger;
+//        document.getElementById(ctrlid).value = new Date(IST);
+
+//    }
+//}
+       // function ending(e) {
+       //     debugger;
+        //    alert($('#endtime').val());
+        //    alert($('#starttime').val());
+       // }
+        $(document).ready(function () {
+            Treatmentlist();
+            $('#schedule').DataTable({
+
+            });
+
+            $('.timepicker').timepicker({
+                timeFormat: 'HH:mm',
+                minTime: '8a',
+                maxTime: '8p',
+                scrollbar: true,
+            });
+
+        });
+        function Treatmentlist() {
+            $.ajax({
+                type: "POST",
+                //data: postData,
+                url: "/Treatment/traetmentlist",
+                //data: "id=",
+                success: function (result) {
+                    debugger;
+                    var locdata = new Array();
+                    for (var i = 0; i < result.length; i++) {
+                        locdata.push({
+                            PRNO: result[i].b.PRNO,
+                            Room_No: result[i].b.Room_No,
+                            FirstName: result[i].a.FirstName,
+                            //Age: result[i].Age,
+                            //Gender: result[i].Gender,
+                            ddrilldown: false
+                        });
+                    }
+                    var sttt = "Employees with Designation are";
+                    $(".tbb").remove();
+                    var $table = $('<table/>');
+                    $table.addClass("table table-bordered table-hover table-striped tbb");
+                    $table.append(' <th style="text-align:center!important;">PRNO</th><th style="text-align:center!important;">Room No</th><th style="text-align:center!important;">Guest Name</th>');
+                    for (var i = 0; i < locdata.length; i++) {
+                        //debugger;
+
+                        $table.append('<tr><td>' + locdata[i].PRNO + '</td><td>' + locdata[i].Room_No + '</td><td>' + locdata[i].FirstName + '</td></tr>');
+                        $('#emplist').append($table);
+                        //<th style="text-align:center!important;">View</th>
+                        //<td><a href="ViewcrfData?Subject_ID=' + locdata[i].Subject_ID + '">View</a></td>
+                    }
+                    $('#emplist').show();
+                }
+            });
+        }
+
+        function TreatmentlistData(name) {
+            debugger;
+            var wallcode = name;
+            var postData = {
+                prnumber: wallcode
+            }
+            $.ajax({
+                type: "POST",
+                data: postData,
+                url: "/Treatment/TreatmentlistData",
+                //data: "id=",
+                success: function (result) {
+                    debugger;
+                    var locdata = new Array();
+                    for (var i = 0; i < result.length; i++) {
+                        locdata.push({
+                            PRNO: result[i].a.PRNO,
+                            RoomNo: result[i].g.RoomNo,
+                            HealerName: result[i].g.HealerName,
+                            ScheduleDate: result[i].a.ScheduleDate,
+                            ScheduleTime: result[i].a.ScheduleTime,
+                            StartTime: result[i].a.StartTime,
+                            EndTime: result[i].a.EndTime,
+                            ddrilldown: false
+                        });
+                    }
+                    var sttt = "Employees with Designation are";
+                    $(".tbb1").remove();
+                    var $table = $('<table/>');
+                    $table.addClass("table table-bordered table-hover table-striped tbb1");
+                    $table.append(' <th style="text-align:center!important;">PRNO</th><th style="text-align:center!important;">Room No</th><th style="text-align:center!important;">Healer Name</th><th style="text-align:center!important;">ScheduleDate</th><th style="text-align:center!important;">ScheduleTime</th><th style="text-align:center!important;">StartTime</th><th style="text-align:center!important;">EndTime</th>');
+                    for (var i = 0; i < locdata.length; i++) {
+                        //debugger;
+
+                        $table.append('<tr><td>' + locdata[i].PRNO + '</td><td>' + locdata[i].RoomNo + '</td><td>' + locdata[i].HealerName + '</td><td>' + moment(locdata[i].ScheduleDate).format("DD/MM/YYYY") + '</td><td>' + moment(locdata[i].ScheduleTime).format("HH:mm") + '</td><td>' + moment(locdata[i].StartTime).format("HH:mm") + '</td><td>' + moment(locdata[i].EndTime).format("HH:mm") + '</td></tr>');
+                        $('#emplistnew').append($table);
+                        //<th style="text-align:center!important;">View</th>
+                        //<td><a href="ViewcrfData?Subject_ID=' + locdata[i].Subject_ID + '">View</a></td>
+                    }
+                    $('#emplistnew').show();
+                }
+            });
+        }
+        function guestdetails(guestid) {
+            debugger;
+            var guestids = guestid.value
+            if (guestids != "") {
+                var postData = {
+                    prnumber: guestid.value
+                };
+                $.ajax({
+                    url: "/Treatment/GetGuestDetails/",
+                    data: postData,
+                    cache: false,
+                    async: false,
+                    type: "GET",
+                    success: function (data) {
+                        if (data == 0) {
+                            alert("No Employees are Available in master");
+                        }
+                        else {
+                            debugger;
+                            //$("#empcode").empty();
+                            //$("#empcode").append('<option value="-1">Select Employee Code</option>');
+                            //$.each(data, function (i, x) {
+                            //    $("#empcode").append('<option value="' + x.Id + '">' + x.EmpName + '</option>');
+                            //});
+                            $('#guestname').val(data);
+                            $('#spguestname').text(data);
+                        }
+                    },
+                    error: function (response) {
+                        alert("error : " + response);
+                    }
+                });
+            } else {
+                alert('Enter Guest ID');
+            }
+        }
+        $(document).ready(function () {
+            $(document).on("click", ".addtrlist", function () { //
+                if ($('#healerid').val() != -1 && $('#treatmentid').val() != -1 && $('#roomsid').val() != -1) {
+                    var rowCount = $('.trlist').length + 1;
+                    if (rowCount > 0) {
+                        var buttons = document.querySelector('.table1');
+                        buttons.style.display = 'block';
+                    }
+                    var contactdiv1 = "";
+                    contactdiv1 = '<tr class="trlist">' +
+                        '<td>  <input type="text" name="healername' + rowCount + '" id="healername' + rowCount + '"  class="form-control f-name04" value="' + $('#healerid').val() + '" readonly></td>' +
+                         '<td><input type="text" name="trname' + rowCount + '" id="trname' + rowCount + '"  class="form-control f-name04" value="' + $('#treatmentid').val() + '" readonly></td>' +
+                         '<td><input type="text" name="roomid' + rowCount + '" id="roomid' + rowCount + '" class="form-control f-name04" value="' + $('#roomsid').val() + '" readonly></td>' +
+                        '<td><button type="button" id="btnDelete" value="' + rowCount + '" class="deleteContact btn btn btn-danger btn-xs">Remove</button></td>' +
+                       '</tr>';
+                    $('#rowcount').val(rowCount);
+                    $('#maintable1').append(contactdiv1); // Adding these controls to Main table class
+                    $('#maintable1').css('visibility', 'visible');
+                    $('#healerid').val(-1);
+                    $('#treatmentid').val(-1);
+                    $('#roomsid').val(-1);
+                } else {
+                    alert("Select All the Details");
+                }
+            });
+            $(document).on("click", ".deleteContact", function () {
+                $(this).closest("tr").remove();
+                // closest used to remove the respective 'tr' in which I have my controls
+            });
+            $.ajax({
+                url: "/Treatment/GetRoomNumbers/",
+                cache: false,
+                async: false,
+                type: "GET",
+                success: function (data) {
+                    if (data == 0) {
+                        alert("No Employees are Available in master");
+                    }
+                    else {
+                        debugger;
+                        $("#roomsid").empty();
+                        $("#roomsid").append('<option value="-1">Select Room Number</option>');
+                        $.each(data, function (i, x) {
+                            $("#roomsid").append('<option value="' + x.RoomNumber + '">' + x.RoomNumber + '</option>');
+                        });
+                    }
+                },
+                error: function (response) {
+                    alert("error : " + response);
+                }
+            });
+            $.ajax({
+                url: "/Treatment/GetHealerDetails/",
+                cache: false,
+                async: false,
+                type: "GET",
+                success: function (data) {
+                    if (data == 0) {
+                        alert("No Healers are Present Today");
+                    }
+                    else {
+                        debugger;
+                        $("#healerid").empty();
+                        $("#healerid").append('<option value="-1">Select Healer Name</option>');
+                        $.each(data, function (i, x) {
+                            $("#healerid").append('<option value="' + x.Emp_name + '">' + x.Emp_name + '</option>');
+                        });
+                        //$('#healername').val(data);
+                    }
+                },
+                error: function (response) {
+                    alert("error : " + response);
+                }
+            });
+            $.ajax({
+                url: "/Treatment/GetTreatmentNames/",
+                cache: false,
+                async: false,
+                type: "GET",
+                success: function (data) {
+                    if (data == 0) {
+                        alert("No Employees are Available in master");
+                    }
+                    else {
+                        debugger;
+                        $("#treatmentid").empty();
+                        $("#treatmentid").append('<option value="-1">Select Treatment</option>');
+                        $.each(data, function (i, x) {
+                            $("#treatmentid").append('<option value="' + x.TreatmentName + '">' + x.TreatmentName + '</option>');
+                        });
+                        //$('#healername').val(data);
+                    }
+                },
+                error: function (response) {
+                    alert("error : " + response);
+                }
+            });
+        });
+        $(document).on("click", "#emplist tr", function (e) {
+            
+           // alert($(this).text());
+            debugger;
+            var td = this.cells[0];// the first <td>
+            //alert($(td).text());
+            TreatmentlistData($(td).text());
+            var td2 = this.cells[1];
+            var td1 = this.cells[2];
+           // var td1 = this.cells[1];
+            $("#guestid").val($(td).text());
+            $("#guestname").val($(td1).text());
+            $("#Roomno").val($(td2).text());
+        });
+    </script>
+    <style>
+        html {
+            background-color: white !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="form-horizontal form-label-left" style="margin-top: 74px;">
+                    <center style="color:red;font-size:30px;">Treatment Schedule</center>
+                    <div class="item form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="empllist" id="emplist" style="text-align:center;height:470px;overflow:scroll">
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <form method="post">
+                    <div class="panel-body" style="margin-top: 60px;">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-10" style="text-align:center;color:green">
+                                    <u style="text-decoration: none;font-size:30px;">Treatment Plan for : @DateTime.Today.AddDays(1).ToShortDateString()</u>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                        </div><br />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-4">Guest ID</div>
+                                <div class="col-md-6">
+                                    <input type="text" name="guestid" id="guestid" onchange="guestdetails(guestid)" />
+                                </div>
+                            </div>
+                        </div><br />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-4">Guest Name</div>
+                                <div class="col-md-6">
+                                    <input type="text" id="guestname" readonly />
+                                </div>
+                            </div>
+                        </div><br />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-4">Guest Room No</div>
+                                <div class="col-md-6">
+                                    <input type="text" id="Roomno" readonly />
+                                </div>
+                            </div>
+                        </div><br />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-4">Guest Photo</div>
+                                <div class="col-md-6">
+                                    <input type="file" id="guestphoto" />
+                                </div>
+                            </div>
+                        </div><br />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-4">Session</div>
+                                <div class="col-md-6">
+                                    <select name="session">
+                                        <option value="0">Select</option>
+                                        <option value="AM">AM</option>
+                                        <option value="PM">PM</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div><br />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-4">Schedule Time</div>
+                                <div class="col-md-6">
+                                    <input type="time" name="scheduletime" id="scheduletime" />
+                                </div>
+                            </div>
+                        </div><br />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-4">Start Time</div>
+                                <div class="col-md-6">
+                                    <input type="text" name="starttime" class="timepicker" id="starttime" />
+                                </div>
+                            </div>
+                        </div><br />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-4">End Time</div>
+                                <div class="col-md-6">
+                                    <input type="time"  name="endtime" id="endtime" />
+                                </div>
+                            </div>
+                        </div><br />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-10" style="color:green">
+                                    <u style="text-decoration:none;font-size: 20px;">Treatment Advice for : <span style="color:red" id="spguestname"></span></u>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+                        </div><br />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @*<div class="col-md-1">
+                                        Healer Name
+                                    </div>*@
+                                <div class="col-md-4">
+                                    <select id="healerid" name="healerid" style="width:100%;">
+                                        <option value="0">Select Healer Name</option>
+                                    </select>
+                                </div>
+                                @*<div class="col-md-1">
+                                        Treatment Name
+                                    </div>*@
+                                <div class="col-md-4">
+                                    <select id="treatmentid" name="treatmentid" style="width:100%;">
+                                        <option value="0">Select Treatment Name</option>
+                                    </select>
+                                </div>
+                                @*<div class="col-md-1">
+                                        Room Number
+                                    </div>*@
+                                <div class="col-md-4">
+                                    <select id="roomsid" name="roomsid" style="width:100%;">
+                                        <option value="0">Select Room Number</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3" style="align-items:center;">
+                                    <button type="button" id="btnAdd1" class="btn btn-xs btn-primary addtrlist" style="font-size:14px;">Add More</button>
+                                </div>
+                            </div>
+                        </div><br />
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="col-md-1"></div>
+                                <input type="hidden" name="rowcount" id="rowcount" />
+                                <table class="table1" id="maintable1" style="visibility:hidden;">
+                                    <thead>
+                                        <tr>
+                                            <th>Healer Name</th>
+                                            <th>Brand Name</th>
+                                            <th>Room Number</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                        </div>
+                    </div>
+                        <div class="col-md-5"></div>
+                        <input type="submit" value="SUBMIT" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="empllistnew" id="emplistnew" style="text-align:center;">
+            </div>
+        </div>
+    </div>
+
+</body>

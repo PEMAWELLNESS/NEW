@@ -1,0 +1,425 @@
+﻿@model Rooms.Models.TreatmentAvailed
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <link rel="stylesheet" href="~/Content/TimePicker/include/ui-1.10.0/ui-lightness/jquery-ui-1.10.0.custom.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/TimePicker/jquery.ui.timepicker.css?v=0.3.3" type="text/css" />
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.core.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.widget.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.tabs.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.position.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/jquery.ui.timepicker.js?v=0.3.3"></script>
+    <style>
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+            width: 31px !important;
+            text-align: center !important;
+        }
+
+        .ui-timepicker-table {
+            font-size: 10px !important;
+        }
+        .form-horizontal .form-group{
+            font-size:15px; 
+        }
+        .form-horizontal .control-label{
+            text-align:left!important;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on("click", ".guestlist tr", function (e) {
+                debugger;
+                var td = this.cells[0];// the first <td>
+                //var td2 = this.cells[1];
+                //var td1 = this.cells[2];
+                // var td1 = this.cells[1];
+                
+                $("#PRNO").val($(this.cells[0]).text()).trigger("change");
+                $("#GuestName").val($(this.cells[2]).text()).trigger("change");
+               // TreatmentlistData($(this.cells[0]).text());
+                //$("#guestname").val($(td1).text());
+                //$("#Roomno").val($(td2).text());
+            });
+        //$.ajax({
+        //    url: "/TP/GETPRNO/",
+        //    cache: false,
+        //    async: false,
+        //    type: "GET",
+        //    success: function (data) {
+        //        if (data == 0) {
+        //            alert("No Guests are Checked-In");
+        //        }
+        //        else {
+        //            debugger;
+        //            $("#PRNO").empty();
+        //            $("#PRNO").append('<option value="-1">Select PRNO</option>');
+        //            $.each(data, function (i, x) {
+        //                $("#PRNO").append('<option value="' + x.PRNO + '">' + x.PRNO + '</option>');
+        //            });
+        //            //$('#healername').val(data);
+        //        }
+        //    },
+        //    error: function (response) {
+        //        alert("error : " + response);
+        //    }
+        //});
+        $.ajax({
+            type: "POST",
+            //data: postData,
+            url: "/TP/GGD",
+            //data: "id=",
+            success: function (result) {
+                debugger;
+                var $table = $('<table/>');
+                $table.addClass("table table-bordered table-hover table-striped tbb");
+                $table.append(' <th style="text-align:center!important;">PRNO</th><th style="text-align:center!important;">Room No</th><th style="text-align:center!important;">Guest Name</th>');
+                for (var i = 0; i < result.length; i++) {
+                    $table.append('<tr><td>' + result[i].PRNO + '</td><td>' + result[i].Room_No + '</td><td>' + result[i].FirstName + '</td></tr>');
+                    $('.guestlist').append($table);
+                }
+                $('.guestlist').show();
+            }
+        });
+        $('#PRNO').change(function () {
+            $.ajax({
+                url: "/TP/GTN/",
+                data:{PRNO:$("#PRNO").val()},
+                cache: false,
+                async: false,
+                type: "GET",
+                success: function (data) {
+                    if (data == 0) {
+                        alert("No Treatments are Available in master");
+                    }
+                    else {
+                        debugger;
+                        $("#TreatmentID").empty();
+                        $("#TreatmentID").append('<option value="-1">Select Treatment</option>');
+                        $.each(data, function (i, x) {
+                            $("#TreatmentID").append('<option value="' + x.TreatmentID + '">' + x.TreatName + '</option>');
+                        });
+                        //$('#healername').val(data);
+                    }
+                },
+                error: function (response) {
+                    alert("error : " + response);
+                }
+            });
+        })
+        $('#TreatmentID').change(function () {
+            $.ajax({
+                url: "/TP/GRD/",
+                data: {
+                    TRNAME: $('#TreatmentID').val(),
+                    StartTime: $('#timepicker_start').val()
+                },
+                cache: false,
+                async: false,
+                type: "GET",
+                success: function (data) {
+                    if (data == 0) {
+                        alert("Rooms are not available for the Selected Treatment in Selected period of time");
+                    }
+                    else {
+                        debugger;
+                        $("#RoomID").empty();
+                        $("#RoomID").append('<option value="-1">Select Room Name</option>');
+                        $.each(data, function (i, x) {
+                            $("#RoomID").append('<option value="' + x.ID + '">' + x.RoomName + '</option>');
+                        });
+                        //$('#healername').val(data);
+                    }
+                },
+                error: function (response) {
+                    alert("error : " + response);
+                }
+            });
+        })
+        $('#timepicker_schedule').timepicker({
+            showLeadingZero: false,
+            onSelect: tpStartSelect,
+        });
+                $('#timepicker_start').timepicker({
+                    showLeadingZero: false,
+                    onSelect: tpStartSelect,
+                });
+                $('#timepicker_end').timepicker({
+                    showLeadingZero: false,
+                    onSelect: tpEndSelect,
+                });
+                $('#timepicker_end').change(function () {
+                    debugger;
+                    if ($('#timepicker_start').val() != "" && $('#timepicker_end').val() != "") {
+                        $.ajax({
+                            data:{
+                                StartTime: $('#timepicker_start').val(),
+                                EndTime: $('#timepicker_end').val()
+                            },
+                            url: "/TP/GetRoomNumbers/",
+                            cache: false,
+                            async: false,
+                            type: "POST",
+                            success: function (data) {
+                                debugger;
+                                if (data == 0) {
+                                    alert("No Employees are Available in master");
+                                }
+                                else {
+                                    debugger;
+                                    $("#roomsid").empty();
+                                    $("#roomsid").append('<option value="-1">Select Room Number</option>');
+                                    $.each(data, function (i, x) {
+                                        $("#roomsid").append('<option value="' + x.RoomNumber + '">' + x.RoomNumber + '</option>');
+                                    });
+                                }
+                            },
+                            error: function (response) {
+                                alert("error : " + response);
+                            }
+                        });
+                        $.ajax({
+                            url: "/TP/GHG/",
+                            data: {
+                                PRNO: $('#PRNO').val(),
+                                StartTime: $('#timepicker_start').val(),
+                                EndTime: $('#timepicker_end').val()
+                            },
+                            cache: false,
+                            async: false,
+                            type: "GET",
+                            success: function (data) {
+                                if (data == 0) {
+                                    alert("No Guests are Checked-In");
+                                }
+                                else {
+                                    debugger;
+                                    $("#HealerID").empty();
+                                    $("#HealerID").append('<option value="-1">Select Healer Name</option>');
+                                    $.each(data, function (i, x) {
+                                        $("#HealerID").append('<option value="' + x.EMPNO + '">' + x.EMPNAME + '</option>');
+                                    });
+                                    //$('#healername').val(data);
+                                }
+                            },
+                            error: function (response) {
+                                alert("error : " + response);
+                            }
+                        });
+                        $.ajax({
+                            url: "/TP/PRS/",
+                            data: {
+                                PRNO: $("#PRNO").val(),
+                                StartTime: $('#timepicker_start').val(),
+                                EndTime: $('#timepicker_end').val()
+                            },
+                            cache: false,
+                            async: false,
+                            type: "GET",
+                            success: function (data) {
+                                debugger;
+                                if (data!=0) {
+                                    alert('This Guest has already booked a treatment in the given period of time');
+                                    $('#timepicker_schedule').val('');
+                                    $('#timepicker_start').val('');
+                                    $('#timepicker_end').val('');
+                                }
+                                else {
+                                    debugger;
+                                }
+                            },
+                            error: function (response) {
+                                debugger;
+                                alert("error : " + response);
+                            }
+                        })
+                    }
+                });
+            });
+
+            // when start time change, update minimum for end timepicker
+            function tpStartSelect( time, endTimePickerInst ) {
+                $('#timepicker_end').timepicker('option', {
+                    minTime: {
+                        hour: endTimePickerInst.hours,
+                        minute: endTimePickerInst.minutes
+                    }
+                });
+            }
+
+            // when end time change, update maximum for start timepicker
+            function tpEndSelect( time, startTimePickerInst ) {
+                $('#timepicker_start').timepicker('option', {
+                    maxTime: {
+                        hour: startTimePickerInst.hours,
+                        minute: startTimePickerInst.minutes
+                    }
+                });
+            }
+
+            //function TreatmentlistData(name) {
+            //    debugger;
+            //    var wallcode = name;
+            //    var postData = {
+            //        prnumber: wallcode
+            //    }
+            //    $.ajax({
+            //        type: "POST",
+            //        data: postData,
+            //        url: "/Treatment/TreatmentlistData",
+            //        //data: "id=",
+            //        success: function (result) {
+            //            debugger;
+            //            var locdata = new Array();
+            //            for (var i = 0; i < result.length; i++) {
+            //                locdata.push({
+            //                    PRNO: result[i].a.PRNO,
+            //                    RoomNo: result[i].g.RoomNo,
+            //                    HealerName: result[i].g.HealerName,
+            //                    ScheduleDate: result[i].a.ScheduleDate,
+            //                    ScheduleTime: result[i].a.ScheduleTime,
+            //                    StartTime: result[i].a.StartTime,
+            //                    EndTime: result[i].a.EndTime,
+            //                    ddrilldown: false
+            //                });
+            //            }
+            //            var sttt = "Employees with Designation are";
+            //            $(".tbb1").remove();
+            //            var $table = $('<table/>');
+            //            $table.addClass("table table-bordered table-hover table-striped tbb1");
+            //            $table.append(' <th style="text-align:center!important;">PRNO</th><th style="text-align:center!important;">Room No</th><th style="text-align:center!important;">Healer Name</th><th style="text-align:center!important;">ScheduleDate</th><th style="text-align:center!important;">ScheduleTime</th><th style="text-align:center!important;">StartTime</th><th style="text-align:center!important;">EndTime</th>');
+            //            for (var i = 0; i < locdata.length; i++) {
+            //                //debugger;
+
+            //                $table.append('<tr><td>' + locdata[i].PRNO + '</td><td>' + locdata[i].RoomNo + '</td><td>' + locdata[i].HealerName + '</td><td>' + moment(locdata[i].ScheduleDate).format("DD/MM/YYYY") + '</td><td>' + moment(locdata[i].ScheduleTime).format("HH:mm") + '</td><td>' + moment(locdata[i].StartTime).format("HH:mm") + '</td><td>' + moment(locdata[i].EndTime).format("HH:mm") + '</td></tr>');
+            //                $('#emplistnew').append($table);
+            //                //<th style="text-align:center!important;">View</th>
+            //                //<td><a href="ViewcrfData?Subject_ID=' + locdata[i].Subject_ID + '">View</a></td>
+            //            }
+            //            $('#emplistnew').show();
+            //        }
+            //    });
+            //}
+    </script>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal form-group">
+            <div class="col-md-6 guestlist" style="margin-top:75px;height:443px;overflow: scroll";>
+
+            </div>
+            <div class="col-md-6" style="margin-top:47px;">
+                <h4 style="font-size:25px;color:red;text-align:center;">Schedule Treatment</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PRNO, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @*@Html.EditorFor(model => model.PRNO, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PRNO, "", new { @class = "text-danger" })*@
+                        <input type="text" id="PRNO" name="PRNO" readonly />
+                        @*<select id="PRNO" name="PRNO" style="width:100%;">
+                            <option value="0">Select Guest PRNO</option>
+                        </select>*@
+                    </div>
+                </div>
+                <div class="form-group">
+                    @*@Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-3" })*@
+                    <label class = "control-label col-md-3">Guest Name</label>
+                    <div class="col-md-4">
+                        @*@Html.EditorFor(model => model.PRNO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PRNO, "", new { @class = "text-danger" })*@
+                        <input type="text" id="GuestName" name="GuestName" readonly />
+                        @*<select id="PRNO" name="PRNO" style="width:100%;">
+                    <option value="0">Select Guest PRNO</option>
+                </select>*@
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SchdeuleTime, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @*@Html.EditorFor(model => model.SchdeuleTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SchdeuleTime, "", new { @class = "text-danger" })*@
+                        <input type="text" name="SchdeuleTime" id="timepicker_schedule" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @*@Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })*@
+                        <input type="text" name="StartTime" id="timepicker_start" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @*@Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })*@
+                        <input type="text" id="timepicker_end" name="EndTime" />
+                    </div>
+                </div>
+                <div class="form-group">
+<label class = "control-label col-md-3">Healer Name</label>
+                   @* @Html.LabelFor(model => model.HealerID, "Healer ID", htmlAttributes: new { @class = "control-label col-md-3" })*@
+                    <div class="col-md-6">
+                        @*@Html.DropDownList("HealerID", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.HealerID, "", new { @class = "text-danger" })*@
+                        <select id="HealerID" name="HealerID" style="width:98%;height:32px;">
+                            <option value="0">Select Healer Name</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @*@Html.LabelFor(model => model.TreatmentID, "TreatmentID", htmlAttributes: new { @class = "control-label col-md-3" })*@
+<label class = "control-label col-md-3">Treatment Name</label>
+                    <div class="col-md-6">
+                        @*@Html.DropDownList("TreatmentID", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.TreatmentID, "", new { @class = "text-danger" })*@
+                        <select id="TreatmentID" name="TreatmentID" style="width:98%;height:32px;">
+                            <option value="0">Select Treatment Name</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @*@Html.LabelFor(model => model.RoomID, "RoomID", htmlAttributes: new { @class = "control-label col-md-3" })*@
+      <label class = "control-label col-md-3">Room No</label>
+                    <div class="col-md-6">
+                        @*@Html.DropDownList("RoomID", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.RoomID, "", new { @class = "text-danger" })*@
+                        <select id="RoomID" name="RoomID" style="width:98%;height:32px;">
+                            <option value="0">Select Room Name</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-4">
+                        <input type="submit" value="Save Details" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+    @*<div class="form-group">
+        <div class="col-md-12">
+            <div class="empllistnew" id="emplistnew" style="text-align:center;">
+            </div>
+        </div>
+    </div>*@
+    <div>
+        @Html.ActionLink("View Treatment List", "Index")
+    </div>
+</body>

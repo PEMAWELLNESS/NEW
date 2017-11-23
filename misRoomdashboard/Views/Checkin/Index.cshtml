@@ -1,0 +1,820 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    html {
+        background-color: white !important;
+    }
+    /*table,tr,td{
+        border:1px solid;
+    }*/
+</style>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/form_pw.css" rel="stylesheet" />
+<link href="~/Content/style_pw.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/Scripts/moment.js"></script>
+<script src="~/Scripts/JSFiles/Conformationnew.js"></script>
+@*<script src="~/scripts/jsfiles/datesconformation.js"></script>*@
+<style>
+    .addmore {
+        display: none;
+    }
+
+    .Single {
+        background-color: #00ff1f !important;
+    }   
+    .Double {
+        background-color: palegreen;
+    }
+
+    .Maintenance {
+        background-color: yellow !important;
+    }
+
+    .Vacant {
+        background-color: #0099cc !important;
+    }
+
+    .room_colors {
+        float: right;
+        width: 170px;
+        height: 190px;
+        /* border: 3px solid #CCC;*/
+    }
+
+        .room_colors div {
+            width: 18px;
+            height: 18px;
+            text-align: center;
+            border: 1px solid #CCC;
+        }
+
+        .room_colors td {
+            width: 155px;
+            height: 27px;
+        }
+        /*color 1 means vaccant*/
+        .room_colors .color1 {
+            background: #0099CC;
+        }
+        /*color2 occupied */
+        .room_colors .color2 {
+            background: #00ff1f;
+        }
+
+        .room_colors .color5 {
+            background: #FFD700;
+        }
+
+        .room_colors .colors1 {
+            background: palegreen;
+        }
+</style>
+<script>
+    $(document).ready(function () {
+        RoomStatusDetails();
+        Getvacantcount();
+        Getsinglecount();
+        Getdoublecount();
+        Getmaintenancecount();
+        $("#guesttype").change(function () {
+            if ($('#guesttype :selected').val() == 'double') {
+                $(".addmore").css("display", "block");
+                $('#Save').prop('type', 'button');
+            } else {
+                $(".addmore").css("display", "none");
+                $('#Save').prop('type', 'submit');
+            }
+
+        });
+    });
+        function RoomStatusDetails() {
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: "/Checkin/RoomStatusDetails",
+                success: function (result) {
+                    debugger;
+                    var locdata = new Array();
+                    for (var i = 0; i < result.length; i++) {
+                        Room_No: result[i].Room_No;
+
+                        if (result[i].Status == "Occupied") {
+                            if (result[i].Count == '1') {
+                                debugger;
+                                $('#' + result[i].Room_No).addClass('Single');
+                               // $("#singlecount").val(result[i].Room_No.Count());
+                            }
+                            if (result[i].Count == '2') {
+                                $('#' + result[i].Room_No).addClass('Double');
+                                $('#' + result[i].Room_No).css("cursor", "auto");
+ $('#' + result[i].Room_No).prop('onclick', null).off('click');
+                                //$('#' + result[i].Room_No).parents('#' + result[i].Room_No).die("click");
+                            }
+                        }
+                        else if(result[i].Status=="Vacant")
+                        {
+                            $('#' + result[i].Room_No).addClass('Vacant');
+                        }
+                        else if (result[i].Status == "Maintenance") {
+                            $('#' + result[i].Room_No).addClass('Maintenance');
+                        }
+                    }
+                }
+            });
+        }
+        function Getvacantcount() {
+            debugger;
+            $.ajax({
+                type: "POST",
+                //data: { Dept: id },
+                url: "/Checkin/getvacantcount",
+                success: function (data) {
+                    //debugger;
+                    if (data != "0") {
+                        $("#vacantcount").text(data);
+                    }
+                    else {
+                        $("#vacantcount").text("0");
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function Getsinglecount() {
+            debugger;
+            $.ajax({
+                type: "POST",
+                //data: { Dept: id },
+                url: "/Checkin/getsinglecount",
+                success: function (data) {
+                    //debugger;
+                    if (data != "0") {
+                        $("#singlecount").text(data);
+                    }
+                    else {
+                        $("#singlecount").text("0");
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function Getdoublecount() {
+            debugger;
+            $.ajax({
+                type: "POST",
+                //data: { Dept: id },
+                url: "/Checkin/getdoublecount",
+                success: function (data) {
+                    //debugger;
+                    if (data != "0") {
+                        $("#doublecount").text(data);
+                    }
+                    else {
+                        $("#doublecount").text("0");
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        }
+        function Getmaintenancecount() {
+            debugger;
+            $.ajax({
+                type: "POST",
+                //data: { Dept: id },
+                url: "/Checkin/getmaintenancecount",
+                success: function (data) {
+                    //debugger;
+                    if (data != "0") {
+                        $("#maintenancecount").text(data);
+                    }
+                    else {
+                        $("#maintenancecount").text("0");
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        }
+</script>
+<script>
+    $(document).ready(function () {
+        $("td").click(function () {     //function_td
+            if (this.id != "") {
+                $('#roomno').val(this.id);
+            }
+        });
+    });
+    $(document).on("click", ".classAdd", function () { //
+        debugger;
+        if ($('#prno').val() == "" ) {
+            alert("Please Fill All Fields..");
+        }
+        else {
+            var rowCount = $('.data-contact-person').length + 1;
+            if (rowCount > 0) {
+                var buttons = document.querySelector('.table');
+                buttons.style.display = 'block';
+            }
+            var contactdiv = "";
+            contactdiv = '<tr class="data-contact-person">' +
+                 '<td><input type="text" name="prno' + rowCount + '" id="prno' + rowCount + '" style="width:85px;" class="form-control f-name04" value="' + $('#prno').val() + '" readonly></td>' +
+                     '<td><input type="text" name="fname' + rowCount + '" id="fname" style="width:85px;" class="form-control f-name04" value="' + $('#fname').val() + '" readonly></td>' +
+                     '<td><input type="text" name="lname' + rowCount + '" id="lname" style="width:85px;" class="form-control f-name04" value="' + $('#lname').val() + '" readonly></td>' +
+                     '<td><input type="text" name="mbl' + rowCount + '" id="mbl" style="width:85px;" class="form-control f-name04" value="' + $('#mbl').val() + '" readonly></td>' +
+                     '<td><input type="text" name="age' + rowCount + '" id="age" style="width:85px;" class="form-control f-name04" value="' + $('#age').val() + '" readonly></td>' +
+                      '<td><input type="text" name="Gender' + rowCount + '" id="Gender" style="width:85px;" class="form-control f-name04" value="' + $('#Gender').val() + '" readonly></td>' +
+                    '<td><input type="text" name="email' + rowCount + '" id="email" style="width:85px;" class="form-control f-name04" value="' + $('#email').val() + '" readonly></td>' +
+                    '<td><input type="hidden" name="flat' + rowCount + '" id="flat" style="width:85px;" class="form-control f-name04" value="' + $('#flat').val() + '" readonly></td>' +
+                   '<td><input type="hidden" name="build' + rowCount + '" id="build" class="form-control f-name04" value="' + $('#build').val() + '" readonly></td>' +
+                  '<td><input type="hidden" name="street' + rowCount + '" id="street" class="form-control l-name01 number" required value="' + $('#street').val() + '" readonly maxlength="2" size="2" ></td>' +
+                  '<td><input type="hidden" name="city' + rowCount + '" id="city" class="form-control email01 number" required value="' + $('#city').val() + '" readonly maxlength="2" size="2" ></td>' +
+                  '<td><input type="hidden" name="NationalityDrop' + rowCount + '" id="NationalityDrop" class="form-control email02 number" required value="' + $('#NationalityDrop').val() + '" readonly   ></td>' +
+                  '<td><input type="hidden" name="CountryDrop' + rowCount + '" id="CountryDrop" class="form-control email02 number" required value="' + $('#CountryDrop').val() + '" readonly></td>' +
+                   '<td><button type="button" id="btnDelete" value="' + rowCount + '" class="deleteContact btn btn btn-danger btn-xs">Remove</button></td>' +
+                   '</tr>';
+
+            $('#maintable').append(contactdiv); // Adding these controls to Main table class
+            $('#rowCount').val(rowCount);
+            $('#prno').val("");
+            $('#fname').val("");
+            $('#lname').val("");
+            $("#mbl").val("");
+            $("#age").val("");
+            $("#flat").val("");
+            $("#build").val("");
+            $("#street").val("");
+            $("#city").val("");
+            $("#NationalityDrop").val("-1");
+            $("#CountryDrop").val("-1");
+            $("#Gender").val("");
+            $("#email").val("");
+            if (rowCount == '1') {
+                alert('submit');
+                $('#Save').prop('type', 'submit');
+            }
+        }
+    });
+    $(document).on("click", ".deleteContact", function () {
+        debugger;
+        var value = this.value;
+
+        $("#LisionNew" + value).val("");
+        $(this).closest("tr").remove(); // closest used to remove the respective 'tr' in which I have my controls
+    });
+</script>
+<script>
+    function dateconversion(date, ctrlid) {
+        debugger;
+        alert(moment(date).format("DD/MM/YYYY"));
+        if (date != null) {
+            var pattern = /Date\(([^)]+)\)/;
+            var results = pattern.exec(date);
+            var IST = new Date(parseFloat(results[1])); // Clone UTC Timestamp
+            IST.setHours(IST.getHours() + 5); // set Hours to 5 hours later
+            IST.setMinutes(IST.getMinutes() + 30); // set Minutes to be 30 minutes later
+            //alert(IST);
+            //debugger;
+            document.getElementById(ctrlid).value = new Date(IST);
+
+        }
+    }
+    function myfunctionitem(data) {
+        debugger;
+        if (data.value != "") {
+            var url = '@Url.Action("GetGuestdetails", "Checkin")';
+            item = data.value;
+            var postData = {
+                prno: item
+            };
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: postData,
+                success: function (result) {
+                    debugger;
+                    if (result != "none") {
+                        $('#fname').val(result[0].a.FirstName);
+                        $('#lname').val(result[0].a.LastName);
+                        $("#mbl").val(result[0].a.MobileNo);
+                        $("#age").val(result[0].a.Age);
+                        $("#flat").val(result[0].a.FlatNo);
+                        $("#build").val(result[0].a.Building);
+                        $("#street").val(result[0].a.Street);
+                        $("#city").val(result[0].a.City);
+                        //$("#NationalityDrop").val(result[0].a.Nationality).change();
+                        //$('#NationalityDrop').selectmenu('refresh').val(result[0].a.Nationality).attr("s‌​elected", "selected");
+                        $("#NationalityDrop").val(result[0].a.Nationality);
+                        $("#CountryDrop").val(result[0].a.Country);
+                        $("#Gender").val(result[0].a.Gender);
+                        $("#email").val(result[0].a.EmailId);
+                        $("#PackageTypeDrop").val(result[0].b.PackageType);
+                        //$("#PackageNameDrop1").append('<option value="' + result[0].b.PackageName + '">' + result[0].b.PackageName + '</option>');
+                        $("#PackageNameDrop").val(result[0].b.PackageName);
+                        $("#RoomviewDrop").val(result[0].b.RoomView);
+                        $("#RoomTypeDrop").val(result[0].b.RoomType);
+                        //dateconversion(result[0].b.ArrivalDate,'arrivaldate')
+                        $("#arrivaldate").val(moment(result[0].b.ArrivalDate).format("DD/MM/YYYY"));
+                        $("#departuredate").val(moment(result[0].b.DepartureDate).format("DD/MM/YYYY"));
+                        $("#alternatearrivaldate").val(moment(result[0].b.AlternateArrivalDate).format("DD/MM/YYYY"));
+                        $("#alternatedepartureldate").val(moment(result[0].b.AlternateDepartureDate).format("DD/MM/YYYY"));
+                        $("#Noofdays").val(result[0].b.NoOfDays);
+                        $("#PackageAmount").val(result[0].b.Package_Amount);
+                        if (result[0].b.Accompany_Type == null) {
+                            $("#AccompanyType").val('-1');
+                        } else {
+                            $("#AccompanyType").val(result[0].b.Accompany_Type);
+                        }
+                    } else {
+                        alert('PRNO doesn"t Exists');
+                    }
+                }
+            });
+        }
+        else {
+            alert('enter PRNO');
+        }
+    }
+</script>
+<fieldset>
+    <center style="font-size:30px;color:red;margin-top:96px;">Room Dashboard</center><br />
+
+    <table id="calendar-control" style="width:100%;">
+        <tr>
+            <td style="width:100%;">
+                <table style="width:94%;text-align:center;height:200px;border:1px solid;">
+                    <tr style="border:1px solid;">
+                        <td style="width:10%;background-color:#FD6F6F;border:1px solid white;">L1</td>
+                        <td colspan="2" style="background-color:#4b72b8;border-bottom:1px solid #4b72b8!important;border-top:1px solid #4b72b8!important"></td>
+                        <td colspan="2" style="border:1px solid;border-left:1px solid blue;cursor:pointer;" id="113">113</td>
+                        <td style="border:1px solid;cursor:pointer;" id="112">112</td>
+                        <td style="border:1px solid;cursor:pointer;" id="111">111</td>
+                        <td colspan="2" style="border:1px solid;cursor:pointer;" id="110">110</td>
+                        <td style="border:1px solid;cursor:pointer;" id="109">109</td>
+                        <td style="width:10%;background-color: #C8C8FF;">LOBBY</td>
+                        <td style="border:1px solid;cursor:pointer;" id="108">108</td>
+                        <td style="border:1px solid;cursor:pointer;" id="107">107</td>
+                        <td style="border:1px solid;cursor:pointer;" id="106">106</td>
+                        <td style="border:1px solid;cursor:pointer;" id="105">105</td>
+                        <td style="border:1px solid;cursor:pointer;" id="104">104</td>
+                        <td style="border:1px solid;cursor:pointer;" id="103">103</td>
+                        <td style="border:1px solid;cursor:pointer;" id="102">102</td>
+                        <td style="border:1px solid;cursor:pointer;" id="101">101</td>
+                        <td colspan="2" style="background-color:#4b72b8;border-bottom:1px solid #4b72b8!important;border-top:1px solid #4b72b8!important;border-right:1px solid blue!important"></td>
+                    </tr>
+                    <tr style="border:1px solid;">
+                        <td style="width:10%;background-color:#FD6F6F;border:1px solid white;">L2</td>
+                        <td colspan="2" style="background-color:#4b72b8;"></td>
+                        <td style="border:1px solid;cursor:pointer;" id="215">215</td>
+                        <td style="border:1px solid;cursor:pointer;" id="214">214</td>
+                        <td style="border:1px solid;cursor:pointer;" id="213">213</td>
+                        <td style="border:1px solid;cursor:pointer;" id="212">212</td>
+                        <td style="border:1px solid;cursor:pointer;" id="211">211</td>
+                        <td style="border:1px solid;cursor:pointer;" id="210">210</td>
+                        <td style="border:1px solid;cursor:pointer;" id="209">209</td>
+                        <td style="width:10%;background-color: #C8C8FF;">LOBBY</td>
+                        <td style="border:1px solid;cursor:pointer;" id="208">208</td>
+                        <td style="border:1px solid;cursor:pointer;" id="207">207</td>
+                        <td style="border:1px solid;cursor:pointer;" id="206">206</td>
+                        <td style="border:1px solid;cursor:pointer;" id="205">205</td>
+                        <td style="border:1px solid;cursor:pointer;" id="204">204</td>
+                        <td style="border:1px solid;cursor:pointer;" id="203">203</td>
+                        <td style="border:1px solid;cursor:pointer;" id="202">202</td>
+                        <td style="border:1px solid;cursor:pointer;" id="201">201</td>
+                        <td colspan="2" style="background-color:#4b72b8;"></td>
+                    </tr>
+                    <tr style="border:1px solid;">
+                        <td style="width:10%;background-color:#FD6F6F;border:1px solid white;">L3</td>
+                        <td style="border:1px solid;cursor:pointer;" id="319">319</td>
+                        <td style="border:1px solid;cursor:pointer;" id="318">318</td>
+                        <td style="border:1px solid;cursor:pointer;" id="317">317</td>
+                        <td style="border:1px solid;cursor:pointer;" id="316">316</td>
+                        <td style="border:1px solid;cursor:pointer;" id="315">315</td>
+                        <td style="border:1px solid;cursor:pointer;" id="314">314</td>
+                        <td style="border:1px solid;cursor:pointer;" id="313">313</td>
+                        <td style="border:1px solid;cursor:pointer;" id="312">312</td>
+                        <td style="border:1px solid;cursor:pointer;" id="311">311</td>
+                        <td style="width:10%;background-color: #C8C8FF;">LOBBY</td>
+                        <td style="border:1px solid;cursor:pointer;" id="310">310</td>
+                        <td style="border:1px solid;cursor:pointer;" id="309">309</td>
+                        <td style="border:1px solid;cursor:pointer;" id="308">308</td>
+                        <td style="border:1px solid;cursor:pointer;" id="307">307</td>
+                        <td style="border:1px solid;cursor:pointer;" id="306">306</td>
+                        <td style="border:1px solid;cursor:pointer;" id="305">305</td>
+                        <td style="border:1px solid;cursor:pointer;" id="304">304</td>
+                        <td style="border:1px solid;cursor:pointer;" id="303">303</td>
+                        <td style="border:1px solid;cursor:pointer;" id="302">302</td>
+                        <td style="border:1px solid;cursor:pointer;" id="301">301</td>
+                    </tr>
+                    <tr style="border:1px solid;">
+                        <td style="width:10%;background-color:#FD6F6F;border:1px solid white;">L4</td>
+                        <td style="border:1px solid;cursor:pointer;" id="419">419</td>
+                        <td style="border:1px solid;cursor:pointer;" id="418">418</td>
+                        <td style="border:1px solid;cursor:pointer;" id="417">417</td>
+                        <td style="border:1px solid;cursor:pointer;" id="416">416</td>
+                        <td style="border:1px solid;cursor:pointer;" id="415">415</td>
+                        <td style="border:1px solid;cursor:pointer;" id="414">414</td>
+                        <td style="border:1px solid;cursor:pointer;" id="413">413</td>
+                        <td style="border:1px solid;cursor:pointer;" id="412">412</td>
+                        <td style="border:1px solid;cursor:pointer;" id="411">411</td>
+                        <td style="width:10%;background-color: #C8C8FF;">LOBBY</td>
+                        <td style="border:1px solid;cursor:pointer;" id="410">410</td>
+                        <td style="border:1px solid;cursor:pointer;" id="409">409</td>
+                        <td style="border:1px solid;cursor:pointer;" id="408">408</td>
+                        <td style="border:1px solid;cursor:pointer;" id="407">407</td>
+                        <td style="border:1px solid;cursor:pointer;" id="406">406</td>
+                        <td style="border:1px solid;cursor:pointer;" id="405">405</td>
+                        <td style="border:1px solid;cursor:pointer;" id="404">404</td>
+                        <td style="border:1px solid;cursor:pointer;" id="403">403</td>
+                        <td style="border:1px solid;cursor:pointer;" id="402">402</td>
+                        <td style="border:1px solid;cursor:pointer;" id="401">401</td>
+                    </tr>
+
+                </table>
+            </td>
+            <td>
+
+                <table class="room_colors">
+                    <tr>
+                        <td><div class="color1"></div></td>
+                        <td>Vacant</td>
+                        <td  id="vacantcount"></td>
+                    </tr>
+                    <tr>
+                        <td><div class="color2"></div></td>
+                        <td>Single</td>
+                        <td id="singlecount"></td>
+                    </tr>
+                    <tr>
+                        <td><div class="colors1"></div></td>
+                        <td>Double</td>
+                        <td id="doublecount"></td>
+                    </tr>
+                    <tr>
+                        <td><div class="color5"></div></td>
+                        <td>Maintenance</td>
+                        <td id="maintenancecount"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</fieldset>
+<div class="form_pema">
+    <h2 style="font-size:30px;">Guest Details</h2>
+    <div class="form_content">
+        <!--Form Global starts here-->
+        <div id="form_global">
+            <form method="post" action="/Checkin/Index">
+                <fieldset>
+
+                    <table>
+                        <tr>
+                            <td style="width:10%"></td>
+                            <td style="width:10%;">
+                                <input type="hidden" id="rowCount" name="rowCount" value="0" />
+                                <label id="UserUHID">Enter PRNO<span class="mandatory">*</span></label>
+                            </td>
+                            <td style="width:10%;">
+                                <input type="text" id="prno" name="prno0" tabindex="1" class="requiredselect" onchange="myfunctionitem(prno)" />
+                            </td>
+                            <td style="width:10%;">
+                                <label>Room No</label>
+                            </td>
+                            <td>
+                                <input style="text-align:center;" tabindex="2" type="text" id="roomno" name="roomno" class="requiredselect" readonly="readonly" />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:10%"></td>
+                            <td style="width:10%;">
+                                <label>First Name</label>
+                            </td>
+                            <td style="width:10%;">
+                                <input type="text" id="fname" name="fname0" tabindex="3" class="requiredselect" />
+                            </td>
+                            <td style="width:10%;">
+                                <label>Last Name</label>
+                            </td>
+                            <td>
+                                <input type="text" id="lname" name="lname0" tabindex="4" class="requiredselect" />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:10%"></td>
+                            <td style="width:10%;">
+                                <label>Phn No</label>
+                            </td>
+                            <td>
+                                <input type="text" id="mbl" name="mbl0" tabindex="5" class="requiredselect" />
+
+                            </td>
+                            <td style="width:10%;">
+                                <label>age</label>
+                            </td>
+                            <td style="width:10%;">
+                                <input type="text" id="age" name="age0" tabindex="6" class="requiredselect" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:10%"></td>
+                            <td style="width:10%;">
+                                <label>Gender</label>
+                            </td>
+                            <td style="width:10%;">
+                                <input type="text" id="Gender" name="Gender0" class="requiredselect" />
+                            </td>
+                            <td style="width:10%;">
+                                <label>EmailID</label>
+                            </td>
+                            <td>
+                                <input type="text" id="email" name="email0" class="requiredselect" />
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="width:10%"></td>
+                            <td style="width:10%;">
+                                <label>FlatNo</label>
+                            </td>
+                            <td style="width:10%;">
+                                <input type="text" id="flat" name="flat0" class="requiredselect" />
+                            </td>
+                            <td style="width:10%;">
+                                <label>Building</label>
+                            </td>
+                            <td>
+                                <input type="text" id="build" name="build0" class="requiredselect" />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:10%"></td>
+                            <td style="width:10%;">
+                                <label>Street</label>
+                            </td>
+                            <td style="width:10%;">
+                                <input type="text" id="street" name="street0" class="requiredselect" />
+                            </td>
+                            <td style="width:10%;">
+                                <label>City</label>
+                            </td>
+                            <td>
+                                <input type="text" id="city" name="city0" class="requiredselect" />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:10%"></td>
+                            <td style="width:10%;">
+                                <label>Nationality<span class="mandatory">*</span></label>
+                            </td>
+                            <td style="width:10%;">
+                                <select id="NationalityDrop" tabindex="2" name="NationalityDrop0" class="requiredselect">
+                                    <option value="-1">Select Nationality</option>
+                                </select>
+                            </td>
+                            <td style="width:10%;">
+                                <label>Country<span class="mandatory">*</span></label>
+                            </td>
+                            <td>
+                                <select id="CountryDrop" tabindex="2" name="CountryDrop0" class="requiredselect">
+                                    <option value="-1">Select Country</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:10%;"></td>
+                            <td style="width:10%;">
+                                <label>Guest Type<span class="mandatory">*</span></label>
+                            </td>
+                            <td style="width:10%;">
+                                <select id="guesttype" class="guesttypes">
+                                    <option value="single">Single with Attender</option>
+                                    <option value="double" id="double">Double with Attender</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:10%"></td>
+                            <td colspan="4" style="text-align:center">
+                                <div class="form-group" style="align-items:center">
+                                    <button type="button" id="btnAdd" class="btn btn-xs btn-primary classAdd addmore">Add More</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:10%"></td>
+                            <td colspan="5" style="text-align:center">
+                                <table class="table" id="maintable">
+                                    <thead>
+                                        <tr>
+                                            <th>PR NO</th>
+                                            <th>Room No</th>
+                                            <th>First Name</th>
+                                            @*<th>Last Name</th>*@
+                                            <th>Mobile No</th>
+                                            <th>Age</th>
+                                            <th>Gender</th>
+                                            <th>Email</th>
+                                            @*<th>Flat No</th>
+                                                <th>Building</th>
+                                                <th>Street</th>
+                                                <th>City</th>
+                                                <th>Nationality</th>
+                                                <th>Country</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:10%"></td>
+                            <td style="width:10%;">
+                                <label for="PackageType">Package Type<span class="mandatory">*</span></label>
+                            </td>
+                            <td style="width:10%;">
+                                @*<input type="text" id="PackageTypeDrop" class="requiredselect" />*@
+                                <select id="PackageTypeDrop" tabindex="2" name="PackageTypeDrop" class="requiredselect">
+                                    <option value="-1">Select Package Type</option>
+                                </select>
+                            </td>
+                            <td style="width:10%;">
+                                <label for="PackageName">Package Name<span class="mandatory">*</span></label>
+                            </td>
+                            <td>
+                                @*<input type="text" id="PackageNameDrop" class="requiredselect" />*@
+                                <select id="PackageNameDrop" tabindex="3" name="PackageNameDrop" class="requiredselect">
+                                    <option value="-1">
+                                        Select Package Name
+                                    </option>
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:10%"></td>
+                            <td style="width:10%;">
+                                <label for="Room View">Room View<span class="mandatory">*</span></label>
+                            </td>
+                            <td style="width:10%;">
+                                @*<input type="text" id="RoomviewDrop" class="requiredselect" />*@
+                                <select id="RoomviewDrop" tabindex="4" name="RoomviewDrop" class="requiredselect">
+                                    <option value="-1">Select Room View</option>
+                                </select>
+                            </td>
+                            <td style="width:10%;">
+                                <label for="Room Type">Room Type<span class="mandatory">*</span></label>
+                            </td>
+                            <td>
+                                @*<input type="text" id="RoomTypeDrop" class="requiredselect" />*@
+                                <select id="RoomTypeDrop" tabindex="5" name="RoomTypeDrop" class="requiredselect">
+                                    <option value="-1">select room type</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:10%"></td>
+                            <td style="width:10%;">
+                                <label for="ArrivalDate">Arrival Date<span class="mandatory">*</span></label>
+                            </td>
+                            <td style="width:10%;">
+                                <input type="text" id="arrivaldate" name="arrivaldate" tabindex="6" class="requiredselect" readonly="readonly" />&nbsp;
+
+                            </td>
+                            <td style="width:10%;">
+                                <label for="DepartureDate">Departure Date</label>
+                            </td>
+                            <td>
+                                <input type="text" id="departuredate" name="departuredate" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:10%"></td>
+                            <td style="width:10%;">
+                                <label for="AlternateArrivalDate">Alt Arrival Date</label>
+                            </td>
+                            <td style="width:10%;">
+                                <input type="text" id="alternatearrivaldate" name="alternatearrivaldate" class="requiredselect" readonly="readonly" />
+
+                            </td>
+                            <td style="width:10%;">
+                                <label for="AlternateDepartureDate">Alt Departure Date</label>
+                            </td>
+                            <td>
+                                <input type="text" id="alternatedepartureldate" name="alternatedepartureldate" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:10%"></td>
+                            <td style="width:10%">
+                                <label for="No of Days">No of Days</label>
+                            </td>
+                            <td style="width:10%">
+                                <input type="text" id="Noofdays" readonly="readonly" />
+                            </td>
+                            <td style="width:10%">
+                                <label for="PackageAmt">Package Amount</label>
+                            </td>
+                            <td>
+                                <input type="text" id="RoomTariff" style="display:none" />
+                                <input type="text" id="PackageAmount" readonly="readonly" />
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td style="width:10%;"></td>
+                            <td style="width:10%;">
+                                <label for="AccompanyType">Accompany Type</label>
+                            </td>
+                            <td style="width:10%;">
+                                @*<input type="text" id="AccompanyType" class="requiredselect" />*@
+                                <select id="AccompanyType" tabindex="7" name="AccompanyTypeDrop">
+                                    <option value="-1">No Accompany</option>
+                                    <option value="Attender">Attender</option>
+                                    <option value="Accompany">Accompany</option>
+                                </select>
+                                @*<a id="Help" href="#"><img src="~/Content/images/help_img.png" title="Help" id="help_img" alt="Help" /> </a>*@
+
+                            </td>
+                            <td style="width:10%;">
+                                <label for="AttenderName" id="AttendName">Attender Name<span class="mandatory">*</span></label>
+                                <label for="Accompany" id="AccUHID">Accompany UHID<span class="mandatory">*</span></label>
+
+                            </td>
+                            <td>
+                                <input type="text" id="AttenderName" class="requiredselect" />
+
+
+                                <input type="text" id="AccompanyUHID" class="requiredselect" />
+                                <a href='@Url.Action("Index", "Register")' target="_blank" id="Register">GET UHID</a>
+
+                            </td>
+
+                        </tr>
+                        @*<tr>
+                                <td style="width:10%;"></td>
+                                <td style="width:10%;">
+                                    <label for="DiscountType">Membership/CampaignCode</label>
+                                </td>
+                                <td style="width:10%;">
+                                    <select id="DiscType" tabindex="8" name="DiscType">
+                                        <option value="-1">Not Exist</option>
+                                        <option value="Membership">Membership</option>
+                                        <option value="CompaignCode">Campaign Code</option>
+                                    </select>
+
+                                </td>
+                                <td style="width:10%;">
+                                    <a href='@Url.Action("MembershipM", "MembershipMngt")' target="_blank" id="Membershipidc">GET MEMBERSHIPID</a>
+                                    <label for="MembershipId" id="MembershipId">Membership Id<span class="mandatory">*</span></label>
+                                    <label for="CampaignCode" id="CampaignCode">Campaign Code<span class="mandatory">*</span></label>
+
+                                </td>
+                                <td>
+                                    <input type="text" id="MemId" class="requiredselect" />
+
+
+                                    <input type="text" id="CC" class="requiredselect" />
+
+                                </td>
+
+                            </tr>*@
+                        <tr>
+                            <td style="width:10%;"></td>
+                            <td>
+                                <label for="Transport" id="Transport">Transportation Required</label>
+
+                            </td>
+                            <td>
+                                <input type="checkbox" tabindex="9" id="TransportReq">
+                            </td>
+
+                        </tr>
+                        <tr><td colspan="4" align="center"><span><input type="submit" tabindex="10" id="Save" value="Next" class="submit" /> </span></td></tr>
+                    </table>
+                    <div id="TariffForm">
+                    </div>
+                    <div id="HelpForm">
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+    </div>
+</div>

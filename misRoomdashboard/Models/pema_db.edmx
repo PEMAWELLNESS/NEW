@@ -1,0 +1,1498 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="pema_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="nc_tbl_bill_type_master">
+          <Key>
+            <PropertyRef Name="Bill_TYPE_CODE" />
+          </Key>
+          <Property Name="Bill_TYPE_CODE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BILL_TYPE" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="BILL_TYPE_MANUAL_CODE" Type="varchar" MaxLength="20" />
+          <Property Name="Billing_FLAG" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Fixed" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Fixed_Amount" Type="numeric" Precision="14" Scale="2" />
+        </EntityType>
+        <EntityType Name="NC_TBL_Billing_Trans">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="PR_NO" Type="varchar" MaxLength="13" />
+          <Property Name="TOTAL_AMOUNT" Type="numeric" Precision="14" Scale="2" />
+          <Property Name="TAX" Type="numeric" Precision="14" Scale="2" />
+          <Property Name="Discount" Type="numeric" Precision="14" Scale="2" />
+          <Property Name="Je_NARRATION" Type="varchar" MaxLength="9" />
+          <Property Name="Je_AMOUNT" Type="numeric" Precision="14" Scale="2" />
+          <Property Name="NET_AMOUNT" Type="numeric" Precision="14" Scale="2" />
+          <Property Name="Bill_TYPE_CODE" Type="int" Nullable="false" />
+          <Property Name="billed_date" Type="datetime" />
+          <Property Name="Paid_status" Type="varchar" MaxLength="1" />
+          <Property Name="MASTER_UPDATED" Type="varchar" MaxLength="1" />
+          <Property Name="Staff_code" Type="int" />
+          <Property Name="Remarks" Type="varchar" MaxLength="100" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BillNo" Type="varchar" MaxLength="13" />
+          <Property Name="Guest_Attender_ARNO" Type="varchar" MaxLength="13" />
+          <Property Name="EntryType" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="NC_TBL_BOOKED_DATES">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="PRNO" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="PackageType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PackageName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NoOfDays" Type="numeric" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="ArrivalDate" Type="datetime" Nullable="false" />
+          <Property Name="DepartureDate" Type="datetime" Nullable="false" />
+          <Property Name="AlternateArrivalDate" Type="datetime" />
+          <Property Name="AlternateDepartureDate" Type="datetime" />
+          <Property Name="AccompanyingGuests" Type="numeric" Precision="4" Scale="0" />
+          <Property Name="RoomView" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RoomType" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="RoomTariff" Type="numeric" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="ConfirmedFromDate" Type="datetime" />
+          <Property Name="ConfirmedToDate" Type="datetime" />
+          <Property Name="DoctorsComments" Type="varchar" MaxLength="255" />
+          <Property Name="PackageConfirmStatus" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="SuggestDays" Type="varchar" MaxLength="2" />
+          <Property Name="Package_Amount" Type="numeric" Precision="14" Scale="2" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CMOComments" Type="varchar" MaxLength="255" />
+          <Property Name="CMOEscalated" Type="varchar" MaxLength="1" />
+          <Property Name="Group_Code" Type="varchar" MaxLength="15" />
+          <Property Name="Accompany_Type" Type="varchar" MaxLength="20" />
+          <Property Name="Guest_Attender_Name" Type="varchar" MaxLength="50" />
+          <Property Name="ApplicationStatus" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="AccompanyingGuestUHID" Type="varchar" MaxLength="13" />
+          <Property Name="AccompanyingGuestPRNO" Type="varchar" MaxLength="13" />
+          <Property Name="Guest_Attender_ARNO" Type="varchar" MaxLength="13" />
+          <Property Name="UHID" Type="varchar" MaxLength="13" />
+          <Property Name="UserType" Type="varchar" MaxLength="30" />
+          <Property Name="CallingStatus" Type="varchar" MaxLength="2" />
+          <Property Name="CallingRemarks" Type="varchar" MaxLength="255" />
+          <Property Name="Transportation_Required" Type="varchar" MaxLength="1" />
+          <Property Name="Mem_Camp_Type" Type="varchar" MaxLength="1" />
+          <Property Name="Trans_CallingStatus" Type="nvarchar" MaxLength="2" />
+          <Property Name="Trans_CallingRemarks" Type="nvarchar" MaxLength="225" />
+          <Property Name="Temp_PRNO" Type="varchar" MaxLength="13" />
+        </EntityType>
+        <EntityType Name="NC_TBL_CAMPAIGN_MASTER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Camp_Code" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Camp_Name" Type="varchar" MaxLength="50" />
+          <Property Name="Discount%" Type="int" Nullable="false" />
+          <Property Name="MemberShipReq" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Active" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_COUNTRY_MASTER">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="NC_TBL_Gateway_Payment_Details">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UHID" Type="varchar" MaxLength="20" />
+          <Property Name="PRNO" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" />
+          <Property Name="EntryType" Type="varchar" MaxLength="15" />
+          <Property Name="PAYMENT_TYPE_CODE" Type="int" Nullable="false" />
+          <Property Name="Txn_Date" Type="datetime" Nullable="false" />
+          <Property Name="PaidStatus" Type="varchar" MaxLength="1" />
+          <Property Name="Paid_Amount" Type="numeric" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="status_code" Type="varchar" MaxLength="200" />
+          <Property Name="status_result" Type="varchar" MaxLength="200" />
+          <Property Name="SettlType" Type="varchar" MaxLength="200" />
+          <Property Name="Addl_Info1" Type="varchar" MaxLength="200" />
+          <Property Name="Addl_Info2" Type="varchar" MaxLength="200" />
+          <Property Name="Addl_Info3" Type="varchar" MaxLength="200" />
+          <Property Name="Addl_Info4" Type="varchar" MaxLength="200" />
+          <Property Name="Addl_Info5" Type="varchar" MaxLength="200" />
+          <Property Name="Addl_Info6" Type="varchar" MaxLength="200" />
+          <Property Name="Addl_Info7" Type="varchar" MaxLength="200" />
+          <Property Name="GatewayReceiptNo" Type="varchar" MaxLength="50" />
+          <Property Name="TransactionNo" Type="varchar" MaxLength="50" />
+          <Property Name="BankName" Type="varchar" MaxLength="50" />
+          <Property Name="BankMrcnhtID" Type="varchar" MaxLength="50" />
+          <Property Name="Err_Sts" Type="varchar" MaxLength="50" />
+          <Property Name="Err_Desc" Type="varchar(max)" />
+          <Property Name="Created" Type="datetime" />
+          <Property Name="CardType" Type="varchar" MaxLength="20" />
+          <Property Name="GatewayRespStatus" Type="varchar" MaxLength="1" />
+          <Property Name="PAYMENT_MODE_CODE" Type="int" />
+          <Property Name="AMAFlag" Type="varchar" MaxLength="1" />
+          <Property Name="Gateway" Type="nchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="NC_TBL_GATEWAYPAYMENT_MODE_MASTER">
+          <Key>
+            <PropertyRef Name="PAYMENT_MODE_CODE" />
+          </Key>
+          <Property Name="PAYMENT_MODE_CODE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PAYMENT_MODE" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PAYMENT_MODE_MANUAL_CODE" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="NC_TBL_Guest_Group_Master">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Group_Code" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Group_Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Discount_Percent" Type="numeric" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="Remarks" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="NC_TBL_GUEST_ROOM_TRANSACTION">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Room_No" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ArrivalDate" Type="datetime" Nullable="false" />
+          <Property Name="DepartureDate" Type="datetime" Nullable="false" />
+          <Property Name="PRNO" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CheckedOut" Type="varchar" MaxLength="1" />
+          <Property Name="HKClearance" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="NC_TBL_HABIT_DETAILS">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PRNO" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="HBQCode" Type="int" Nullable="false" />
+          <Property Name="HBQFreq" Type="varchar" MaxLength="1" />
+          <Property Name="HBDesc" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="NC_TBL_HBQuest_master">
+          <Key>
+            <PropertyRef Name="HBCode" />
+          </Key>
+          <Property Name="HBCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Gender" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="HBQuestion" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_HEALTH_DETAILS">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PRNO" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="HLCode" Type="int" Nullable="false" />
+          <Property Name="HLFlag" Type="varchar" MaxLength="1" />
+          <Property Name="HLDesc" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="NC_TBL_HLQuest_master">
+          <Key>
+            <PropertyRef Name="HLCode" />
+          </Key>
+          <Property Name="HLCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Gender" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="HLQuestion" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_MEMBERSHIPDETAILS_DETAILS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PRNO" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Doc_Num" Type="int" Nullable="false" />
+          <Property Name="Mem_ID" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Visit_Start" Type="date" />
+          <Property Name="Visit_End" Type="date" />
+          <Property Name="Discount%" Type="int" />
+          <Property Name="Disc_Amt" Type="numeric" Precision="14" Scale="2" />
+        </EntityType>
+        <EntityType Name="NC_TBL_MEMBERSHIPDETAILS_HEADER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Doc_No" Type="int" Nullable="false" />
+          <Property Name="UHID" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="Mem_Id" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Mem_Code" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Mem_StartDate" Type="date" Nullable="false" />
+          <Property Name="Mem_EndDate" Type="date" Nullable="false" />
+          <Property Name="ReferralFrom" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Camp_Code" Type="varchar" MaxLength="10" />
+          <Property Name="Price_AfterDisc" Type="numeric" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="Mem_Payment_Status" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="ReferralOthers" Type="varchar" MaxLength="50" />
+          <Property Name="ReferralUHID" Type="varchar" MaxLength="13" />
+          <Property Name="CallingStatus" Type="varchar" MaxLength="2" />
+          <Property Name="CallingRemarks" Type="varchar" MaxLength="225" />
+          <Property Name="RenewalCallingStatus" Type="varchar" MaxLength="2" />
+          <Property Name="RenewalCallingRemarks" Type="varchar" MaxLength="225" />
+          <Property Name="RenewalStatus" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_MEMBERSHIPDETAILS_MASTER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mem_Code" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Mem_Type" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Mem_Name" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Mem_Price" Type="numeric" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="Mem_Duration" Type="int" Nullable="false" />
+          <Property Name="Mem_Visits" Type="int" Nullable="false" />
+          <Property Name="Mem_Desc" Type="text" />
+          <Property Name="Active" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Mem_VisitType" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_NATIONALITY_MASTER">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NationalityCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="NationalityName" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="NC_TBL_NUMBERING_SERIES">
+          <Key>
+            <PropertyRef Name="REQUEST_CODE" />
+          </Key>
+          <Property Name="REQUEST_CODE" Type="numeric" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="REQUEST_SHORT_FORM" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="PREVIOUS_NUMBER" Type="varchar" MaxLength="15" />
+          <Property Name="CURRENT_NUMBER" Type="varchar" MaxLength="15" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="NC_TBL_PACKAGE_MASTER">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Package_Code" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PackageType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PackageName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Room_View" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Room_Type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SO_Pkg_Amt" Type="numeric" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="DO_Pkg_Amt" Type="numeric" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="SO_Calc_Amt" Type="numeric" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="DO_Calc_Amt" Type="numeric" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="Package_Description" Type="varchar(max)" Nullable="false" />
+          <Property Name="NoOfDays" Type="int" />
+          <Property Name="EffetedFrom" Type="datetime" Nullable="false" />
+          <Property Name="EffetedTo" Type="datetime" Nullable="false" />
+          <Property Name="SO_Tax_Amt" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="OfferValid" Type="varchar" MaxLength="1" />
+          <Property Name="DO_Tax_Amt" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="Displayorder" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Active" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="NC_TBL_PAYMENT_TRANS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PR_NO" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="RECEIPT_NO" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="TXN_DATE" Type="datetime" Nullable="false" />
+          <Property Name="ACTUAL_PAID_DATE" Type="datetime" Nullable="false" />
+          <Property Name="COUNTER_NO" Type="int" />
+          <Property Name="PAID_AMOUNT" Type="numeric" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="PAYMENT_MODE_CODE" Type="int" Nullable="false" />
+          <Property Name="PAYMENT_TYPE_CODE" Type="int" Nullable="false" />
+          <Property Name="CC_DB_CARDNO" Type="varchar" MaxLength="25" />
+          <Property Name="NAME_ON_CARD" Type="varchar" MaxLength="30" />
+          <Property Name="status_code" Type="varchar" MaxLength="200" />
+          <Property Name="status_result" Type="varchar" MaxLength="200" />
+          <Property Name="SettlType" Type="varchar" MaxLength="200" />
+          <Property Name="Addl_Info1" Type="varchar" MaxLength="200" />
+          <Property Name="Addl_Info2" Type="varchar" MaxLength="200" />
+          <Property Name="Addl_Info3" Type="varchar" MaxLength="200" />
+          <Property Name="Addl_Info4" Type="varchar" MaxLength="200" />
+          <Property Name="Addl_Info5" Type="varchar" MaxLength="200" />
+          <Property Name="Addl_Info6" Type="varchar" MaxLength="200" />
+          <Property Name="Addl_Info7" Type="varchar" MaxLength="200" />
+          <Property Name="Biller_Id" Type="varchar" MaxLength="50" />
+          <Property Name="Transaction_Id" Type="varchar" MaxLength="50" />
+          <Property Name="BankName" Type="varchar" MaxLength="50" />
+          <Property Name="BankMrcnhtID" Type="varchar" MaxLength="50" />
+          <Property Name="Err_Sts" Type="varchar" MaxLength="50" />
+          <Property Name="Err_Desc" Type="varchar(max)" />
+          <Property Name="Created" Type="datetime" />
+          <Property Name="RECEIPT_CANCELLED" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="MASTER_UPDATED" Type="varchar" MaxLength="2" />
+          <Property Name="STAFF_CODE" Type="int" />
+          <Property Name="FINAL_STATUS" Type="varchar" MaxLength="1" />
+          <Property Name="REMARKS" Type="varchar" MaxLength="500" />
+          <Property Name="Pay_Category" Type="varchar" MaxLength="1" />
+          <Property Name="EntryType" Type="varchar" MaxLength="1" />
+          <Property Name="GatewayReceiptNo" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="NC_TBL_PAYMENT_TYPE_MASTER">
+          <Key>
+            <PropertyRef Name="PAYMENT_TYPE_CODE" />
+          </Key>
+          <Property Name="PAYMENT_TYPE_CODE" Type="int" Nullable="false" />
+          <Property Name="PAYMENT_TYPE" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="PAYMENT_TYPE_MANUAL_CODE" Type="varchar" MaxLength="20" />
+          <Property Name="Billing_FLAG" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Fixed_Amount" Type="numeric" Precision="14" Scale="2" />
+          <Property Name="Fixed" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_PERSONAL_DETAILS">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UHID" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="PRNO" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="25" />
+          <Property Name="LastName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FatherHusbandName" Type="varchar" MaxLength="50" />
+          <Property Name="Gender" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="MaritalStatus" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="FlatNo" Type="varchar" MaxLength="200" />
+          <Property Name="Building" Type="varchar" MaxLength="200" />
+          <Property Name="Street" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="PinCode" Type="varchar" MaxLength="15" />
+          <Property Name="Nationality" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Country" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="DOB" Type="datetime" Nullable="false" />
+          <Property Name="Age" Type="numeric" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="Height" Type="numeric" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="Weight" Type="numeric" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="MobileNo" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="EmailId" Type="varchar" MaxLength="100" />
+          <Property Name="Occupation" Type="varchar" MaxLength="50" />
+          <Property Name="AdmissionDate" Type="datetime" Nullable="false" />
+          <Property Name="EmergencyContactNo" Type="varchar" MaxLength="15" />
+          <Property Name="BP" Type="varchar" MaxLength="7" Nullable="false" />
+          <Property Name="PulseRate" Type="numeric" Precision="7" Scale="0" Nullable="false" />
+          <Property Name="ReferralFrom" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ReferralPRNO" Type="varchar" MaxLength="13" />
+          <Property Name="AdmissionStatus" Type="varchar" MaxLength="15" />
+          <Property Name="User_Type" Type="varchar" MaxLength="30" />
+          <Property Name="CheckinProcess" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="AssignedDoctor" Type="int" />
+          <Property Name="ForwardTo" Type="varchar" MaxLength="100" />
+          <Property Name="ForwardDate" Type="datetime" />
+          <Property Name="CheckoutProcess" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="DischargeType" Type="varchar" MaxLength="15" />
+          <Property Name="ReferralOthers" Type="varchar" MaxLength="100" />
+          <Property Name="CheckinDate" Type="datetime" />
+          <Property Name="CheckoutDate" Type="datetime" />
+          <Property Name="ForwardYoga" Type="varchar" MaxLength="10" />
+          <Property Name="GuestPriority" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="PStatus" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="AssignedGRO" Type="int" />
+          <Property Name="AliasName" Type="varchar" MaxLength="100" />
+          <Property Name="Room_No" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="NC_TBL_ROOM_MASTER">
+          <Key>
+            <PropertyRef Name="Room_No" />
+          </Key>
+          <Property Name="Room_No" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="Room_View" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Room_Type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Floor" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="Specific_To" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="SO_Tariff" Type="numeric" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="DO_Tariff" Type="numeric" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="Room_Condition" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Active" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Effect_From_Date" Type="datetime" />
+          <Property Name="Closing_Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="NC_TBL_Treatment_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Treatment_Type" Type="varchar" MaxLength="50" />
+          <Property Name="Treatment_Name" Type="varchar" MaxLength="100" />
+          <Property Name="Duration_Min" Type="int" />
+          <Property Name="UnitCharge" Type="numeric" Precision="14" Scale="2" />
+          <Property Name="TreatCode" Type="varchar" MaxLength="6" />
+          <Property Name="Category" Type="varchar" MaxLength="10" />
+          <Property Name="Active" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="NC_TBL_VITAL_MASTER">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="vital_name" Type="varchar" MaxLength="100" />
+          <Property Name="vital_normal_range" Type="varchar" MaxLength="10" />
+          <Property Name="vital_unit" Type="varchar" MaxLength="10" />
+          <Property Name="vital_plus_tolerance" Type="varchar" MaxLength="10" />
+          <Property Name="vital_minus_tolerance" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="WS_Tbl_Registration">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="middle_name" Type="varchar" MaxLength="50" />
+          <Property Name="last_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="gender" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="father_husband_name" Type="varchar" MaxLength="50" />
+          <Property Name="date_of_birth" Type="datetime" Nullable="false" />
+          <Property Name="mobile_no" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Registered_Date" Type="datetime" Nullable="false" />
+          <Property Name="UHID" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="LOGGED_IN" Type="varchar" MaxLength="1" />
+          <Property Name="Active" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <Function Name="gen_unique_no" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="REQSHORTFORM" Type="varchar" Mode="In" />
+          <Parameter Name="uniqueno" Type="varchar" Mode="InOut" />
+        </Function>
+        <Function Name="Guest_PR_Identification" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PRNO" Type="varchar" Mode="In" />
+          <Parameter Name="prtype" Type="varchar" Mode="InOut" />
+          <Parameter Name="oppPRNO" Type="varchar" Mode="InOut" />
+          <Parameter Name="oppName" Type="varchar" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="pema_dbModelStoreContainer">
+          <EntitySet Name="nc_tbl_bill_type_master" EntityType="Self.nc_tbl_bill_type_master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_Billing_Trans" EntityType="Self.NC_TBL_Billing_Trans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_BOOKED_DATES" EntityType="Self.NC_TBL_BOOKED_DATES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_CAMPAIGN_MASTER" EntityType="Self.NC_TBL_CAMPAIGN_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_COUNTRY_MASTER" EntityType="Self.NC_TBL_COUNTRY_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_Gateway_Payment_Details" EntityType="Self.NC_TBL_Gateway_Payment_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_GATEWAYPAYMENT_MODE_MASTER" EntityType="Self.NC_TBL_GATEWAYPAYMENT_MODE_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_Guest_Group_Master" EntityType="Self.NC_TBL_Guest_Group_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_GUEST_ROOM_TRANSACTION" EntityType="Self.NC_TBL_GUEST_ROOM_TRANSACTION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_HABIT_DETAILS" EntityType="Self.NC_TBL_HABIT_DETAILS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_HBQuest_master" EntityType="Self.NC_TBL_HBQuest_master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_HEALTH_DETAILS" EntityType="Self.NC_TBL_HEALTH_DETAILS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_HLQuest_master" EntityType="Self.NC_TBL_HLQuest_master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_MEMBERSHIPDETAILS_DETAILS" EntityType="Self.NC_TBL_MEMBERSHIPDETAILS_DETAILS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_MEMBERSHIPDETAILS_HEADER" EntityType="Self.NC_TBL_MEMBERSHIPDETAILS_HEADER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_MEMBERSHIPDETAILS_MASTER" EntityType="Self.NC_TBL_MEMBERSHIPDETAILS_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_NATIONALITY_MASTER" EntityType="Self.NC_TBL_NATIONALITY_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_NUMBERING_SERIES" EntityType="Self.NC_TBL_NUMBERING_SERIES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_PACKAGE_MASTER" EntityType="Self.NC_TBL_PACKAGE_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_PAYMENT_TRANS" EntityType="Self.NC_TBL_PAYMENT_TRANS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_PAYMENT_TYPE_MASTER" EntityType="Self.NC_TBL_PAYMENT_TYPE_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_PERSONAL_DETAILS" EntityType="Self.NC_TBL_PERSONAL_DETAILS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_ROOM_MASTER" EntityType="Self.NC_TBL_ROOM_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_Treatment_Master" EntityType="Self.NC_TBL_Treatment_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NC_TBL_VITAL_MASTER" EntityType="Self.NC_TBL_VITAL_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WS_Tbl_Registration" EntityType="Self.WS_Tbl_Registration" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="pema_dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="nc_tbl_bill_type_master">
+          <Key>
+            <PropertyRef Name="Bill_TYPE_CODE" />
+          </Key>
+          <Property Name="Bill_TYPE_CODE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BILL_TYPE" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BILL_TYPE_MANUAL_CODE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Billing_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fixed" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fixed_Amount" Type="Decimal" Precision="14" Scale="2" />
+        </EntityType>
+        <EntityType Name="NC_TBL_Billing_Trans">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="PR_NO" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="TOTAL_AMOUNT" Type="Decimal" Precision="14" Scale="2" />
+          <Property Name="TAX" Type="Decimal" Precision="14" Scale="2" />
+          <Property Name="Discount" Type="Decimal" Precision="14" Scale="2" />
+          <Property Name="Je_NARRATION" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="Je_AMOUNT" Type="Decimal" Precision="14" Scale="2" />
+          <Property Name="NET_AMOUNT" Type="Decimal" Precision="14" Scale="2" />
+          <Property Name="Bill_TYPE_CODE" Type="Int32" Nullable="false" />
+          <Property Name="billed_date" Type="DateTime" Precision="3" />
+          <Property Name="Paid_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="MASTER_UPDATED" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Staff_code" Type="Int32" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillNo" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="Guest_Attender_ARNO" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="EntryType" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_BOOKED_DATES">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="PRNO" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PackageType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PackageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NoOfDays" Type="Decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="ArrivalDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DepartureDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AlternateArrivalDate" Type="DateTime" Precision="3" />
+          <Property Name="AlternateDepartureDate" Type="DateTime" Precision="3" />
+          <Property Name="AccompanyingGuests" Type="Decimal" Precision="4" Scale="0" />
+          <Property Name="RoomView" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RoomType" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RoomTariff" Type="Decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="ConfirmedFromDate" Type="DateTime" Precision="3" />
+          <Property Name="ConfirmedToDate" Type="DateTime" Precision="3" />
+          <Property Name="DoctorsComments" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PackageConfirmStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SuggestDays" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Package_Amount" Type="Decimal" Precision="14" Scale="2" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CMOComments" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CMOEscalated" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Group_Code" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Accompany_Type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Guest_Attender_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ApplicationStatus" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AccompanyingGuestUHID" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="AccompanyingGuestPRNO" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="Guest_Attender_ARNO" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="UHID" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="UserType" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CallingStatus" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="CallingRemarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Transportation_Required" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Mem_Camp_Type" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Trans_CallingStatus" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Trans_CallingRemarks" Type="String" MaxLength="225" FixedLength="false" Unicode="true" />
+          <Property Name="Temp_PRNO" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_CAMPAIGN_MASTER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Camp_Code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Camp_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Discount_" Type="Int32" Nullable="false" />
+          <Property Name="MemberShipReq" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Active" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_COUNTRY_MASTER">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CountryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="NC_TBL_Gateway_Payment_Details">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UHID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PRNO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EntryType" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="PAYMENT_TYPE_CODE" Type="Int32" Nullable="false" />
+          <Property Name="Txn_Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PaidStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Paid_Amount" Type="Decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="status_code" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="status_result" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SettlType" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Addl_Info1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Addl_Info2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Addl_Info3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Addl_Info4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Addl_Info5" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Addl_Info6" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Addl_Info7" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="GatewayReceiptNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TransactionNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BankName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BankMrcnhtID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Err_Sts" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Err_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <Property Name="CardType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="GatewayRespStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PAYMENT_MODE_CODE" Type="Int32" />
+          <Property Name="AMAFlag" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Gateway" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="NC_TBL_GATEWAYPAYMENT_MODE_MASTER">
+          <Key>
+            <PropertyRef Name="PAYMENT_MODE_CODE" />
+          </Key>
+          <Property Name="PAYMENT_MODE_CODE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PAYMENT_MODE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PAYMENT_MODE_MANUAL_CODE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_Guest_Group_Master">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Group_Code" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Group_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Discount_Percent" Type="Decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_GUEST_ROOM_TRANSACTION">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Room_No" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ArrivalDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DepartureDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PRNO" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CheckedOut" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HKClearance" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_HABIT_DETAILS">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PRNO" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HBQCode" Type="Int32" Nullable="false" />
+          <Property Name="HBQFreq" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HBDesc" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_HBQuest_master">
+          <Key>
+            <PropertyRef Name="HBCode" />
+          </Key>
+          <Property Name="HBCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HBQuestion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_HEALTH_DETAILS">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PRNO" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HLCode" Type="Int32" Nullable="false" />
+          <Property Name="HLFlag" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="HLDesc" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_HLQuest_master">
+          <Key>
+            <PropertyRef Name="HLCode" />
+          </Key>
+          <Property Name="HLCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HLQuestion" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_MEMBERSHIPDETAILS_DETAILS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PRNO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Doc_Num" Type="Int32" Nullable="false" />
+          <Property Name="Mem_ID" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Visit_Start" Type="DateTime" Precision="0" />
+          <Property Name="Visit_End" Type="DateTime" Precision="0" />
+          <Property Name="Discount_" Type="Int32" />
+          <Property Name="Disc_Amt" Type="Decimal" Precision="14" Scale="2" />
+        </EntityType>
+        <EntityType Name="NC_TBL_MEMBERSHIPDETAILS_HEADER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Doc_No" Type="Int32" Nullable="false" />
+          <Property Name="UHID" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mem_Id" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mem_Code" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mem_StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Mem_EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ReferralFrom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Camp_Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Price_AfterDisc" Type="Decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="Mem_Payment_Status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ReferralOthers" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReferralUHID" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="CallingStatus" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="CallingRemarks" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
+          <Property Name="RenewalCallingStatus" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="RenewalCallingRemarks" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
+          <Property Name="RenewalStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_MEMBERSHIPDETAILS_MASTER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mem_Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mem_Type" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mem_Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mem_Price" Type="Decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="Mem_Duration" Type="Int32" Nullable="false" />
+          <Property Name="Mem_Visits" Type="Int32" Nullable="false" />
+          <Property Name="Mem_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mem_VisitType" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_NATIONALITY_MASTER">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NationalityCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NationalityName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="NC_TBL_NUMBERING_SERIES">
+          <Key>
+            <PropertyRef Name="REQUEST_CODE" />
+          </Key>
+          <Property Name="REQUEST_CODE" Type="Decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="REQUEST_SHORT_FORM" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PREVIOUS_NUMBER" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CURRENT_NUMBER" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_PACKAGE_MASTER">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Package_Code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PackageType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PackageName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Room_View" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Room_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SO_Pkg_Amt" Type="Decimal" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="DO_Pkg_Amt" Type="Decimal" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="SO_Calc_Amt" Type="Decimal" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="DO_Calc_Amt" Type="Decimal" Precision="19" Scale="2" Nullable="false" />
+          <Property Name="Package_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NoOfDays" Type="Int32" />
+          <Property Name="EffetedFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EffetedTo" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SO_Tax_Amt" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="OfferValid" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DO_Tax_Amt" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="Displayorder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Active" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_PAYMENT_TRANS">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PR_NO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RECEIPT_NO" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TXN_DATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ACTUAL_PAID_DATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="COUNTER_NO" Type="Int32" />
+          <Property Name="PAID_AMOUNT" Type="Decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="PAYMENT_MODE_CODE" Type="Int32" Nullable="false" />
+          <Property Name="PAYMENT_TYPE_CODE" Type="Int32" Nullable="false" />
+          <Property Name="CC_DB_CARDNO" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="NAME_ON_CARD" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="status_code" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="status_result" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SettlType" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Addl_Info1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Addl_Info2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Addl_Info3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Addl_Info4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Addl_Info5" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Addl_Info6" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Addl_Info7" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Biller_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Transaction_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BankName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BankMrcnhtID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Err_Sts" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Err_Desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <Property Name="RECEIPT_CANCELLED" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MASTER_UPDATED" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="STAFF_CODE" Type="Int32" />
+          <Property Name="FINAL_STATUS" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="REMARKS" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Pay_Category" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EntryType" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="GatewayReceiptNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_PAYMENT_TYPE_MASTER">
+          <Key>
+            <PropertyRef Name="PAYMENT_TYPE_CODE" />
+          </Key>
+          <Property Name="PAYMENT_TYPE_CODE" Type="Int32" Nullable="false" />
+          <Property Name="PAYMENT_TYPE" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PAYMENT_TYPE_MANUAL_CODE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Billing_FLAG" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fixed_Amount" Type="Decimal" Precision="14" Scale="2" />
+          <Property Name="Fixed" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_PERSONAL_DETAILS">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UHID" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRNO" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FatherHusbandName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MaritalStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FlatNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Building" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Street" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PinCode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Nationality" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Age" Type="Decimal" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="Height" Type="Decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="Weight" Type="Decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="MobileNo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailId" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Occupation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AdmissionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EmergencyContactNo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="BP" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PulseRate" Type="Decimal" Precision="7" Scale="0" Nullable="false" />
+          <Property Name="ReferralFrom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ReferralPRNO" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="AdmissionStatus" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="User_Type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CheckinProcess" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AssignedDoctor" Type="Int32" />
+          <Property Name="ForwardTo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ForwardDate" Type="DateTime" Precision="3" />
+          <Property Name="CheckoutProcess" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DischargeType" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="ReferralOthers" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CheckinDate" Type="DateTime" Precision="3" />
+          <Property Name="CheckoutDate" Type="DateTime" Precision="3" />
+          <Property Name="ForwardYoga" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="GuestPriority" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PStatus" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AssignedGRO" Type="Int32" />
+          <Property Name="AliasName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Room_No" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_ROOM_MASTER">
+          <Key>
+            <PropertyRef Name="Room_No" />
+          </Key>
+          <Property Name="Room_No" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Room_View" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Room_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Floor" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Specific_To" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SO_Tariff" Type="Decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="DO_Tariff" Type="Decimal" Precision="14" Scale="2" Nullable="false" />
+          <Property Name="Room_Condition" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Active" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Effect_From_Date" Type="DateTime" Precision="3" />
+          <Property Name="Closing_Date" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="NC_TBL_Treatment_Master">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Treatment_Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Treatment_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Duration_Min" Type="Int32" />
+          <Property Name="UnitCharge" Type="Decimal" Precision="14" Scale="2" />
+          <Property Name="TreatCode" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="Category" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="NC_TBL_VITAL_MASTER">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="vital_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="vital_normal_range" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="vital_unit" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="vital_plus_tolerance" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="vital_minus_tolerance" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="WS_Tbl_Registration">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="middle_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="father_husband_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="date_of_birth" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="mobile_no" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Registered_Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UHID" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LOGGED_IN" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="pema_dbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="nc_tbl_bill_type_master" EntityType="Self.nc_tbl_bill_type_master" />
+          <EntitySet Name="NC_TBL_Billing_Trans" EntityType="Self.NC_TBL_Billing_Trans" />
+          <EntitySet Name="NC_TBL_BOOKED_DATES" EntityType="Self.NC_TBL_BOOKED_DATES" />
+          <EntitySet Name="NC_TBL_CAMPAIGN_MASTER" EntityType="Self.NC_TBL_CAMPAIGN_MASTER" />
+          <EntitySet Name="NC_TBL_COUNTRY_MASTER" EntityType="Self.NC_TBL_COUNTRY_MASTER" />
+          <EntitySet Name="NC_TBL_Gateway_Payment_Details" EntityType="Self.NC_TBL_Gateway_Payment_Details" />
+          <EntitySet Name="NC_TBL_GATEWAYPAYMENT_MODE_MASTER" EntityType="Self.NC_TBL_GATEWAYPAYMENT_MODE_MASTER" />
+          <EntitySet Name="NC_TBL_Guest_Group_Master" EntityType="Self.NC_TBL_Guest_Group_Master" />
+          <EntitySet Name="NC_TBL_GUEST_ROOM_TRANSACTION" EntityType="Self.NC_TBL_GUEST_ROOM_TRANSACTION" />
+          <EntitySet Name="NC_TBL_HABIT_DETAILS" EntityType="Self.NC_TBL_HABIT_DETAILS" />
+          <EntitySet Name="NC_TBL_HBQuest_master" EntityType="Self.NC_TBL_HBQuest_master" />
+          <EntitySet Name="NC_TBL_HEALTH_DETAILS" EntityType="Self.NC_TBL_HEALTH_DETAILS" />
+          <EntitySet Name="NC_TBL_HLQuest_master" EntityType="Self.NC_TBL_HLQuest_master" />
+          <EntitySet Name="NC_TBL_MEMBERSHIPDETAILS_DETAILS" EntityType="Self.NC_TBL_MEMBERSHIPDETAILS_DETAILS" />
+          <EntitySet Name="NC_TBL_MEMBERSHIPDETAILS_HEADER" EntityType="Self.NC_TBL_MEMBERSHIPDETAILS_HEADER" />
+          <EntitySet Name="NC_TBL_MEMBERSHIPDETAILS_MASTER" EntityType="Self.NC_TBL_MEMBERSHIPDETAILS_MASTER" />
+          <EntitySet Name="NC_TBL_NATIONALITY_MASTER" EntityType="Self.NC_TBL_NATIONALITY_MASTER" />
+          <EntitySet Name="NC_TBL_NUMBERING_SERIES" EntityType="Self.NC_TBL_NUMBERING_SERIES" />
+          <EntitySet Name="NC_TBL_PACKAGE_MASTER" EntityType="Self.NC_TBL_PACKAGE_MASTER" />
+          <EntitySet Name="NC_TBL_PAYMENT_TRANS" EntityType="Self.NC_TBL_PAYMENT_TRANS" />
+          <EntitySet Name="NC_TBL_PAYMENT_TYPE_MASTER" EntityType="Self.NC_TBL_PAYMENT_TYPE_MASTER" />
+          <EntitySet Name="NC_TBL_PERSONAL_DETAILS" EntityType="Self.NC_TBL_PERSONAL_DETAILS" />
+          <EntitySet Name="NC_TBL_ROOM_MASTER" EntityType="Self.NC_TBL_ROOM_MASTER" />
+          <EntitySet Name="NC_TBL_Treatment_Master" EntityType="Self.NC_TBL_Treatment_Master" />
+          <EntitySet Name="NC_TBL_VITAL_MASTER" EntityType="Self.NC_TBL_VITAL_MASTER" />
+          <EntitySet Name="WS_Tbl_Registration" EntityType="Self.WS_Tbl_Registration" />
+          <FunctionImport Name="gen_unique_no">
+            <Parameter Name="REQSHORTFORM" Mode="In" Type="String" />
+            <Parameter Name="uniqueno" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Guest_PR_Identification">
+            <Parameter Name="PRNO" Mode="In" Type="String" />
+            <Parameter Name="prtype" Mode="InOut" Type="String" />
+            <Parameter Name="oppPRNO" Mode="InOut" Type="String" />
+            <Parameter Name="oppName" Mode="InOut" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="pema_dbModelStoreContainer" CdmEntityContainer="pema_dbEntities">
+          <EntitySetMapping Name="nc_tbl_bill_type_master">
+            <EntityTypeMapping TypeName="pema_dbModel.nc_tbl_bill_type_master">
+              <MappingFragment StoreEntitySet="nc_tbl_bill_type_master">
+                <ScalarProperty Name="Bill_TYPE_CODE" ColumnName="Bill_TYPE_CODE" />
+                <ScalarProperty Name="BILL_TYPE" ColumnName="BILL_TYPE" />
+                <ScalarProperty Name="BILL_TYPE_MANUAL_CODE" ColumnName="BILL_TYPE_MANUAL_CODE" />
+                <ScalarProperty Name="Billing_FLAG" ColumnName="Billing_FLAG" />
+                <ScalarProperty Name="Fixed" ColumnName="Fixed" />
+                <ScalarProperty Name="Fixed_Amount" ColumnName="Fixed_Amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_Billing_Trans">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_Billing_Trans">
+              <MappingFragment StoreEntitySet="NC_TBL_Billing_Trans">
+                <ScalarProperty Name="PR_NO" ColumnName="PR_NO" />
+                <ScalarProperty Name="TOTAL_AMOUNT" ColumnName="TOTAL_AMOUNT" />
+                <ScalarProperty Name="TAX" ColumnName="TAX" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Je_NARRATION" ColumnName="Je_NARRATION" />
+                <ScalarProperty Name="Je_AMOUNT" ColumnName="Je_AMOUNT" />
+                <ScalarProperty Name="NET_AMOUNT" ColumnName="NET_AMOUNT" />
+                <ScalarProperty Name="Bill_TYPE_CODE" ColumnName="Bill_TYPE_CODE" />
+                <ScalarProperty Name="billed_date" ColumnName="billed_date" />
+                <ScalarProperty Name="Paid_status" ColumnName="Paid_status" />
+                <ScalarProperty Name="MASTER_UPDATED" ColumnName="MASTER_UPDATED" />
+                <ScalarProperty Name="Staff_code" ColumnName="Staff_code" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BillNo" ColumnName="BillNo" />
+                <ScalarProperty Name="Guest_Attender_ARNO" ColumnName="Guest_Attender_ARNO" />
+                <ScalarProperty Name="EntryType" ColumnName="EntryType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_BOOKED_DATES">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_BOOKED_DATES">
+              <MappingFragment StoreEntitySet="NC_TBL_BOOKED_DATES">
+                <ScalarProperty Name="PRNO" ColumnName="PRNO" />
+                <ScalarProperty Name="PackageType" ColumnName="PackageType" />
+                <ScalarProperty Name="PackageName" ColumnName="PackageName" />
+                <ScalarProperty Name="NoOfDays" ColumnName="NoOfDays" />
+                <ScalarProperty Name="ArrivalDate" ColumnName="ArrivalDate" />
+                <ScalarProperty Name="DepartureDate" ColumnName="DepartureDate" />
+                <ScalarProperty Name="AlternateArrivalDate" ColumnName="AlternateArrivalDate" />
+                <ScalarProperty Name="AlternateDepartureDate" ColumnName="AlternateDepartureDate" />
+                <ScalarProperty Name="AccompanyingGuests" ColumnName="AccompanyingGuests" />
+                <ScalarProperty Name="RoomView" ColumnName="RoomView" />
+                <ScalarProperty Name="RoomType" ColumnName="RoomType" />
+                <ScalarProperty Name="RoomTariff" ColumnName="RoomTariff" />
+                <ScalarProperty Name="ConfirmedFromDate" ColumnName="ConfirmedFromDate" />
+                <ScalarProperty Name="ConfirmedToDate" ColumnName="ConfirmedToDate" />
+                <ScalarProperty Name="DoctorsComments" ColumnName="DoctorsComments" />
+                <ScalarProperty Name="PackageConfirmStatus" ColumnName="PackageConfirmStatus" />
+                <ScalarProperty Name="SuggestDays" ColumnName="SuggestDays" />
+                <ScalarProperty Name="Package_Amount" ColumnName="Package_Amount" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CMOComments" ColumnName="CMOComments" />
+                <ScalarProperty Name="CMOEscalated" ColumnName="CMOEscalated" />
+                <ScalarProperty Name="Group_Code" ColumnName="Group_Code" />
+                <ScalarProperty Name="Accompany_Type" ColumnName="Accompany_Type" />
+                <ScalarProperty Name="Guest_Attender_Name" ColumnName="Guest_Attender_Name" />
+                <ScalarProperty Name="ApplicationStatus" ColumnName="ApplicationStatus" />
+                <ScalarProperty Name="AccompanyingGuestUHID" ColumnName="AccompanyingGuestUHID" />
+                <ScalarProperty Name="AccompanyingGuestPRNO" ColumnName="AccompanyingGuestPRNO" />
+                <ScalarProperty Name="Guest_Attender_ARNO" ColumnName="Guest_Attender_ARNO" />
+                <ScalarProperty Name="UHID" ColumnName="UHID" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="CallingStatus" ColumnName="CallingStatus" />
+                <ScalarProperty Name="CallingRemarks" ColumnName="CallingRemarks" />
+                <ScalarProperty Name="Transportation_Required" ColumnName="Transportation_Required" />
+                <ScalarProperty Name="Mem_Camp_Type" ColumnName="Mem_Camp_Type" />
+                <ScalarProperty Name="Trans_CallingStatus" ColumnName="Trans_CallingStatus" />
+                <ScalarProperty Name="Trans_CallingRemarks" ColumnName="Trans_CallingRemarks" />
+                <ScalarProperty Name="Temp_PRNO" ColumnName="Temp_PRNO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_CAMPAIGN_MASTER">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_CAMPAIGN_MASTER">
+              <MappingFragment StoreEntitySet="NC_TBL_CAMPAIGN_MASTER">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Camp_Code" ColumnName="Camp_Code" />
+                <ScalarProperty Name="Camp_Name" ColumnName="Camp_Name" />
+                <ScalarProperty Name="Discount_" ColumnName="Discount%" />
+                <ScalarProperty Name="MemberShipReq" ColumnName="MemberShipReq" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_COUNTRY_MASTER">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_COUNTRY_MASTER">
+              <MappingFragment StoreEntitySet="NC_TBL_COUNTRY_MASTER">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_Gateway_Payment_Details">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_Gateway_Payment_Details">
+              <MappingFragment StoreEntitySet="NC_TBL_Gateway_Payment_Details">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UHID" ColumnName="UHID" />
+                <ScalarProperty Name="PRNO" ColumnName="PRNO" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EntryType" ColumnName="EntryType" />
+                <ScalarProperty Name="PAYMENT_TYPE_CODE" ColumnName="PAYMENT_TYPE_CODE" />
+                <ScalarProperty Name="Txn_Date" ColumnName="Txn_Date" />
+                <ScalarProperty Name="PaidStatus" ColumnName="PaidStatus" />
+                <ScalarProperty Name="Paid_Amount" ColumnName="Paid_Amount" />
+                <ScalarProperty Name="status_code" ColumnName="status_code" />
+                <ScalarProperty Name="status_result" ColumnName="status_result" />
+                <ScalarProperty Name="SettlType" ColumnName="SettlType" />
+                <ScalarProperty Name="Addl_Info1" ColumnName="Addl_Info1" />
+                <ScalarProperty Name="Addl_Info2" ColumnName="Addl_Info2" />
+                <ScalarProperty Name="Addl_Info3" ColumnName="Addl_Info3" />
+                <ScalarProperty Name="Addl_Info4" ColumnName="Addl_Info4" />
+                <ScalarProperty Name="Addl_Info5" ColumnName="Addl_Info5" />
+                <ScalarProperty Name="Addl_Info6" ColumnName="Addl_Info6" />
+                <ScalarProperty Name="Addl_Info7" ColumnName="Addl_Info7" />
+                <ScalarProperty Name="GatewayReceiptNo" ColumnName="GatewayReceiptNo" />
+                <ScalarProperty Name="TransactionNo" ColumnName="TransactionNo" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="BankMrcnhtID" ColumnName="BankMrcnhtID" />
+                <ScalarProperty Name="Err_Sts" ColumnName="Err_Sts" />
+                <ScalarProperty Name="Err_Desc" ColumnName="Err_Desc" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="CardType" ColumnName="CardType" />
+                <ScalarProperty Name="GatewayRespStatus" ColumnName="GatewayRespStatus" />
+                <ScalarProperty Name="PAYMENT_MODE_CODE" ColumnName="PAYMENT_MODE_CODE" />
+                <ScalarProperty Name="AMAFlag" ColumnName="AMAFlag" />
+                <ScalarProperty Name="Gateway" ColumnName="Gateway" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_GATEWAYPAYMENT_MODE_MASTER">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_GATEWAYPAYMENT_MODE_MASTER">
+              <MappingFragment StoreEntitySet="NC_TBL_GATEWAYPAYMENT_MODE_MASTER">
+                <ScalarProperty Name="PAYMENT_MODE_CODE" ColumnName="PAYMENT_MODE_CODE" />
+                <ScalarProperty Name="PAYMENT_MODE" ColumnName="PAYMENT_MODE" />
+                <ScalarProperty Name="PAYMENT_MODE_MANUAL_CODE" ColumnName="PAYMENT_MODE_MANUAL_CODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_Guest_Group_Master">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_Guest_Group_Master">
+              <MappingFragment StoreEntitySet="NC_TBL_Guest_Group_Master">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Group_Code" ColumnName="Group_Code" />
+                <ScalarProperty Name="Group_Name" ColumnName="Group_Name" />
+                <ScalarProperty Name="Discount_Percent" ColumnName="Discount_Percent" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_GUEST_ROOM_TRANSACTION">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_GUEST_ROOM_TRANSACTION">
+              <MappingFragment StoreEntitySet="NC_TBL_GUEST_ROOM_TRANSACTION">
+                <ScalarProperty Name="Room_No" ColumnName="Room_No" />
+                <ScalarProperty Name="ArrivalDate" ColumnName="ArrivalDate" />
+                <ScalarProperty Name="DepartureDate" ColumnName="DepartureDate" />
+                <ScalarProperty Name="PRNO" ColumnName="PRNO" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CheckedOut" ColumnName="CheckedOut" />
+                <ScalarProperty Name="HKClearance" ColumnName="HKClearance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_HABIT_DETAILS">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_HABIT_DETAILS">
+              <MappingFragment StoreEntitySet="NC_TBL_HABIT_DETAILS">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PRNO" ColumnName="PRNO" />
+                <ScalarProperty Name="HBQCode" ColumnName="HBQCode" />
+                <ScalarProperty Name="HBQFreq" ColumnName="HBQFreq" />
+                <ScalarProperty Name="HBDesc" ColumnName="HBDesc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_HBQuest_master">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_HBQuest_master">
+              <MappingFragment StoreEntitySet="NC_TBL_HBQuest_master">
+                <ScalarProperty Name="HBCode" ColumnName="HBCode" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="HBQuestion" ColumnName="HBQuestion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_HEALTH_DETAILS">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_HEALTH_DETAILS">
+              <MappingFragment StoreEntitySet="NC_TBL_HEALTH_DETAILS">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PRNO" ColumnName="PRNO" />
+                <ScalarProperty Name="HLCode" ColumnName="HLCode" />
+                <ScalarProperty Name="HLFlag" ColumnName="HLFlag" />
+                <ScalarProperty Name="HLDesc" ColumnName="HLDesc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_HLQuest_master">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_HLQuest_master">
+              <MappingFragment StoreEntitySet="NC_TBL_HLQuest_master">
+                <ScalarProperty Name="HLCode" ColumnName="HLCode" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="HLQuestion" ColumnName="HLQuestion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_MEMBERSHIPDETAILS_DETAILS">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_MEMBERSHIPDETAILS_DETAILS">
+              <MappingFragment StoreEntitySet="NC_TBL_MEMBERSHIPDETAILS_DETAILS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="PRNO" ColumnName="PRNO" />
+                <ScalarProperty Name="Doc_Num" ColumnName="Doc_Num" />
+                <ScalarProperty Name="Mem_ID" ColumnName="Mem_ID" />
+                <ScalarProperty Name="Visit_Start" ColumnName="Visit_Start" />
+                <ScalarProperty Name="Visit_End" ColumnName="Visit_End" />
+                <ScalarProperty Name="Discount_" ColumnName="Discount%" />
+                <ScalarProperty Name="Disc_Amt" ColumnName="Disc_Amt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_MEMBERSHIPDETAILS_HEADER">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_MEMBERSHIPDETAILS_HEADER">
+              <MappingFragment StoreEntitySet="NC_TBL_MEMBERSHIPDETAILS_HEADER">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Doc_No" ColumnName="Doc_No" />
+                <ScalarProperty Name="UHID" ColumnName="UHID" />
+                <ScalarProperty Name="Mem_Id" ColumnName="Mem_Id" />
+                <ScalarProperty Name="Mem_Code" ColumnName="Mem_Code" />
+                <ScalarProperty Name="Mem_StartDate" ColumnName="Mem_StartDate" />
+                <ScalarProperty Name="Mem_EndDate" ColumnName="Mem_EndDate" />
+                <ScalarProperty Name="ReferralFrom" ColumnName="ReferralFrom" />
+                <ScalarProperty Name="Camp_Code" ColumnName="Camp_Code" />
+                <ScalarProperty Name="Price_AfterDisc" ColumnName="Price_AfterDisc" />
+                <ScalarProperty Name="Mem_Payment_Status" ColumnName="Mem_Payment_Status" />
+                <ScalarProperty Name="ReferralOthers" ColumnName="ReferralOthers" />
+                <ScalarProperty Name="ReferralUHID" ColumnName="ReferralUHID" />
+                <ScalarProperty Name="CallingStatus" ColumnName="CallingStatus" />
+                <ScalarProperty Name="CallingRemarks" ColumnName="CallingRemarks" />
+                <ScalarProperty Name="RenewalCallingStatus" ColumnName="RenewalCallingStatus" />
+                <ScalarProperty Name="RenewalCallingRemarks" ColumnName="RenewalCallingRemarks" />
+                <ScalarProperty Name="RenewalStatus" ColumnName="RenewalStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_MEMBERSHIPDETAILS_MASTER">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_MEMBERSHIPDETAILS_MASTER">
+              <MappingFragment StoreEntitySet="NC_TBL_MEMBERSHIPDETAILS_MASTER">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Mem_Code" ColumnName="Mem_Code" />
+                <ScalarProperty Name="Mem_Type" ColumnName="Mem_Type" />
+                <ScalarProperty Name="Mem_Name" ColumnName="Mem_Name" />
+                <ScalarProperty Name="Mem_Price" ColumnName="Mem_Price" />
+                <ScalarProperty Name="Mem_Duration" ColumnName="Mem_Duration" />
+                <ScalarProperty Name="Mem_Visits" ColumnName="Mem_Visits" />
+                <ScalarProperty Name="Mem_Desc" ColumnName="Mem_Desc" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Mem_VisitType" ColumnName="Mem_VisitType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_NATIONALITY_MASTER">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_NATIONALITY_MASTER">
+              <MappingFragment StoreEntitySet="NC_TBL_NATIONALITY_MASTER">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="NationalityCode" ColumnName="NationalityCode" />
+                <ScalarProperty Name="NationalityName" ColumnName="NationalityName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_NUMBERING_SERIES">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_NUMBERING_SERIES">
+              <MappingFragment StoreEntitySet="NC_TBL_NUMBERING_SERIES">
+                <ScalarProperty Name="REQUEST_CODE" ColumnName="REQUEST_CODE" />
+                <ScalarProperty Name="REQUEST_SHORT_FORM" ColumnName="REQUEST_SHORT_FORM" />
+                <ScalarProperty Name="PREVIOUS_NUMBER" ColumnName="PREVIOUS_NUMBER" />
+                <ScalarProperty Name="CURRENT_NUMBER" ColumnName="CURRENT_NUMBER" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_PACKAGE_MASTER">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_PACKAGE_MASTER">
+              <MappingFragment StoreEntitySet="NC_TBL_PACKAGE_MASTER">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Package_Code" ColumnName="Package_Code" />
+                <ScalarProperty Name="PackageType" ColumnName="PackageType" />
+                <ScalarProperty Name="PackageName" ColumnName="PackageName" />
+                <ScalarProperty Name="Room_View" ColumnName="Room_View" />
+                <ScalarProperty Name="Room_Type" ColumnName="Room_Type" />
+                <ScalarProperty Name="SO_Pkg_Amt" ColumnName="SO_Pkg_Amt" />
+                <ScalarProperty Name="DO_Pkg_Amt" ColumnName="DO_Pkg_Amt" />
+                <ScalarProperty Name="SO_Calc_Amt" ColumnName="SO_Calc_Amt" />
+                <ScalarProperty Name="DO_Calc_Amt" ColumnName="DO_Calc_Amt" />
+                <ScalarProperty Name="Package_Description" ColumnName="Package_Description" />
+                <ScalarProperty Name="NoOfDays" ColumnName="NoOfDays" />
+                <ScalarProperty Name="EffetedFrom" ColumnName="EffetedFrom" />
+                <ScalarProperty Name="EffetedTo" ColumnName="EffetedTo" />
+                <ScalarProperty Name="SO_Tax_Amt" ColumnName="SO_Tax_Amt" />
+                <ScalarProperty Name="OfferValid" ColumnName="OfferValid" />
+                <ScalarProperty Name="DO_Tax_Amt" ColumnName="DO_Tax_Amt" />
+                <ScalarProperty Name="Displayorder" ColumnName="Displayorder" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_PAYMENT_TRANS">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_PAYMENT_TRANS">
+              <MappingFragment StoreEntitySet="NC_TBL_PAYMENT_TRANS">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="PR_NO" ColumnName="PR_NO" />
+                <ScalarProperty Name="RECEIPT_NO" ColumnName="RECEIPT_NO" />
+                <ScalarProperty Name="TXN_DATE" ColumnName="TXN_DATE" />
+                <ScalarProperty Name="ACTUAL_PAID_DATE" ColumnName="ACTUAL_PAID_DATE" />
+                <ScalarProperty Name="COUNTER_NO" ColumnName="COUNTER_NO" />
+                <ScalarProperty Name="PAID_AMOUNT" ColumnName="PAID_AMOUNT" />
+                <ScalarProperty Name="PAYMENT_MODE_CODE" ColumnName="PAYMENT_MODE_CODE" />
+                <ScalarProperty Name="PAYMENT_TYPE_CODE" ColumnName="PAYMENT_TYPE_CODE" />
+                <ScalarProperty Name="CC_DB_CARDNO" ColumnName="CC_DB_CARDNO" />
+                <ScalarProperty Name="NAME_ON_CARD" ColumnName="NAME_ON_CARD" />
+                <ScalarProperty Name="status_code" ColumnName="status_code" />
+                <ScalarProperty Name="status_result" ColumnName="status_result" />
+                <ScalarProperty Name="SettlType" ColumnName="SettlType" />
+                <ScalarProperty Name="Addl_Info1" ColumnName="Addl_Info1" />
+                <ScalarProperty Name="Addl_Info2" ColumnName="Addl_Info2" />
+                <ScalarProperty Name="Addl_Info3" ColumnName="Addl_Info3" />
+                <ScalarProperty Name="Addl_Info4" ColumnName="Addl_Info4" />
+                <ScalarProperty Name="Addl_Info5" ColumnName="Addl_Info5" />
+                <ScalarProperty Name="Addl_Info6" ColumnName="Addl_Info6" />
+                <ScalarProperty Name="Addl_Info7" ColumnName="Addl_Info7" />
+                <ScalarProperty Name="Biller_Id" ColumnName="Biller_Id" />
+                <ScalarProperty Name="Transaction_Id" ColumnName="Transaction_Id" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="BankMrcnhtID" ColumnName="BankMrcnhtID" />
+                <ScalarProperty Name="Err_Sts" ColumnName="Err_Sts" />
+                <ScalarProperty Name="Err_Desc" ColumnName="Err_Desc" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="RECEIPT_CANCELLED" ColumnName="RECEIPT_CANCELLED" />
+                <ScalarProperty Name="MASTER_UPDATED" ColumnName="MASTER_UPDATED" />
+                <ScalarProperty Name="STAFF_CODE" ColumnName="STAFF_CODE" />
+                <ScalarProperty Name="FINAL_STATUS" ColumnName="FINAL_STATUS" />
+                <ScalarProperty Name="REMARKS" ColumnName="REMARKS" />
+                <ScalarProperty Name="Pay_Category" ColumnName="Pay_Category" />
+                <ScalarProperty Name="EntryType" ColumnName="EntryType" />
+                <ScalarProperty Name="GatewayReceiptNo" ColumnName="GatewayReceiptNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_PAYMENT_TYPE_MASTER">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_PAYMENT_TYPE_MASTER">
+              <MappingFragment StoreEntitySet="NC_TBL_PAYMENT_TYPE_MASTER">
+                <ScalarProperty Name="PAYMENT_TYPE_CODE" ColumnName="PAYMENT_TYPE_CODE" />
+                <ScalarProperty Name="PAYMENT_TYPE" ColumnName="PAYMENT_TYPE" />
+                <ScalarProperty Name="PAYMENT_TYPE_MANUAL_CODE" ColumnName="PAYMENT_TYPE_MANUAL_CODE" />
+                <ScalarProperty Name="Billing_FLAG" ColumnName="Billing_FLAG" />
+                <ScalarProperty Name="Fixed_Amount" ColumnName="Fixed_Amount" />
+                <ScalarProperty Name="Fixed" ColumnName="Fixed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_PERSONAL_DETAILS">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_PERSONAL_DETAILS">
+              <MappingFragment StoreEntitySet="NC_TBL_PERSONAL_DETAILS">
+                <ScalarProperty Name="Room_No" ColumnName="Room_No" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UHID" ColumnName="UHID" />
+                <ScalarProperty Name="PRNO" ColumnName="PRNO" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FatherHusbandName" ColumnName="FatherHusbandName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="MaritalStatus" ColumnName="MaritalStatus" />
+                <ScalarProperty Name="FlatNo" ColumnName="FlatNo" />
+                <ScalarProperty Name="Building" ColumnName="Building" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="Occupation" ColumnName="Occupation" />
+                <ScalarProperty Name="AdmissionDate" ColumnName="AdmissionDate" />
+                <ScalarProperty Name="EmergencyContactNo" ColumnName="EmergencyContactNo" />
+                <ScalarProperty Name="BP" ColumnName="BP" />
+                <ScalarProperty Name="PulseRate" ColumnName="PulseRate" />
+                <ScalarProperty Name="ReferralFrom" ColumnName="ReferralFrom" />
+                <ScalarProperty Name="ReferralPRNO" ColumnName="ReferralPRNO" />
+                <ScalarProperty Name="AdmissionStatus" ColumnName="AdmissionStatus" />
+                <ScalarProperty Name="User_Type" ColumnName="User_Type" />
+                <ScalarProperty Name="CheckinProcess" ColumnName="CheckinProcess" />
+                <ScalarProperty Name="AssignedDoctor" ColumnName="AssignedDoctor" />
+                <ScalarProperty Name="ForwardTo" ColumnName="ForwardTo" />
+                <ScalarProperty Name="ForwardDate" ColumnName="ForwardDate" />
+                <ScalarProperty Name="CheckoutProcess" ColumnName="CheckoutProcess" />
+                <ScalarProperty Name="DischargeType" ColumnName="DischargeType" />
+                <ScalarProperty Name="ReferralOthers" ColumnName="ReferralOthers" />
+                <ScalarProperty Name="CheckinDate" ColumnName="CheckinDate" />
+                <ScalarProperty Name="CheckoutDate" ColumnName="CheckoutDate" />
+                <ScalarProperty Name="ForwardYoga" ColumnName="ForwardYoga" />
+                <ScalarProperty Name="GuestPriority" ColumnName="GuestPriority" />
+                <ScalarProperty Name="PStatus" ColumnName="PStatus" />
+                <ScalarProperty Name="AssignedGRO" ColumnName="AssignedGRO" />
+                <ScalarProperty Name="AliasName" ColumnName="AliasName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_ROOM_MASTER">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_ROOM_MASTER">
+              <MappingFragment StoreEntitySet="NC_TBL_ROOM_MASTER">
+                <ScalarProperty Name="Room_No" ColumnName="Room_No" />
+                <ScalarProperty Name="Room_View" ColumnName="Room_View" />
+                <ScalarProperty Name="Room_Type" ColumnName="Room_Type" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="Specific_To" ColumnName="Specific_To" />
+                <ScalarProperty Name="SO_Tariff" ColumnName="SO_Tariff" />
+                <ScalarProperty Name="DO_Tariff" ColumnName="DO_Tariff" />
+                <ScalarProperty Name="Room_Condition" ColumnName="Room_Condition" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Effect_From_Date" ColumnName="Effect_From_Date" />
+                <ScalarProperty Name="Closing_Date" ColumnName="Closing_Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_Treatment_Master">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_Treatment_Master">
+              <MappingFragment StoreEntitySet="NC_TBL_Treatment_Master">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Treatment_Type" ColumnName="Treatment_Type" />
+                <ScalarProperty Name="Treatment_Name" ColumnName="Treatment_Name" />
+                <ScalarProperty Name="Duration_Min" ColumnName="Duration_Min" />
+                <ScalarProperty Name="UnitCharge" ColumnName="UnitCharge" />
+                <ScalarProperty Name="TreatCode" ColumnName="TreatCode" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NC_TBL_VITAL_MASTER">
+            <EntityTypeMapping TypeName="pema_dbModel.NC_TBL_VITAL_MASTER">
+              <MappingFragment StoreEntitySet="NC_TBL_VITAL_MASTER">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="vital_name" ColumnName="vital_name" />
+                <ScalarProperty Name="vital_normal_range" ColumnName="vital_normal_range" />
+                <ScalarProperty Name="vital_unit" ColumnName="vital_unit" />
+                <ScalarProperty Name="vital_plus_tolerance" ColumnName="vital_plus_tolerance" />
+                <ScalarProperty Name="vital_minus_tolerance" ColumnName="vital_minus_tolerance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WS_Tbl_Registration">
+            <EntityTypeMapping TypeName="pema_dbModel.WS_Tbl_Registration">
+              <MappingFragment StoreEntitySet="WS_Tbl_Registration">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="father_husband_name" ColumnName="father_husband_name" />
+                <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+                <ScalarProperty Name="Registered_Date" ColumnName="Registered_Date" />
+                <ScalarProperty Name="UHID" ColumnName="UHID" />
+                <ScalarProperty Name="LOGGED_IN" ColumnName="LOGGED_IN" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="gen_unique_no" FunctionName="pema_dbModel.Store.gen_unique_no" />
+          <FunctionImportMapping FunctionImportName="Guest_PR_Identification" FunctionName="pema_dbModel.Store.Guest_PR_Identification" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

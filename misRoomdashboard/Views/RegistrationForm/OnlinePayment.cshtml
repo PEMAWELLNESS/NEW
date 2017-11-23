@@ -1,0 +1,292 @@
+﻿@*@model PemaResorts.Models.PaymentModel*@
+
+@{
+    ViewBag.Title = "OnlinePayment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<head>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="~/4/form_glb_small.css" rel="stylesheet" />
+    <link href="~/4/form_pw.css" rel="stylesheet" />
+    <link href="~/4/jquery-ui - Copy.css" rel="stylesheet" />
+    <link href="~/4/jquery-ui.css" rel="stylesheet" />
+    <link href="~/4/reset_css.css" rel="stylesheet" />
+    <link href="~/4/style_dashboard.css" rel="stylesheet" />
+    <script type="text/javascript">
+
+
+
+    @*if ('@TempData["error"]' === "" || '@TempData["error"]' == null) {*@
+
+        @*var result = '@ViewBag.message';*@
+    var res = '@ViewBag.MainGuest';
+    if ('@ViewBag.message' != null && '@ViewBag.message' != "") {
+        var result = '@ViewBag.message'.toString();
+        //alert(result);
+        window.location.href = '@Url.Action("DatesConformation", "RegistrationForm")';
+
+    }
+    else {
+
+        //alert('here');
+        var urltt1 = '@Url.Action("Index", "GuestApplicationStatus")';
+        @*var urltt2 = '@Url.Action("Solution1", "LoginPage")';*@
+        $.getScript("/Scripts/JSFiles/OnlinePayment.js")
+        //$.getScript("~/Scripts/JSFiles/OnlinePayment.js");
+        @*<script src="~/Scripts/JSFiles/OnlinePayment.js"></script>*@
+    }
+
+    //}
+    //else {
+
+    //    $(function () {
+
+    //        // alert('mem');
+
+    //        $('#CombinedPayment').hide();
+    //        $('#combinedlbl').hide();
+
+
+    //        var url = "/RegistrationForm/GetMembershipDetails/";
+    //        $.ajax({
+    //            url: url,
+    //            data: { PRNO: $('#PRNO').val(), BillCode: $('#BillCode').val() },
+    //            cache: false,
+    //            type: "POST",
+    //            success: function (data) {
+    //                document.getElementById('PRNO').value = data.PRNO;
+    //                document.getElementById('Name').value = data.Name;
+    //                document.getElementById('BillType').value = data.BillType;
+    //                document.getElementById('BillCode').value = data.BillCode;
+    //                document.getElementById('Amount').value = data.Amount;
+    //            },
+    //            error: function (response) {
+    //                alert("No Pending Payments are available for this user : ");
+
+    //                //window.location.href = urltt2;
+    //            }
+    //        });
+    //    })
+
+    //}
+    $(document).ready(function () {
+        $("#Save").click(function () {
+            var url = "/RegistrationForm/SavePaymentDetails";
+
+            var params = {
+                PR_NO: $("#PRNO").val(),
+                PAYMENT_TYPE_CODE: $("#BillCode").val(),
+                PAID_AMOUNT: $("#Amount").val(),
+                combined: $('#CombinedPayment').is(':checked')
+            }
+            $("#LoadingImage").show();
+            $.ajax({
+                url: url,
+                data: params,
+                cache: false,
+                type: "POST",
+                success: function (data) {
+
+                    if (data.toString() != "") {
+                        $("#LoadingImage").fadeOut(4000);
+                        window.alert(data);
+                        //window.alert("Your Application is Successfully submitted ...Please note PRNO for your future communication with PEMA");
+                        // window.location.href = urltt1;
+                        window.location.href = '@Url.Action( "Solution1","LoginPage")';
+
+                    }
+                    else {
+                        $("#LoadingImage").fadeOut(4000);
+                        alert("Operation Failed : ");
+
+                    }
+
+                },
+                error: function (response) {
+                    $("#LoadingImage").fadeOut(4000);
+                    alert("Error : " + response);
+
+                }
+            });
+
+            //}
+            //else {
+            //    alert("Check the Terms and conditions");
+            //}
+        });
+
+
+        $("#CheckPRDetails").click(function () {
+            debugger;
+            //  alert("sss");
+           // alert('pr' + $("#PRNO").val());
+            if ($("#PRNO").val() !="") {
+
+
+                $.ajax({
+                    url: "/PackageConfirmation/PackageDetails",
+                    data: { "PRNum": $("#PRNO").val() },
+                    type: 'GET',
+                    async: false,
+                    success: function (result) {
+                        debugger;
+                        $("#ApplicationDetails").empty().append(result);
+                        $("#ApplicationDetails").dialog("open");
+
+                    },
+                    error: function (result) {
+                        debugger;
+                        alert("Data not available");
+                    }
+                });
+
+                $.ajax({
+
+                    url: "/PackageConfirmation/PersonalDetails",
+                    data: { "PRNum": $("#PRNO").val() },
+                    type: 'GET',
+                    async: false,
+                    success: function (result) {
+                        debugger;
+                        $("#ApplicationDetails").append(result);
+
+                    },
+                    error: function () {
+                        alert("Data not available");
+                    }
+                });
+
+                $.ajax({
+                    url: "/PackageConfirmation/HLDetails",
+                    data: { "PRNum": $("#PRNO").val() },
+                    type: 'GET',
+                    async: false,
+                    success: function (result) {
+                        debugger;
+                        $("#ApplicationDetails").append(result);
+                    },
+                    error: function () {
+                        alert("Data not available");
+                    }
+                });
+                $.ajax({
+                    url: "/PackageConfirmation/HBDetails",
+                    data: { "PRNum": $("#PRNO").val() },
+                    type: 'GET',
+                    async: false,
+                    success: function (result) {
+                        debugger;
+                        $("#ApplicationDetails").append(result);
+                    },
+                    error: function () {
+                        alert("Data not available");
+                    }
+                });
+            }
+        });
+        $("#ApplicationDetails").dialog({
+            autoOpen: false,
+            modal: true,
+            width: 1000,
+            height: 500,
+            title: "View Application Details",
+            buttons: {
+                "Print": function () {
+                    var DocumentContainer = document.getElementById('ApplicationDetails');
+                    var WindowObject = window.open('', 'PrintWindow', 'width=293,height=auto,top=50,toolbars=no,scrollbars=yes,status=no,resizable=no');
+                    WindowObject.document.writeln(DocumentContainer.innerHTML);
+                    WindowObject.document.close();
+                    WindowObject.focus();
+                    WindowObject.print();
+                    WindowObject.close();
+                    location.reload();
+                }
+            }
+        });
+    });
+    </script>
+
+</head>
+<body>
+    <div class="form_pema">
+        <h2>Payment Details</h2>
+        <div class="form_content">
+            <!--Form Global starts here-->
+            <div id="form_global">
+
+                <form>
+                    <fieldset>
+
+
+
+                        <div class="paydetails"><img src="~/Content/images/Payment.png" /></div>
+                        <div>
+                            <table>
+                                @*<tr>
+                                        <td>&nbsp;</td>
+                                        <td align="left"><input type="button" id="Save" value="Submit" class="submit" style="margin-left:68px;" /></td>
+                                        <td>&nbsp;</td>
+                                    </tr>*@
+                                <tr></tr>
+                                <tr>
+                                    <td>PRNO/Membership Id</td>
+                                    <td colspan="2"><input type="text" id="PRNO" readonly="readonly" value="@ViewBag.PRNumber" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Name</td>
+                                    <td colspan="2"><input type="text" id="Name" disabled="disabled" /></td>
+                                </tr>
+                                <tr>
+                                    <td>Payment Type<span class="mandatory">*</span></td>
+                                    <td colspan="2"><input type="hidden" id="BillCode" value="@ViewBag.billcode" /><input type="text" id="BillType" readonly /></td>
+                                </tr>
+                                <tr>
+                                    <td>Amount<span class="mandatory">*</span></td>
+                                    <td colspan="2"><input type="text" id="Amount" readonly /></td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td colspan="2">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" align="left" id="combine">
+                                        <span style="float:left"><input type="checkBox" id="CombinedPayment" style="margin:0 -30px 0 0" /></span>
+                                        <label id="combinedlbl" for="CombinedPayment" style="width:450px;">Want to Pay for Accompany Guest also</label>
+                                    </td>
+                                </tr>
+                                @*<tr>
+                                        <td colspan="3" align="left">
+
+                                            <span style="float:left"><input type="checkBox" id="TermsConditions" style="margin:0 -30px 0 0" /></span>
+                                            <label for="TermsConditions" style="width:450px;">I Accept the Terms & Conditions and I Agree with the same</label>
+                                        </td>
+                                    </tr>*@
+
+                                <tr>
+                                    <td colspan="3" align="left">
+
+                                        <label for="Remarks" style="width:450px;font-size:large">This payment will be Collected at the Cash Counter</label>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td align="right"><input type="button" id="CheckPRDetails" value="ViewApplication" class="submit" /></td>
+                                    <td align="left"><input type="button" id="Save" value="Submit" class="submit" style="margin-left:68px;display:none" /></td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </table>
+                            <div id="ApplicationDetails" style="font-size:13px; line-height:2; color:#555;">
+
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</body>

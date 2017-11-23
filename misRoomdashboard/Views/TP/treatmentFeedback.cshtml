@@ -1,0 +1,539 @@
+﻿
+@{
+    ViewBag.Title = "treatmentFeedback";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/form_pw.css" rel="stylesheet" />
+    <link href="~/Content/style_pw.css" rel="stylesheet" />
+    <script src="~/Scripts/moment.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.flash.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script*@
+    <script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.print.min.js"></script>
+    <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/TimePicker/include/ui-1.10.0/ui-lightness/jquery-ui-1.10.0.custom.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/TimePicker/jquery.ui.timepicker.css?v=0.3.3" type="text/css" />
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.core.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.widget.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.tabs.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.position.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/jquery.ui.timepicker.js?v=0.3.3"></script>
+    <style>
+        .table1 {
+            display: none;
+        }
+
+        #LoadingImage {
+            display: none;
+            margin: -48px 0px 0px 0px;
+            padding: 170px 10px 10px 10px;
+            position: absolute;
+            left: 0%;
+            top: 225px;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            background: white url(Content/loader.gif) no-repeat center center !important;
+            border: 0px solid #000;
+            z-index: 1;
+        }
+
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+            width: 31px !important;
+            text-align: center !important;
+        }
+
+        .ui-timepicker-table {
+            font-size: 10px !important;
+        }
+
+        .form-horizontal .form-group {
+            font-size: 15px;
+        }
+
+        .form-horizontal .control-label {
+            text-align: left !important;
+        }
+
+        .Attended {
+            background-color: green !important;
+        }
+
+        .NotAttended {
+            background-color: red !important;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            document.getElementById("att").style.display = "none";
+            document.getElementById("att1").style.display = "none";
+            //  document.getElementById("notatt").style.display = "none";
+            treatmentattendencelist();
+            //$('#Atimepicker_start').timepicker({
+            //    showLeadingZero: false,
+            //    onSelect: tpStartSelect,
+            //});
+            //$('#Atimepicker_end').timepicker({
+            //    showLeadingZero: false,
+            //    onSelect: tpEndSelect,
+            //    setTime: new Date()
+            //});
+            //function tpStartSelect(time, endTimePickerInst) {
+            //    debugger;
+            //    $('#Atimepicker_end').timepicker('option', {
+            //        minTime: {
+            //            hour: endTimePickerInst.hours,
+            //            minute: endTimePickerInst.minutes
+            //        }
+            //    });
+
+            //}
+            //function tpEndSelect(time, startTimePickerInst) {
+            //    $('#Atimepicker_start').timepicker('option', {
+            //        maxTime: {
+            //            hour: startTimePickerInst.hours,
+            //            minute: startTimePickerInst.minutes
+            //        }
+            //    });
+            //    $('#Atimepicker_start').timepicker('option', {
+            //        maxTime: {
+            //            hour: 23,
+            //            minute: 59
+            //        }
+            //    });
+            //}
+            $(document).on("click", ".guestlist tr", function (e) {
+                debugger;
+                var td = this.cells[0];
+                $(this.cells).css({
+                    'background-color': 'grey'
+                });
+                var td1 = $(this.cells[0]).text();
+                $("#IDNew").val(td1);
+                GetEmployeDet(td1);
+                $('.guestlist tr').css({
+                    'pointer-events': 'none'
+                });
+            });
+        });
+        function treatmentattendencelist() {
+            debugger;
+            $.ajax({
+                type: "GET",
+                //data: {
+                //    dated: dated
+                //},
+                url: "/TP/GETGUESTDETAILS2",
+                success: function (result) {
+                    debugger;
+                    var $table = $('<table/>');
+                    $table.addClass("table table-bordered table-hover tbb");
+                    $table.append(' <th style="text-align:center!important;">ID</th><th>PRNO</th><th style="text-align:center!important;">Guest Name</th><th style="text-align:center!important;">StartTime</th><th style="text-align:center!important;">EndTime</th>');
+                    for (var i = 0; i < result.length; i++) {
+                        if (result[i].Status == "A")
+                            $table.append('<tr class=""><td>' + result[i].ID + '</td><td>' + result[i].PRNO + '</td><td>' + result[i].GuestName + '</td><td>' + moment(result[i].StartTime).format("HH:mm") + '</td><td>' + moment(result[i].EndTime).format("HH:mm") + '</td></tr>');
+                        $('.guestlist').append($table);
+                    }
+                    $('.guestlist').show();
+                }
+            });
+        }
+
+        function functionDate(par) {
+            if (par == null || par == undefined)
+                return "";
+            var pattern = /Date\(([^)]+)\)/;
+            var results = pattern.exec(par);
+
+            var dt = new Date(parseFloat(results[1]));
+            var sd = dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear();
+            return sd;
+        }
+        function functionTime(par) {
+            if (par == null || par == undefined)
+                return "";
+            var d = new Date(),
+                    h = d.getHours(),
+                    m = d.getMinutes();
+            if (h < 10) h = '0' + h;
+            if (m < 10) m = '0' + m;
+
+            var sd = h + ':' + m;
+
+            return sd;
+        }
+        function GetEmployeDet(td1) {
+            debugger;
+            var url = "/TP/GeguestlistDet/";
+
+            var id = td1;
+            if (id != "") {
+                $.ajax({
+                    url: url,
+                    async: false,
+                    type: "GET",
+                    data: { PRNO: id },
+                    success: (function (data) {
+                        debugger;
+                        if (data != "") {
+                            $.each(data, function (i, x) {
+                                debugger;
+                                $('#PRNO').val(x.PRNO)
+                                $('#GuestName').val(x.GuestName)
+                                $('#GuestName1').val(x.GuestName)
+                                $('#SchdeuleTime').val(moment(x.SchdeuleTime).format('H:mm'));
+                                $("#timepicker_start").val(moment(x.StartTime).format('H:mm'));
+                                $("#timepicker_end").val(moment(x.EndTime).format('H:mm'));
+                                if (x.Treatment_Status == "A") {
+                                    debugger;
+                                    //var btn = document.getElementById("save");
+                                    //btn.style.backgroundColor = "green";
+                                    //var btn1 = document.getElementById("save1");
+                                    //btn1.style.backgroundColor = "#5dadcf";
+                                    document.getElementById("att").style.display = "block";
+                                    document.getElementById("att1").style.display = "block";
+                                    // document.getElementById("notatt").style.display = "none";
+                                    $("#Atimepicker_start").val(moment(x.ActualStartTime).format('H:mm'));
+                                    $("#Atimepicker_end").val(moment(x.ActualEndTime).format('H:mm'));
+                                }
+                                HealerList(x.HealerID);
+                                TreatmentList(x.TreatmentID);
+                                Roomlist(x.RoomID);
+                            })
+                        }
+                    })
+                })
+            }
+        }
+        function TreatmentList(TreatmentID) {
+            debugger;
+
+            $.ajax({
+                url: "/TP/GTN1/",
+                data: { PRNO: TreatmentID },
+                cache: false,
+                async: false,
+                type: "GET",
+                success: function (data) {
+                    if (data == 0) {
+                        alert("No Treatments are Available in master");
+                    }
+                    else {
+                        debugger;
+                        $("#TreatmentID").empty();
+
+                        $.each(data, function (i, x) {
+                            $("#TreatmentID").val(x.TreatName);
+                        });
+                        //$('#healername').val(data);
+                    }
+                },
+                error: function (response) {
+                    alert("error : " + response);
+                }
+            });
+        }
+        function HealerList(HealerID) {
+
+            $.ajax({
+                url: "/TP/GHG1/",
+                data: {
+                    PRNO: HealerID                        //StartTime: $('#timepicker_start').val(),
+                    //EndTime: $('#timepicker_end').val()
+                },
+                cache: false,
+                async: false,
+                type: "GET",
+                success: function (data) {
+                    if (data == 0) {
+                        alert("All the Healers are busy. Kindly Select any another slot");
+                    }
+                    else {
+                        debugger;
+                        $("#HealerID").empty();
+                        //$("#HealerID").append('<option value="-1">Select Healer Name</option>');
+                        $.each(data, function (i, x) {
+                            $("#HealerID").val(x.EMPNAME);
+                        });
+                        //$('#healername').val(data);
+                    }
+                },
+                error: function (response) {
+                    alert("error : " + response);
+                }
+            });
+
+        }
+        function Roomlist(RoomID) {
+
+            $.ajax({
+                url: "/TP/GRD2/",
+                data: {
+                    //TRNAME: $('#TreatmentID').val(),
+                    //StartTime: $('#timepicker_start').val()
+                    PRNO: RoomID
+                },
+                cache: false,
+                async: false,
+                type: "GET",
+                success: function (data) {
+                    if (data == 0) {
+                        alert("Rooms are not available for the Selected Treatment in Selected period of time");
+                    }
+                    else {
+                        debugger;
+                        $("#RoomID").empty();
+                        //$("#RoomID").append('<option value="-1">Select Room Name</option>');
+                        $.each(data, function (i, x) {
+                            $("#RoomID").val(x.RoomName);
+                        });
+                        //$('#healername').val(data);
+                    }
+                },
+                error: function (response) {
+                    alert("error : " + response);
+                }
+            });
+        }
+
+
+        function AddTreatmentAttandence() {
+            debugger;
+            TreatmentAvailedID = $("#IDNew").val();
+            Status = $("#Status").val();
+            if (Status != null && Status != "") {
+
+            var Details =
+          {
+              TreatmentAvailedID: TreatmentAvailedID,
+              Status: Status
+          }
+            $.ajax({
+                url: "/TP/AddtreatmentFeedback",
+                type: "POST",
+                data: JSON.stringify(Details),
+                contentType: "application/json",
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    if (data.Value == "Success") {
+
+                        window.location.href = "treatmentFeedback"
+
+                    }
+
+                    else {
+                        alert(data.message);
+                    }
+                    $("#Login").removeAttr('disabled');
+                },
+            });
+
+            }
+            else {
+                alert("Please Select Feedback..");
+            }
+        }
+        function AddTreatmentAttandence1() {
+            debugger;
+            var btn = document.getElementById("img1");
+            btn.style.backgroundColor = "green";
+            var btn1 = document.getElementById("img2");
+            btn1.style.backgroundColor = "#ffffff";
+            var btn2 = document.getElementById("img3");
+            btn2.style.backgroundColor = "#ffffff";
+            var btn3 = document.getElementById("img4");
+            btn3.style.backgroundColor = "#ffffff";
+            var btn4 = document.getElementById("img5");
+            btn4.style.backgroundColor = "#ffffff";
+            $("#Status").val("5");
+        }
+        function AddTreatmentAttandence2() {
+            debugger;
+            var btn = document.getElementById("img1");
+            btn.style.backgroundColor = "#ffffff";
+            var btn1 = document.getElementById("img2");
+            btn1.style.backgroundColor = "lightgreen";
+            var btn2 = document.getElementById("img3");
+            btn2.style.backgroundColor = "#ffffff";
+            var btn3 = document.getElementById("img4");
+            btn3.style.backgroundColor = "#ffffff";
+            var btn4 = document.getElementById("img5");
+            btn4.style.backgroundColor = "#ffffff";
+            $("#Status").val("4");
+        }
+        function AddTreatmentAttandence3() {
+            debugger;
+            var btn = document.getElementById("img1");
+            btn.style.backgroundColor = "#ffffff";
+            var btn1 = document.getElementById("img2");
+            btn1.style.backgroundColor = "#ffffff";
+            var btn2 = document.getElementById("img3");
+            btn2.style.backgroundColor = "limegreen";
+            var btn3 = document.getElementById("img4");
+            btn3.style.backgroundColor = "#ffffff";
+            var btn4 = document.getElementById("img5");
+            btn4.style.backgroundColor = "#ffffff";
+            $("#Status").val("3");
+        }
+        function AddTreatmentAttandence4() {
+            debugger;
+            var btn = document.getElementById("img1");
+            btn.style.backgroundColor = "#ffffff";
+            var btn1 = document.getElementById("img2");
+            btn1.style.backgroundColor = "#ffffff";
+            var btn2 = document.getElementById("img3");
+            btn2.style.backgroundColor = "#ffffff";
+            var btn3 = document.getElementById("img4");
+            btn3.style.backgroundColor = "yellow";
+            var btn4 = document.getElementById("img5");
+            btn4.style.backgroundColor = "#ffffff";
+            $("#Status").val("2");
+        }
+        function AddTreatmentAttandence5() {
+            debugger;
+            var btn = document.getElementById("img1");
+            btn.style.backgroundColor = "#ffffff";
+            var btn1 = document.getElementById("img2");
+            btn1.style.backgroundColor = "#ffffff";
+            var btn2 = document.getElementById("img3");
+            btn2.style.backgroundColor = "#ffffff";
+            var btn3 = document.getElementById("img4");
+            btn3.style.backgroundColor = "#ffffff";
+            var btn4 = document.getElementById("img5");
+            btn4.style.backgroundColor =  "red";
+            $("#Status").val("1");
+        }
+    </script>
+</head>
+<body>
+
+    <div class="form-horizontal form-group">
+        <div class="col-md-6 form_pema">
+            <h4 style="font-size:25px;color:red;text-align:center;">Current Guest List</h4>
+            <div class="guestlist" style="margin-top:28px;height:443px;overflow: scroll" ;></div>
+        </div>
+        <div class="col-md-6 form_pema">
+            <div style="font-size:25px;color:red;text-align:center;"><h4 style="font-size:25px;margin-top:-5px;">Treatment Feedback :<input style="border: none;" type="text" id="GuestName1" name="GuestName1" readonly /></h4></div>
+            <hr />
+            <div class="form_content" style="background-color:white!important;border: none!important;">
+                <!--Form Global starts here-->
+                <div id="form_global">
+                    <div class="row">
+                        <input type="hidden" id="rowCount1" name="rowCount1" value="0" />
+                        <input type="hidden" id="IDNew" name="IDNew" />
+                        <input type="hidden" id="Status" name="Status" />
+                        <div class="col-md-2"></div>
+                        <div class="col-md-3">PRNO</div>
+                        <div class="col-md-4"><input type="text" id="PRNO" name="PRNO" readonly /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-3">Guest Name</div>
+                        <div class="col-md-4"><input type="text" id="GuestName" name="GuestName" readonly /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-3">Schdule Time</div>
+                        <div class="col-md-4"><input type="text" class="Schdeuletime" id="SchdeuleTime" name="SchdeuleTime" readonly /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-3">Start Time</div>
+                        <div class="col-md-4"><input type="text" id="timepicker_start" name="StartTime" readonly /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-3">End Time</div>
+                        <div class="col-md-4"><input type="text" id="timepicker_end" name="EndTime" readonly /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-3">Healer Name</div>
+                        <div class="col-md-4">
+                            <input type="text" id="HealerID" name="HealerID" readonly />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-3">Treatment Name</div>
+                        <div class="col-md-4">
+                            <input type="text" id="TreatmentID" name="TreatmentID" readonly />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-3">Room NO</div>
+                        <div class="col-md-4">
+                            <input type="text" id="RoomID" name="RoomID" readonly />
+                        </div>
+                    </div>
+                   
+                    <div class="row" id="att">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-3">Actual Start Time</div>
+                        <div class="col-md-4"><input type="text" id="Atimepicker_start" name="AStartTime" readonly /></div>
+                    </div>
+                    <div class="row" id="att1">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-3">Actual End Time</div>
+                        <div class="col-md-4"><input type="text" id="Atimepicker_end" name="AEndTime" readonly /></div>
+                    </div>
+                    <div class="row" style="text-align:center">
+                        <div class="col-md-1"></div>
+                        <div id="img1" class="col-md-2" style="text-align:center!important">
+                            <img src="~/Images/1f600.png" style="cursor:pointer" onclick="AddTreatmentAttandence1();" />
+                        </div>
+                        <div id="img2" class="col-md-2" style="text-align:center">
+                            <img src="~/Images/1f642.png" style="cursor:pointer" onclick="AddTreatmentAttandence2();" />
+                        </div>
+                        <div id="img3" class="col-md-2">
+                            <img src="~/Images/1f610.png"  style="cursor:pointer"onclick="AddTreatmentAttandence3();" />
+                        </div>
+                        <div id="img4" class="col-md-2">
+                            <img src="~/Images/2639.png" style="cursor:pointer" onclick="AddTreatmentAttandence4();" />
+                        </div>
+                        <div id="img5" class="col-md-2">
+                            <img src="~/Images/1f614.png" style="cursor:pointer" onclick="AddTreatmentAttandence5();"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"></div><div class="col-md-2"><input type="button" id="ADD" value="Save" onclick="AddTreatmentAttandence()" class="submit classAdd1" /></div>
+                        <div class="col-md-2"><span><a href="~/TP/treatmentFeedback"><input type="button" id="Cancel" value="Cancel" class="submit" /></a></span></div>
+                    </div>
+                    @*<br />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-1 Attended" style="width: 18px;height: 18px;text-align: center;border: 1px solid #CCC;">
+
+                            </div>
+                            <div class="col-md-2">Attended</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-1 NotAttended" style="width: 18px;height: 18px;text-align: center;border: 1px solid #CCC;">
+
+                            </div>
+                            <div class="col-md-5">Not Attended</div>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

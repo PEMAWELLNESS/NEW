@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewBag.Title= "Result";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/moment.js"></script>
+    <style>
+        .pageCenter {
+            margin-top: 5%;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 1000px;
+            float: none;
+        }
+        @@media screen {
+            .btn{
+                display:block;
+            }
+        }
+        @@media print {
+            title{
+                display:none!important;
+            }
+            .pageCenter{
+                display:block;
+            }
+            .btn{
+                display:none;
+            }
+            .logo{
+                display:none!important;
+            }
+        }
+    </style>
+    <script>
+        $.ajax({
+            type: "GET",
+            //data: postData,
+            url: "/DOCTOR/GR",
+            //data: "id=",
+            success: function (result) {
+                debugger;
+                $("#guestname").text(result.Guest_Name);
+                $('#gender').text(result.Gender);
+                $('#checkinDate').text(moment(result.Date_From).format('DD-MM-YYYY HH:mm'));
+                $('#checkoutDate').text(moment(result.Date_To).format('DD-MM-YYYY HH:mm'));
+                $('#abmi').text(result.A_BMI);
+                $('#dbmi').text(result.D_BMI);
+                $('#bmidiff').text(result.BMI_DIFF);
+                $('#afmi').text(result.A_FatMassIndex);
+                $('#dfmi').text(result.D_FatMassIndex);
+                $('#fmidiff').text(result.FMI_DIFF);
+                $('#affmi').text(result.A_FatFreeMassIndex);
+                $('#dffmi').text(result.D_FatFreeMassIndex);
+                $('#ffmidiff').text(result.FFMI_DIFF);
+                $('#atbw').text(result.A_TotalBodyWater);
+                $('#dtbw').text(result.D_TotalBodyWater);
+                $('#tbwdiff').text(result.TBW_DIFF);
+
+            },
+            error:function(response){
+
+            }
+        });
+        function Popup() {
+            window.print();
+            window.location.href = "./Create"
+        }
+    </script>
+</head>
+<body>
+    <div class="col-md-12 pageCenter" style="align-items:center;width:80%">
+        <table class="table table-bordered">
+            <tr>
+                <td colspan="2">
+                    <img src="http://pemawellness.co/images/logo1.png" style="margin:0 auto;display:block" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <center>
+                        <span style="margin:0 auto;display:block"><b><u>Discharge Summary</u></b></span>
+                    </center>
+                </td>
+            </tr>
+            <tr>
+            <tr>
+                <td >
+                    Guest Name : <span id="guestname"></span>
+                </td>
+                <td >
+                    Age : <span id="age"></span><br />
+                    Gender : <span id="gender"></span>
+                </td>
+            </tr>
+            <tr>
+                <td >Check-in Date: <span id="checkinDate"></span></td>
+                <td >Check-Out Date: <span id="checkoutDate"></span></td>
+            </tr>
+        </table>
+        <table class="table table-bordered">
+            <tr>
+                <th>
+                </th>
+                <th>
+                    Admission
+                </th>
+                <th>
+                    Discharge
+                </th>
+                <th>
+                    Result
+                </th>
+            </tr>
+            <tr>
+                <td >
+                    BMI (kg/m<sup>2</sup>)
+                </td>
+                <td ><span id="abmi"></span></td>
+                <td ><span id="dbmi"></span></td>
+                <td ><span id="bmidiff"></span></td>
+            </tr>
+            <tr>
+                <td >Fat Mass Index (kg/m<sup>2</sup>)</td>
+                <td ><span id="afmi"></span></td>
+                <td ><span id="dfmi"></span></td>
+                <td ><span id="fmidiff"></span></td>
+            </tr>
+            <tr>
+                <td >Fat Free Mass Index (kg/m<sup>2</sup>)</td>
+                <td ><span id="affmi"></span></td>
+                <td ><span id="dffmi"></span></td>
+                <td ><span id="ffmidiff"></span></td>
+            </tr>
+            <tr>
+                <td >Total Body Water (L)</td>
+                <td ><span id="atbw"></span></td>
+                <td ><span id="dtbw"></span></td>
+                <td ><span id="tbwdiff"></span></td>
+            </tr>
+        </table>
+        <div class="btn">
+                <button style="margin:0 auto;display:block;" type="button" onclick="Popup()">Print</button>
+        </div>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,243 @@
+﻿@model List<Rooms.Models.HDModel>
+
+@{
+    ViewBag.Title = "HealthDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string x = "*";
+}
+<head>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/JSFiles/HealthDetails.js"></script>
+    <link href="~/4/form_glb_small.css" rel="stylesheet" />
+    <link href="~/4/form_pw.css" rel="stylesheet" />
+    <link href="~/4/jquery-ui - Copy.css" rel="stylesheet" />
+    <link href="~/4/jquery-ui.css" rel="stylesheet" />
+    <link href="~/4/reset_css.css" rel="stylesheet" />
+    <link href="~/4/style_dashboard.css" rel="stylesheet" />
+    <script type="text/javascript">
+    var Age = '@ViewBag.Age';
+    var HBPData = '@ViewBag.HBPData';
+    var files = '@TempData["BRFiles"]';
+    var ecgfiles = '@TempData["ECGFiles"]';
+    if (files != null && files != "") {
+        $("#brfilenames").show();
+        $("#brfilenames").text(files);
+    }
+    if (ecgfiles != null && ecgfiles != "") {
+        $("#ecgfilenames").show();
+        $("#ecgfilenames").text(ecgfiles);
+    }
+    $("form").find("input[type=file]").remove();
+    $("<input type='file' name='files' id='files' class='BP' onchange='getExtensions(this.id)' />").insertBefore("#brfilenames");
+    $("<input type='file' name='ECGfiles' id='ECGfiles' class='ECG' onchange='getExtensions(this.id)' />").insertBefore("#ecgfilenames");
+   $(document).ready(function(){
+        $("form").validate({
+            submitHandler: function () {
+                if (document.getElementById("files").files.length == 0 && $("#brfilenames").text() == "") {
+                    alert("Please Upload Blood Reports");
+                    return false;
+                }
+                    //else if ((document.getElementById("ECGfiles").files.length == 0) && ($("#ECGfiles").attr("style") != "display:none") && $("#ecgfilenames").text == "") {
+                    //    alert("Please Upload ECG Reports");
+                    //    return false;
+                    //}
+                else {
+                    $("form").submit();
+                }
+            }
+        });
+    });
+    function getextensions(id) {
+        var fileName = $("#" + id).val();
+        var filepath = fileName.split('.')[1];
+        if (filepath != "jpg" || filepath != "jpeg" || filepath != "png" || filepath != "gif" || filepath != "pdf") {
+            alert("Please select either image or pdf to upload");
+            $("#" + id).remove();
+            if (id = "ECGfiles") {
+                $("<input type='file' name='ECGfiles' onchange='getextensions(this.id)' id='ECGfiles' class='ECG' />").insertBefore("#ecgfilenames");
+            }
+            else if (id = "files") {
+                $("<input type='file' name='files' id='files' onchange='getextensions(this.id)' class='BP' />").insertBefore("#brfilenames");
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="form_pema">
+        <h2>Health Details</h2>
+        <div class="form_content">
+            <!--Form Global starts here-->
+            <div id="form_global">
+                @using (Html.BeginForm("HealthDetails", "RegistrationForm", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                    <fieldset>
+
+                        <table>
+                            <tr>
+                                <td><div class="img_disble_button">Booking&nbsp;Information</div></td>
+                                <td><div class="img_disble_button">Personal&nbsp;Details</div></td>
+                                <td><div class="img_active_button">Health&nbsp;Details</div></td>
+                                <td><div class="img_disble_button">Habit&nbsp;Details</div></td>
+                                <td><div class="img_disble_button">Payment&nbsp;Details</div></td>
+                            </tr>
+                        </table>
+
+
+                        <table>
+                            @*<tr>
+
+                                    <td colspan="4" align="right">
+                                        <input type="button" id="SaveHL" value="Previous" class="submit" />
+
+                                        <input type="submit" value="Next" class="submit" />
+                                    </td>
+
+                                </tr>*@
+                            @for (int i = 0; i < Model.Count; i++)
+                        {
+                            if (Model[i].HLCode != 13 && Model[i].HLCode != 14 && Model[i].HLCode != 15)
+                            {
+
+                                if (Model[i].HLCode == 1)
+                                {
+
+                                        <tr>
+                                            <td style="display: none">@Html.TextBox("HealthDetails[" + @i + "].Id", Model[i].Id, new { @class = "HLId", @readonly = "readonly" })</td>
+                                            <td>@Html.Label("HealthDetails[" + @i + "].HLCode", Model[i].HLQuestion, new { @class = "HLCode", @style = "width:200px" })</td>
+                                            <td>
+                                                @foreach (var item in ViewBag.Flag)
+                                            {
+                                                if (item.Text == Model[i].HLFlag)
+                                                {
+                                                    item.Selected = true;
+                                                }
+                                                else
+                                                {
+                                                    item.Selected = false;
+                                                }
+                                            }
+                                                @Html.DropDownList("HealthDetails[" + @i + "].HLFlag", (IEnumerable<SelectListItem>)ViewBag.Flag,
+                                  null, new { @class = "HLFlag", @name = "flg", @onchange = "Heart(this)", @style = "width:70px" })
+                                            </td>
+                                            <td>
+
+                                                @if (Model[i].HLFlag == "Yes")
+                                            {
+                                                    @Html.TextArea("HealthDetails[" + @i + "].HLDesc",
+                                                              Model[i].HLDesc, new { @class = "HLD", @required = "required", @style = "width:450px" })
+                                            }
+                                            else
+                                            {
+                                                    @Html.TextArea("HealthDetails[" + @i + "].HLDesc",
+                                            Model[i].HLDesc, new { @class = "HLD", @disabled = "disabled", @style = "width:450px" })
+                                            }
+                                            </td>
+
+                                        </tr>
+                                }
+                                else
+                                {
+                                        <tr>
+                                            <td style="display: none">@Html.TextBox("HealthDetails[" + @i + "].Id", Model[i].Id, new { @class = "HLId", @readonly = "readonly" })</td>
+                                            <td>@Html.Label("HealthDetails[" + @i + "].HLCode", Model[i].HLQuestion, new { @class = "HLCode", @style = "width:200px" })</td>
+                                            <td>
+                                                @foreach (var item in ViewBag.Flag)
+                                            {
+                                                if (item.Text == Model[i].HLFlag)
+                                                {
+                                                    item.Selected = true;
+                                                }
+                                                else
+                                                {
+                                                    item.Selected = false;
+                                                }
+                                            }
+                                                @Html.DropDownList("HealthDetails[" + @i + "].HLFlag", (IEnumerable<SelectListItem>)ViewBag.Flag,
+                                 null, new { @class = "HLFlag", @style = "width:70px" })
+                                            </td>
+                                            <td>
+                                                @if (Model[i].HLFlag == "Yes")
+                                            {
+                                                    @Html.TextArea("HealthDetails[" + @i + "].HLDesc",
+                                            Model[i].HLDesc, new { @class = "HLD", @required = "required", @style = "width:450px" })
+
+                                            }
+                                            else
+                                            {
+
+                                                    @Html.TextArea("HealthDetails[" + @i + "].HLDesc",
+Model[i].HLDesc, new { @class = "HLD", @disabled = "disabled", @style = "width:450px" })
+                                            }
+                                            </td>
+
+                                        </tr>
+
+                                }
+
+                            }
+                            else
+                            {
+
+
+                                    <tr>
+                                        <td style="display: none">@Html.TextBox("HealthDetails[" + @i + "].Id", Model[i].Id, new { @class = "HLId", @readonly = "readonly" })</td>
+                                        <td>@Html.Label("HealthDetails[" + @i + "].HLCode", Model[i].HLQuestion+@x, new { @class = "HLCode", @style = "width:200px" })</td>
+
+                                        <td style="visibility:hidden;">
+                                            @Html.DropDownList("HealthDetails[" + @i + "].HLFlag", (IEnumerable<SelectListItem>)ViewBag.Flag,
+                                 "yes", new { @class = "HLFlag", @style = "width:70px" })
+                                        </td>
+
+                                        <td>
+                                            @Html.TextArea("HealthDetails[" + @i + "].HLDesc",
+                                     Model[i].HLDesc, new { @class = "HLD", @style = "width:450px", required = "required" })
+                                        </td>
+
+                                    </tr>
+
+                            }
+
+
+                        }
+                            <tr>
+
+                                <td>
+                                    @Html.Label("Blood Reports")
+
+                                </td>
+                                <td colspan="3" id="brfiles">
+                                    <input type="file" name="files" id="files" class="BP" required="required" onchange='getExtensions(this.id)' />
+                                    <span id="brfilenames" style="display:none"></span>
+                                </td>
+                            </tr>
+                            <tr><td colspan="4"></td></tr>
+                            <tr>
+
+                                <td>
+                                    @Html.Label("ECG/2D Echo Cardiogram Reports", new { id = "ECG" })
+
+                                </td>
+                                <td colspan="3" id="ecgfiles">
+                                    <input type="file" name="ECGfiles" id="ECGfiles" onchange="getExtensions(this.id)" class="ECG" />
+                                    <span id="ecgfilenames" style="display:none"></span>
+                                </td>
+                            </tr>
+                            <tr>
+
+                                <td colspan="4" align="center">
+                                    <input type="button" id="SaveHL" value="Previous" class="submit" />
+
+                                    <input type="submit" value="Next" class="submit" />
+                                </td>
+
+                            </tr>
+                        </table>
+                    </fieldset>
+            }
+            </div>
+        </div>
+    </div>
+</body>

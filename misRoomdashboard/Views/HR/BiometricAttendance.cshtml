@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "BiometricAttendance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<head>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/CustomJS/jquery.min.js"></script>
+    <script src="~/lib/moment.min.js"></script>
+    <script src="~/lib/fullcalendar.min.js"></script>
+    <link href="~/lib/fullcalendar.min.css" rel="stylesheet" />
+    <link href="~/lib/fullcalendar.print.min.css" rel="stylesheet" media="print" />
+</head>
+<body>
+    @using (Html.BeginForm("BiometricAttendance", "HR", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return myFunction()" }))
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-10" style="font:normal 16px/22px 'QuicksandRegular';">
+                    <h5></h5>
+                    <a href="/HR/DownloadExcel/"><img src="~/Images/download-button.jpg" width="200" height="100" title="Download Excel format" alt="excel" /></a>*Please Download the Excel Format and Upload in same format
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="file" id="FileUpload" name="FileUpload" class="" />
+                </div>
+                <div class="col-md-10">
+                    <br />
+                    <input type="submit" value="UPLOAD" id="btnSubmit" class="btn btn-primary" />
+
+                </div>
+                <div class="col-md-10">
+                    <h1> @ViewBag.message </h1>
+                </div>
+            </div>
+            <div class="form-group">
+
+            </div>
+        </div>
+    }
+</body>
+</html>

@@ -1,0 +1,593 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<head>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/form_pw.css" rel="stylesheet" />
+    <link href="~/Content/style_pw.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <link rel="stylesheet" href="~/Content/TimePicker/include/ui-1.10.0/ui-lightness/jquery-ui-1.10.0.custom.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/TimePicker/jquery.ui.timepicker.css?v=0.3.3" type="text/css" />
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.core.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.widget.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.tabs.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.position.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/jquery.ui.timepicker.js?v=0.3.3"></script>
+    <style>
+        #LoadingImage {
+            display: none;
+            margin: -48px 0px 0px 0px;
+            padding: 170px 10px 10px 10px;
+            position: absolute;
+            left: 0%;
+            top: 225px;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            background: white url(Content/loader.gif) no-repeat center center !important;
+            border: 0px solid #000;
+            z-index: 1;
+        }
+
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+            width: 31px !important;
+            text-align: center !important;
+        }
+
+        .ui-timepicker-table {
+            font-size: 10px !important;
+        }
+
+        .form-horizontal .form-group {
+            font-size: 15px;
+        }
+
+        .form-horizontal .control-label {
+            text-align: left !important;
+        }
+    </style>
+    <style>
+        .form_pema .form_content{
+            margin-bottom:0px!important;
+            margin-top:-10px;
+        }
+        .table1 {
+            display: none;
+        }
+        .table2 {
+            display: none;
+        }
+        .addmore {
+            display: none;
+        }
+
+        .Single {
+            background-color: #00ff1f !important;
+        }
+
+        .Double {
+            background-color: darkgreen;
+        }
+
+        .Maintenance {
+            background-color: yellow !important;
+        }
+
+        .Vacant {
+            background-color: #0099cc !important;
+        }
+        .Roomcleaning {
+        background-color: red;
+    }
+        .room_colors {
+            float: right;
+            width: 170px;
+            height: 190px;
+            /* border: 3px solid #CCC;*/
+        }
+
+            .room_colors div {
+                width: 18px;
+                height: 18px;
+                text-align: center;
+                border: 1px solid #CCC;
+            }
+
+            .room_colors td {
+                width: 155px;
+                height: 27px;
+            }
+            /*color 1 means vaccant*/
+            .room_colors .color1 {
+                background: #0099CC;
+            }
+            /*color2 occupied */
+            .room_colors .color2 {
+                background: #00ff1f;
+            }
+
+            .room_colors .color5 {
+                background: #FFD700;
+            }
+
+            .room_colors .colors1 {
+                background: darkgreen;
+            }
+    </style>
+    <script>
+        $(document).ready(function () {
+            RoomStatusDetails();
+        });
+        function RoomStatusDetails() {
+            $.ajax({
+                type: "POST",
+                url: "/Checkin/RoomStatusDetails",
+                success: function (result) {
+                    var locdata = new Array();
+                    for (var i = 0; i < result.length; i++) {
+                        Room_No: result[i].Room_No;
+
+                        if (result[i].Status == "Occupied") {
+                            if (result[i].Count == '1') {
+                                $('#' + result[i].Room_No).addClass('Single');
+                                // $("#singlecount").val(result[i].Room_No.Count());
+                            }
+                            if (result[i].Count == '2') {
+                                $('#' + result[i].Room_No).addClass('Double');
+                                //$('#' + result[i].Room_No).css("cursor", "auto");
+                                //$('#' + result[i].Room_No).prop('onclick', null).off('click');
+                            }
+                        }
+                        else if (result[i].Status == "Vacant") {
+                            $('#' + result[i].Room_No).addClass('Vacant');
+                        }
+                        else if (result[i].Status == "Maintenance") {
+                            $('#' + result[i].Room_No).addClass('Maintenance');
+                            $('#' + result[i].Room_No).css("cursor", "auto");
+                            $('#' + result[i].Room_No).prop('onclick', null).off('click');
+                        }
+                        else if (result[i].Status == "Room Cleaning") {
+                            $('#' + result[i].Room_No).addClass('Roomcleaning');
+                            $('#' + result[i].Room_No).css("cursor", "auto");
+                            $('#' + result[i].Room_No).prop('onclick', null).off('click');
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("td").click(function () {
+                debugger;
+                if (this.id != "") {
+                    debugger;
+                    //var roomno=this.id;
+                    var data = this.id;
+                    myfunctionitem(data);
+                }
+            //    $.ajax({
+            //        type: "POST",
+            //        data: { roomno: roomno },
+            //        url: "/Dinacharya/guestlist",
+            //        success: function (result) {
+            //            debugger;
+            //            $("#prno").val(result[0].PRNO);
+            //            $("#gname").val(result[0].Guest_Name);
+            //            $("#room").val(result[0].Room_No);
+            //            $("#gender").val(result[0].Gender);
+            //            $("#chdate").val(moment(result[0].Date_From).format("DD/MM/YYYY"))
+            //        },
+            //        error: function () {
+
+            //        }
+            //    });
+            });
+
+            $('#itemname').timepicker({
+                showLeadingZero: false,
+                onSelect: tpStartSelect,
+            });
+            $('#from').timepicker({
+                showLeadingZero: false,
+                onSelect: tpStartSelect,
+            });
+            $('#to').timepicker({
+                showLeadingZero: false,
+                onSelect: tpStartSelect,
+            });
+        });
+        function tpStartSelect(time, endTimePickerInst) {
+            $('#timepicker_end').timepicker('option', {
+                minTime: {
+                    hour: endTimePickerInst.hours,
+                    minute: endTimePickerInst.minutes
+                }
+            });
+        }
+
+        // when end time change, update maximum for start timepicker
+        function tpEndSelect(time, startTimePickerInst) {
+            $('#timepicker_start').timepicker('option', {
+                maxTime: {
+                    hour: startTimePickerInst.hours,
+                    minute: startTimePickerInst.minutes
+                }
+            });
+        }
+        function myfunctionitem(data) {
+            debugger;
+            if (data != "") {
+                var url = '@Url.Action("GetGuestdetails", "Checkout")';
+                debugger;
+                var postData = {
+                    roomno: data
+                };
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: postData,
+                    success: function (result) {
+                        debugger;
+                        $('.data-contact-person').remove();
+                        if (result != "none") {
+                            for (var i = 0; i < result.length; i++) {
+                                debugger;
+                                var rowCount = $('.data-contact-person').length + 1;
+                                var contactdiv = "";
+                                contactdiv = '<div class="form-group data-contact-person">'
+                    + '<div class="col-md-1"></div>'
+                    + '<div class="col-md-2">  <input type="checkbox" id="Guest" name="Guest' + rowCount + '" value="' + result[i].a.PRNO + '" /></div>'
+                    + '<div class="col-md-2">'
+                    + '<input type="text" id="guestid" required name="guestid' + rowCount + '" value="' + result[i].a.PRNO + '" readonly="readonly" style="width:100%" />'
+                    + '</div>'
+                    + '<div class="col-md-2">'
+                    + '<input type="text" id="guestname" required name="guestname' + rowCount + '" value="' + result[i].a.Guest_Name + '" readonly="readonly" style="width:100%" />'
+                    + '</div>'
+                    + '<div class="col-md-2">'
+                    + '<input type="text" id="roomno" required name="roomno' + rowCount + '" value="' + result[i].a.Room_No + '" readonly="readonly" style="width:100%" />'
+                    + '</div>'
+                    + '</div>';
+                                $('#List').append(contactdiv);
+                                $('#rowCount').val(rowCount);
+                            }
+                        }
+                    }
+                });
+            }
+        };
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(document).on("click", ".classAdd1", function () { //
+                debugger;
+                if ($('#itemcode').val() == "") {
+                    alert("Please Enter itemcode.");
+                }
+                else {
+                var rowCount = $('.data-contact-person1').length + 1;
+                if (rowCount > 0) {
+                    var buttons = document.querySelector('.table1');
+                    buttons.style.display = 'block';
+                    }
+                    var contactdiv1 = "";
+                    contactdiv1 = '<tr class="data-contact-person1">' +
+                        '<td>  <input style="text-align:center;width:94%;" type="text" name="itemcode' + rowCount + '" id="itemcode' + rowCount + '"  class="form-control f-name04" value="' + $('#itemcode').val() + '" readonly></td>' +
+                         '<td><input style="text-align:center;width:94%;" type="text" name="itemname' + rowCount + '" id="itemname"  class="form-control f-name04" value="' + $('#itemname').val() + '" readonly></td>' +
+                        '<td><button type="button" id="btnDelete" value="' + rowCount + '" class="deleteContact btn btn btn-danger btn-xs">Remove</button></td>' +
+                       '</tr>';
+                    $('#maintable1').append(contactdiv1); // Adding these controls to Main table class
+                    $('#rowCount1').val(rowCount);
+                    $('#itemcode').val("");
+                    $('#itemname').val("");
+                }
+            });
+            $(document).on("click", ".deleteContact", function () {
+                var value = this.value;
+                $("#Lision1New" + value).val("");
+                $(this).closest("tr").remove();
+
+                // closest used to remove the respective 'tr' in which I have my controls
+            });
+        });
+        $(document).ready(function () {
+            $(document).on("click", ".classAdd2", function () { //
+                debugger;
+                if ($('#from').val() == "") {
+                    alert("Please Enter itemcode.");
+                }
+                else {
+                    var rowCount = $('.data-contact-person2').length + 1;
+                    if (rowCount > 0) {
+                        var buttons = document.querySelector('.table2');
+                        buttons.style.display = 'block';
+                    }
+                    var contactdiv2 = "";
+                    contactdiv2 = '<tr class="data-contact-person2">' +
+                        '<td>  <input style="text-align:center;" type="text" name="from' + rowCount + '" id="from' + rowCount + '"  class="form-control f-name04" value="' + $('#from').val() + '" readonly></td>' +
+                         '<td><input style="text-align:center;" type="text" name="to' + rowCount + '" id="to"  class="form-control f-name04" value="' + $('#to').val() + '" readonly></td>' +
+                         '<td><input style="text-align:center;" type="text" name="Treatment' + rowCount + '" id="Treatment"  class="form-control f-name04" value="' + $('#Treatment').val() + '" readonly></td>' +
+                        '<td><button type="button" id="btnDelete" value="' + rowCount + '" class="deleteContact btn btn btn-danger btn-xs">Remove</button></td>' +
+                       '</tr>';
+                    $('#maintable2').append(contactdiv2); // Adding these controls to Main table class
+                    $('#rowCount2').val(rowCount);
+                    $('#from').val("");
+                    $('#to').val("");
+                    $('#Treatment').val("");
+                }
+            });
+            $(document).on("click", ".deleteContact", function () {
+                var value = this.value;
+                $("#Lision1New" + value).val("");
+                $(this).closest("tr").remove();
+
+                // closest used to remove the respective 'tr' in which I have my controls
+            });
+        });
+    </script>
+    @*<script>
+        $(document).ready(function () {
+            var doc = new jsPDF();
+            var specialElementHandlers = {
+                '#editor': function (element, renderer) {
+                    return true;
+                }
+            };
+
+            $('#cmd').click(function () {
+                debugger;
+                doc.fromHTML($('#demo-form2').html(), 15, 15, {
+                    'width': 170,
+                    'elementHandlers': specialElementHandlers
+                });
+                doc.save('sample-file.pdf');
+            });
+        });
+    </script>*@
+</head>
+<body>
+    <fieldset>
+        <center style="font-size:30px;color:red;margin-top:5px;">Room Dashboard</center><br />
+
+        <table id="calendar-control" style="width:100%;">
+            <tr>
+                <td style="width:100%;">
+                    <table style="width:94%;text-align:center;height:200px;border:1px solid;">
+                        <tr style="border:1px solid;">
+                            <td style="width:10%;background-color:#FD6F6F;border:1px solid white;">L1</td>
+                            <td colspan="2" style="background-color:#4b72b8;border-bottom:1px solid #4b72b8!important;border-top:1px solid #4b72b8!important"></td>
+                            <td colspan="2" style="border:1px solid;border-left:1px solid blue;cursor:pointer;" id="113">113</td>
+                            <td style="border:1px solid;cursor:pointer;" id="112">112</td>
+                            <td style="border:1px solid;cursor:pointer;" id="111">111</td>
+                            <td colspan="2" style="border:1px solid;cursor:pointer;" id="110">110</td>
+                            <td style="border:1px solid;cursor:pointer;" id="109">109</td>
+                            <td style="width:10%;background-color: #C8C8FF;">LOBBY</td>
+                            <td style="border:1px solid;cursor:pointer;" id="108">108</td>
+                            <td style="border:1px solid;cursor:pointer;" id="107">107</td>
+                            <td style="border:1px solid;cursor:pointer;" id="106">106</td>
+                            <td style="border:1px solid;cursor:pointer;" id="105">105</td>
+                            <td style="border:1px solid;cursor:pointer;" id="104">104</td>
+                            <td style="border:1px solid;cursor:pointer;" id="103">103</td>
+                            <td style="border:1px solid;cursor:pointer;" id="102">102</td>
+                            <td style="border:1px solid;cursor:pointer;" id="101">101</td>
+                            <td colspan="2" style="background-color:#4b72b8;border-bottom:1px solid #4b72b8!important;border-top:1px solid #4b72b8!important;border-right:1px solid blue!important"></td>
+                        </tr>
+                        <tr style="border:1px solid;">
+                            <td style="width:10%;background-color:#FD6F6F;border:1px solid white;">L2</td>
+                            <td colspan="2" style="background-color:#4b72b8;"></td>
+                            <td style="border:1px solid;cursor:pointer;" id="215">215</td>
+                            <td style="border:1px solid;cursor:pointer;" id="214">214</td>
+                            <td style="border:1px solid;cursor:pointer;" id="213">213</td>
+                            <td style="border:1px solid;cursor:pointer;" id="212">212</td>
+                            <td style="border:1px solid;cursor:pointer;" id="211">211</td>
+                            <td style="border:1px solid;cursor:pointer;" id="210">210</td>
+                            <td style="border:1px solid;cursor:pointer;" id="209">209</td>
+                            <td style="width:10%;background-color: #C8C8FF;">LOBBY</td>
+                            <td style="border:1px solid;cursor:pointer;" id="208">208</td>
+                            <td style="border:1px solid;cursor:pointer;" id="207">207</td>
+                            <td style="border:1px solid;cursor:pointer;" id="206">206</td>
+                            <td style="border:1px solid;cursor:pointer;" id="205">205</td>
+                            <td style="border:1px solid;cursor:pointer;" id="204">204</td>
+                            <td style="border:1px solid;cursor:pointer;" id="203">203</td>
+                            <td style="border:1px solid;cursor:pointer;" id="202">202</td>
+                            <td style="border:1px solid;cursor:pointer;" id="201">201</td>
+                            <td colspan="2" style="background-color:#4b72b8;"></td>
+                        </tr>
+                        <tr style="border:1px solid;">
+                            <td style="width:10%;background-color:#FD6F6F;border:1px solid white;">L3</td>
+                            <td style="border:1px solid;cursor:pointer;" id="319">319</td>
+                            <td style="border:1px solid;cursor:pointer;" id="318">318</td>
+                            <td style="border:1px solid;cursor:pointer;" id="317">317</td>
+                            <td style="border:1px solid;cursor:pointer;" id="316">316</td>
+                            <td style="border:1px solid;cursor:pointer;" id="315">315</td>
+                            <td style="border:1px solid;cursor:pointer;" id="314">314</td>
+                            <td style="border:1px solid;cursor:pointer;" id="313">313</td>
+                            <td style="border:1px solid;cursor:pointer;" id="312">312</td>
+                            <td style="border:1px solid;cursor:pointer;" id="311">311</td>
+                            <td style="width:10%;background-color: #C8C8FF;">LOBBY</td>
+                            <td style="border:1px solid;cursor:pointer;" id="310">310</td>
+                            <td style="border:1px solid;cursor:pointer;" id="309">309</td>
+                            <td style="border:1px solid;cursor:pointer;" id="308">308</td>
+                            <td style="border:1px solid;cursor:pointer;" id="307">307</td>
+                            <td style="border:1px solid;cursor:pointer;" id="306">306</td>
+                            <td style="border:1px solid;cursor:pointer;" id="305">305</td>
+                            <td style="border:1px solid;cursor:pointer;" id="304">304</td>
+                            <td style="border:1px solid;cursor:pointer;" id="303">303</td>
+                            <td style="border:1px solid;cursor:pointer;" id="302">302</td>
+                            <td style="border:1px solid;cursor:pointer;" id="301">301</td>
+                        </tr>
+                        <tr style="border:1px solid;">
+                            <td style="width:10%;background-color:#FD6F6F;border:1px solid white;">L4</td>
+                            <td style="border:1px solid;cursor:pointer;" id="419">419</td>
+                            <td style="border:1px solid;cursor:pointer;" id="418">418</td>
+                            <td style="border:1px solid;cursor:pointer;" id="417">417</td>
+                            <td style="border:1px solid;cursor:pointer;" id="416">416</td>
+                            <td style="border:1px solid;cursor:pointer;" id="415">415</td>
+                            <td style="border:1px solid;cursor:pointer;" id="414">414</td>
+                            <td style="border:1px solid;cursor:pointer;" id="413">413</td>
+                            <td style="border:1px solid;cursor:pointer;" id="412">412</td>
+                            <td style="border:1px solid;cursor:pointer;" id="411">411</td>
+                            <td style="width:10%;background-color: #C8C8FF;">LOBBY</td>
+                            <td style="border:1px solid;cursor:pointer;" id="410">410</td>
+                            <td style="border:1px solid;cursor:pointer;" id="409">409</td>
+                            <td style="border:1px solid;cursor:pointer;" id="408">408</td>
+                            <td style="border:1px solid;cursor:pointer;" id="407">407</td>
+                            <td style="border:1px solid;cursor:pointer;" id="406">406</td>
+                            <td style="border:1px solid;cursor:pointer;" id="405">405</td>
+                            <td style="border:1px solid;cursor:pointer;" id="404">404</td>
+                            <td style="border:1px solid;cursor:pointer;" id="403">403</td>
+                            <td style="border:1px solid;cursor:pointer;" id="402">402</td>
+                            <td style="border:1px solid;cursor:pointer;" id="401">401</td>
+                        </tr>
+
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    <br />
+    <form id="demo-form2" method="post" action="~/dinacharya/Index" data-parsley-validate class="form-horizontal form-label-left" enctype="multipart/form-data">
+        <div class="form_pema">
+            <h2 style="font-size:30px;">Dinacharya</h2>
+            <div class="form_content">
+                <!--Form Global starts here-->
+                <div id="form_global">
+                    <fieldset>
+
+
+                        <div class="col-md-12">
+                            <div class="col-md-1">
+                                <input type="hidden" id="rowCount" name="rowCount" value="0" />
+                                <input type="hidden" id="rowCount1" name="rowCount1" value="0" />
+                                <input type="hidden" id="rowCount2" name="rowCount2" value="0" />
+                            </div>
+                            <div class="col-md-2">
+
+                            </div>
+                            <div class="col-md-2">
+                                PRNO
+                            </div>
+                            <div class="col-md-2">
+                                Guest Name
+                            </div>
+                            <div class="col-md-2">
+                                Room Number
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        <div id="List">
+                        </div>
+
+                    </fieldset>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-12 form_pema">
+            <div class="col-md-6">
+                <h2 style="font-size:30px;">Feast Plan</h2>
+                <div class="form_content">
+                    <!--Form Global starts here-->
+                    <div id="form_global">
+                        <fieldset>
+                            <div class="col-md-2">Feast Name</div>
+                            <div class="col-md-4"><input type="text" id="itemcode" name="itemcode" /></div>
+                            <div class="col-md-2">Time</div>
+                            <div class="col-md-2"><input type="text" id="itemname" name="itemname" /></div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-2"><span><input type="button" id="ADD" value="ADD" class="submit classAdd1" /></span></div>
+
+                        </fieldset>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-6 form_pema">
+                <h2 style="font-size:30px;">Healing Plan</h2>
+                <div class="form_content">
+                    <!--Form Global starts here-->
+                    <div id="form_global">
+                        <fieldset>
+                            <table>
+                                <tr>
+                                    <td style="width:10%;">From</td>
+                                    <td style="width:10%;"><input type="text" id="from" name="from" /></td>
+                                    <td style="width:10%;">To</td>
+                                    <td style="width:10%;"><input type="text" id="to" name="to" /></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:10%;">Treatment</td>
+                                    <td style="width:10%;"><input type="text" id="Treatment" name="Treatment" /></td>
+                                    <td><span><input type="button" id="ADD" value="ADD" class="submit classAdd2" /></span></td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 form_pema">
+            <div class="col-md-6">
+                <h2 style="font-size:30px;">Feast List</h2>
+                <div class="form_content">
+                    <!--Form Global starts here-->
+                    <div id="form_global">
+                     
+                            <table class="table1" id="maintable1">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center;width:50%">Feast Name</th>
+                                        <th style="text-align:center;width:50%">Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                       
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h2 style="font-size:30px;">Healing List</h2>
+                <div class="form_content">
+                    <!--Form Global starts here-->
+                    <div id="form_global">
+                      
+                            <table class="table2" id="maintable2">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center;">From</th>
+                                        <th style="text-align:center;">To</th>
+                                        <th style="text-align:center;">Treatment</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                      
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="form_global">
+            <div class="col-md-5"></div>
+            <div class="col-md-3">
+                <span><input type="submit" id="Sendmail" value="SEND MAIL" class="submit" /></span>
+            </div>
+        </div>
+    </form>
+    @*<div id="editor"></div>
+    <button id="cmd">generate PDF</button>*@
+</body>
+</html>

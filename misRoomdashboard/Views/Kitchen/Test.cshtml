@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Test";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/ckeditor/sample.js"></script>
+    <link href="~/Scripts/ckeditor/samples.css" rel="stylesheet" />
+</head>
+<body id="main">
+    <script>
+        $(document).ready(function () {
+        });
+        function exportedValuesList(oForm) {
+            debugger;
+            var ins=CKEDITOR.instances['desc'].getData();
+        }
+    </script>
+    <main>
+        <form id="recipeform" name="form1" method="post" action="~/Kitchen/Test" enctype="multipart/form-data" style="width:677px;">
+            <textarea class="ckeditor" name="desc" id="desc" cols="" rows="" value="Recipe Finder" onclick="this.value==''" style="width:500px; height:121px; background:#EEE; border:1px solid #d4d2d2; color:#666; font-family:Arial, Helvetica, sans-serif; font-size:12px; padding:5px; margin-bottom:10px;"></textarea>
+            <input type="submit" value="Submit" name="submitRec" width="131" height="28" style="margin-top:10px; margin-bottom:10px;">
+        </form>
+    </main>
+
+    <footer class="footer-a grid-container"></footer>
+    <script>
+	initSample();
+    </script>
+
+</body>

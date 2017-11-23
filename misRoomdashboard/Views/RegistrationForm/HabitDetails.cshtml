@@ -1,0 +1,144 @@
+﻿@model List<Rooms.Models.HabitModel>
+
+@{
+    ViewBag.Title = "HabitDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/JSFiles/HabitDetails.js"></script>
+<link href="~/4/form_glb_small.css" rel="stylesheet" />
+<link href="~/4/form_pw.css" rel="stylesheet" />
+<link href="~/4/jquery-ui - Copy.css" rel="stylesheet" />
+<link href="~/4/jquery-ui.css" rel="stylesheet" />
+<link href="~/4/reset_css.css" rel="stylesheet" />
+<link href="~/4/style_dashboard.css" rel="stylesheet" />
+<script type="text/javascript">
+    function updateSuccess() {
+        if ('@ViewBag.IsAccompany' == 'Y') {
+            var Userdet = '@ViewBag.UserDetails';
+            if ('@ViewBag.IsAccompanyPending' == 'Y')
+            {
+                var x = confirm("Are you want to submit accompany application also?");
+                if (x == true) {
+                    window.location.href = '../RegistrationForm/PersonalDetails?PRNO=' + Userdet.split(',')[0] + '&&UHID=' + Userdet.split(',')[1] + ''
+                } else {
+                    window.location.href = '../RegistrationForm/OnlinePayment'
+                }
+            }
+            else
+            {
+                window.location.href = '../RegistrationForm/OnlinePayment'
+            }
+        }
+        else {
+            window.location.href = '../RegistrationForm/OnlinePayment'
+        }
+    }
+    function OnFailure(response) {
+        alert("Fail");
+    }
+</script>
+
+<div class="form_pema">
+    <h2>Habit Details</h2>
+    <div class="form_content">
+        <!--Form Global starts here-->
+        <div id="form_global">
+
+
+            @*@using (Ajax.BeginForm("HabitDetails", "RegistrationForm", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnSuccess = "return updateSuccess()",
+        OnFailure = "OnFailure"
+    }))
+            {*@
+@using (Html.BeginForm("HabitDetails", "RegistrationForm"))
+{
+
+                <fieldset>
+
+                    <table>
+                        <tr>
+
+                            <td><div class="img_disble_button">Booking&nbsp;Information</div></td>
+                            <td><div class="img_disble_button">Personal&nbsp;Details</div></td>
+                            <td><div class="img_disble_button">Health&nbsp;Details</div></td>
+                            <td><div class="img_active_button">Habit&nbsp;Details</div></td>
+                            <td><div class="img_disble_button">Payment&nbsp;Details</div></td>
+                        </tr>
+                    </table>
+
+
+                    <table>
+                        @*<tr>
+
+
+                            <td colspan="5" align="right">
+                                <input type="button" value="Previous" id="SaveHB" class="submit" />
+                                <input type="submit" value="Submit" id="submit" class="submit" />
+                            </td>
+
+                        </tr>*@
+
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+
+                                <td style="display: none">@Html.TextBox("HabitDetails[" + @i + "].Id", Model[i].Id, new { @class = "HBId", @readonly = "readonly" })</td>
+                                <td>@Html.Label("HabitDetails[" + @i + "].HBQCode", Model[i].HBQuestion)</td>
+
+                                <td>
+                                    @foreach (var item in ViewBag.Frequency)
+                                    {
+                                        if (item.Text == Model[i].HBQFreq)
+                                        {
+                                            item.Selected = true;
+                                        }
+                                        else
+                                        {
+                                            item.Selected = false;
+                                        }
+                                    }
+                                    @Html.DropDownList("HabitDetails[" + @i + "].HBQFreq", (IEnumerable<SelectListItem>)ViewBag.Frequency,
+                                null, new { @class = "HBFlag", @style = "width:120px" })
+                                </td>
+                                <td></td>
+                                <td>
+                                    @if (Model[i].HBQFreq == "None")
+                                    {
+                                        @Html.TextArea("HabitDetails[" + @i + "].HBDesc",
+                             Model[i].HBDesc, new { @class = "HBDe", @disabled = "disabled", @style = "width:520px;margin-left:20px" })
+                                    }
+                                    else
+                                    {
+
+                                        @Html.TextArea("HabitDetails[" + @i + "].HBDesc",
+                             Model[i].HBDesc, new { @class = "HBDe", @required = "required", @style = "width:520px;margin-left:20px" })
+                                    }
+                                </td>
+
+
+                            </tr>
+
+                        }
+
+                        <tr>
+
+
+                            <td colspan="5" align="center">
+                                <input type="button" value="Previous" id="SaveHB" class="submit" />
+                                <input type="submit" value="Submit" id="submit" class="submit" />
+                            </td>
+
+                        </tr>
+
+                    </table>
+                </fieldset>
+            }
+        </div>
+    </div>
+</div>@*<script src="~/Scripts/JSFiles/HabitDetails.js"></script>*@
+
+
+

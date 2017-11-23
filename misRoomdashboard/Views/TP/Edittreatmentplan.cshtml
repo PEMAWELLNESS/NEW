@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewBag.Title = "Edittreatmentplan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/moment.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+    <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+            getdetails();
+        });
+        function getdetails() {
+            debugger;
+            var url = '@Url.Action("Gettreatmentplanlist", "TP")';
+            $.ajax({
+                url: url,
+                //data: { dated },
+                type: 'POST',
+                success: function (result) {
+                    debugger;
+                    var data = new Array();
+                    for (var i = 0; i < result.length; i++) {
+                        debugger;
+                        data.push({
+                            ID:result[i].ID,
+                            PRNO: result[i].PRNO,
+                            GuestName: result[i].GuestName,
+                            ScheduleDate: moment(result[i].ScheduleDate).format("DD/MM/YYYY"),
+                            SchdeuleTime: moment(result[i].SchdeuleTime).format("HH:mm"),
+                            StartTime: moment(result[i].StartTime).format("HH:mm"),
+                            EndTime: moment(result[i].EndTime).format("HH:mm"),
+                            EMPNAME: result[i].EMPNAME,
+                            TreatName: result[i].TreatName,
+                            RoomNo: result[i].RoomName
+                            //ScheduleTime: moment(result[i].ScheduleTime).format("HH:mm")
+                        })
+                    }
+                    var table = $('#customers').DataTable({
+                        dom: 'Bfrtip',
+                        buttons: [
+                           'excel', 'pdf'
+                        ],
+                        data: data,
+                        order: [[0, "desc"]],
+                        columns: [
+                             { "data": "ID" },
+                         { "data": "PRNO" },
+                            { "data": "GuestName" },
+                            { "data": "ScheduleDate" },
+                            { "data": "SchdeuleTime" },
+                            { "data": "StartTime" },
+                             { "data": "EndTime" },
+                             { "data": "EMPNAME" },
+                              { "data": "TreatName" },
+                               { "data": "RoomNo" }
+                        ]
+                    });
+                    var selected = [];
+                    debugger;
+                    $('#guestcount').text(table.data().count());
+                    $('#customers tbody').on('click', 'tr', function () {
+                        $('tr').removeClass('selected');
+                        debugger;
+                        var id = this.id;
+                        var index = $.inArray(id, selected);
+                        if (index === -1) {
+                            selected.push(id);
+                        } else {
+                            selected.splice(index, 1);
+                        }
+                        $(this).toggleClass('selected');
+                        var dataArr = [];
+
+                        $.each($("#customers tr.selected"), function () {
+                            debugger;
+                            $('#hdnguestid').val($(this).find('td').eq(0).text());
+                            $('#btnprint').css('visibility', 'visible');
+                        });
+                    });
+                }
+            });
+        }
+        function Redirect() {
+            debugger;
+            var guestid = document.getElementById('hdnguestid').value
+            window.location = "../TP/Editreatelist?PRNO=" + guestid;
+        }
+    </script>
+</head>
+<body>
+    <center style="color:red;font-size:25px;">TreatmentPlan List&nbsp;&nbsp;&nbsp;</center>
+    <div class="modal-body" style="width:90%;margin-left:78px;">
+        <input type="hidden" name="hdnguestid" id="hdnguestid" />
+        <table id="customers" class="display" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>PRNO</th>
+                    <th>GuestName</th>
+                    <th>ScheduleDate</th>
+                    <th>ScheduleTime</th>
+                    <th>StartTime</th>
+                    <th>EndTime</th>
+                    <th>HealerName</th>
+                    <th>TreatmentName</th>
+                    <th>RoomNo</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="item form-group">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-3 col-sm-3 col-xs-3">
+                <button id="btnprint" style="visibility:hidden" type="submit" class="btn btn-success" onclick="Redirect();">Edit</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,192 @@
+﻿@model Rooms.Models.Personal_detailscustomized
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>personal details</title>
+   
+</head>
+<body>        
+    <hr />    
+   <center><h2 style="font-weight:bold;font-size:x-large"><u>Personal Details</u></h2></center>
+    <table cellpadding="0" cellspacing="0" width="100%" style="border: 2px;" rules="none">
+        <tr style="outline: thin solid">
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.FirstName)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.FirstName)
+            </td>
+            <td style="font-weight:bold;display:none">
+                @Html.DisplayNameFor(model => model.MiddleName)
+            </td>
+            <td style="display:none">
+                : @Html.DisplayFor(model => model.MiddleName)
+            </td>
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.LastName)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.LastName)
+            </td>
+        </tr>
+        <tr style="outline: thin solid">
+            @*<td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.LastName)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.LastName)
+
+            </td>*@
+            <td style="font-weight:bold;display:none">
+                @Html.DisplayNameFor(model => model.FatherHusbandName)
+            </td>
+            <td style="display:none">
+                : @Html.DisplayFor(model => model.FatherHusbandName)
+            </td>
+        </tr>
+        <tr style="outline: thin solid">
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.Gender)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.Gender)
+
+            </td>
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.MaritalStatus)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.MaritalStatus)
+            </td>
+        </tr>
+        <tr style="outline: thin solid">
+            <td style="font-weight:bold">@Html.DisplayNameFor(model => model.FlatNo)</td>
+            <td>
+                : @Html.DisplayFor(model => model.FlatNo)
+            </td>
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.City)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.City)
+            </td>
+        </tr>
+        <tr style="outline: thin solid">
+            <td style="font-weight:bold">@Html.DisplayNameFor(model => model.Building)</td>
+            <td>
+                : @Html.DisplayFor(model => model.Building)
+            </td>
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.PinCode)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.PinCode)
+            </td>
+        </tr>
+        <tr style="outline: thin solid">
+            <td style="font-weight:bold">@Html.DisplayNameFor(model => model.Street)</td>
+            <td>
+                : @Html.DisplayFor(model => model.Street)
+            </td>
+            @*<td style="font-weight:bold">&nbsp;</td>
+            <td>&nbsp;</td>*@
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.Nationality)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.Nationality)
+            </td>
+        </tr>
+        <tr style="outline: thin solid">
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.Country)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.Country)
+            </td>
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.DOB)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.DOB)
+
+            </td>
+        </tr>
+        <tr style="outline: thin solid">
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.Age)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.Age)
+            </td>
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.Height)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.Height)
+
+            </td>
+        </tr>
+        <tr style="outline: thin solid">
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.Weight)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.Weight)
+            </td>
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.BP)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.BP)
+            </td>
+        </tr>
+        <tr style="outline: thin solid">
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.PulseRate)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.PulseRate)
+            </td>
+            <td style="font-weight:bold">@Html.DisplayNameFor(model => model.MobileNo) </td>
+            <td>
+                @Html.DisplayFor(model => model.MobileNo)
+            </td>
+        </tr>
+        <tr style="outline: thin solid">
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.EmergencyContactNo)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.EmergencyContactNo)
+            </td>
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.EmailId)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.EmailId)
+            </td>
+        </tr>
+        <tr style="outline: thin solid">
+
+            <td style="font-weight:bold">
+                @Html.DisplayNameFor(model => model.Occupation)
+            </td>
+            <td>
+                : @Html.DisplayFor(model => model.Occupation)
+            </td>
+            <td style="font-weight:bold">@Html.DisplayNameFor(model => model.ReferralFrom)</td>
+            <td>
+                : @Html.DisplayFor(model => model.ReferralFrom)
+            </td>
+        </tr>
+        <tr style="outline: thin solid">
+            <td style="font-weight:bold">@Html.DisplayNameFor(model => model.ReferralPRNO)</td>
+            <td>
+                : @Html.DisplayFor(model => model.ReferralPRNO)
+            </td>
+        </tr>
+        <tr>
+    </table>
+</body>
+</html>

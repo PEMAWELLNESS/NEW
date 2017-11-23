@@ -1,0 +1,456 @@
+﻿
+@{
+    ViewBag.Title = "RecipeReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+    <style>
+        body {
+            font-family: "Segoe UI",Helvetica,Arial,sans-serif;
+            font-size: 12px;
+            color: #333;
+            line-height: 22px;
+            padding: 3px;
+        }
+
+        .table1 {
+            border: 1px solid #dedede;
+            font-family: "Segoe UI",Helvetica,Arial,sans-serif;
+            font-size: 12px;
+            color: #000;
+            line-height: 22px;
+            padding: 1px;
+            min-width: 723px;
+            max-width: 100%;
+        }
+
+            .table1 tr td {
+                padding: 3px;
+                text-align: left;
+                border: 1px solid #dedede;
+                border-right: nonoe;
+                border-bottom: none;
+                font-weight: normal;
+            }
+
+        img {
+            /*border: 1px solid #dedede;*/
+            padding: 2px;
+            opacity: 0.9;
+        }
+
+            img:hover {
+                /*border: 1px solid #dedede;*/
+                padding: 2px;
+                opacity: 10;
+            }
+
+        tr:nth-child(even) {
+            background: #eee;
+        }
+
+        tr:nth-child(odd) {
+            background: #f8f8f8;
+        }
+
+        .table1 tr th {
+            background-color: green;
+            color: #fff;
+            padding: 5px;
+            font-size: 16px;
+            margin: 1px;
+        }
+
+        .main {
+            padding: 2px;
+            border: 1px solid #dedede;
+            width: 1000px;
+            height: auto;
+            margin: 0 auto;
+            background-color: #fff;
+        }
+
+        .Name {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 24px;
+            color: #FFFFFF;
+            width: 98%;
+            height: auto;
+            padding: 10px;
+            background-color: #e0551a;
+            float: none;
+        }
+
+        .tableread {
+            font-family: "Segoe UI",Helvetica,Arial,sans-serif;
+            font: normal 12px;
+        }
+
+        .name2 {
+            font-family: "Segoe UI",Helvetica,Arial,sans-serif;
+            color: #fff;
+            background: #e0551a;
+        }
+
+        h4 {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #333333;
+            border-bottom: 1px dotted #999999;
+        }
+
+        .td_headding {
+            background-color: green;
+            color: #fff;
+            padding: 5px;
+            font-size: 16px;
+            margin: 1px;
+        }
+
+        .button {
+            font-family: "Segoe UI",Helvetica,Arial,sans-serif;
+            font-size: 14px;
+            text-transform: capitalize;
+            padding: 0px 20px 0px 20px;
+            color: #636267;
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            border-radius: 8px;
+            border: #ccc 1px solid;
+            width: auto;
+            height: 25px;
+            background: #ffffff; /* Old browsers */
+            background: -moz-linear-gradient(top, #ffffff 0%, #f3f3f3 50%, #ededed 51%, #ffffff 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#f3f3f3), color-stop(51%,#ededed), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top, #ffffff 0%,#f3f3f3 50%,#ededed 51%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top, #ffffff 0%,#f3f3f3 50%,#ededed 51%,#ffffff 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top, #ffffff 0%,#f3f3f3 50%,#ededed 51%,#ffffff 100%); /* IE10+ */
+            background: linear-gradient(to bottom, #ffffff 0%,#f3f3f3 50%,#ededed 51%,#ffffff 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+        }
+
+
+            .button:hover {
+                cursor: pointer;
+                font-family: "Segoe UI",Helvetica,Arial,sans-serif;
+                font-size: 14px;
+                text-transform: capitalize;
+                padding: 0px 20px 0px 20px;
+                color: #e97708;
+                -webkit-border-radius: 8px;
+                -moz-border-radius: 8px;
+                border-radius: 8px;
+                border: #dedede 1px solid;
+                width: auto;
+                height: 25px;
+                background: #ffffff; /* Old browsers */
+                background: -moz-linear-gradient(top, #ffffff 0%, #f3f3f3 50%, #ededed 51%, #ffffff 100%); /* FF3.6+ */
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#f3f3f3), color-stop(51%,#ededed), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+                background: -webkit-linear-gradient(top, #ffffff 0%,#f3f3f3 50%,#ededed 51%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+                background: -o-linear-gradient(top, #ffffff 0%,#f3f3f3 50%,#ededed 51%,#ffffff 100%); /* Opera 11.10+ */
+                background: -ms-linear-gradient(top, #ffffff 0%,#f3f3f3 50%,#ededed 51%,#ffffff 100%); /* IE10+ */
+                background: linear-gradient(to bottom, #ffffff 0%,#f3f3f3 50%,#ededed 51%,#ffffff 100%); /* W3C */
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+                box-shadow: 0 0 5px rgba(218, 218, 218, 1);
+            }
+
+        @@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+
+        /*body {
+             width: 1200px;
+         }*/
+
+        .faqHeader {
+            font-size: 27px;
+            margin: 20px;
+        }
+
+        .panel-heading [data-toggle="collapse"]:after {
+            font-family: 'fontawesome';
+            content: "\f054"; /* "play" icon */
+            float: right;
+            color: #F58723;
+            font-size: 18px;
+            line-height: 22px;
+            /* rotate "play" icon from > (right arrow) to down arrow */
+            -webkit-transform: rotate(-90deg);
+            -moz-transform: rotate(-90deg);
+            -ms-transform: rotate(-90deg);
+            -o-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+        }
+
+        .panel-heading [data-toggle="collapse"].collapsed:after {
+            /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            transform: rotate(90deg);
+            color: #454444;
+        }
+
+        .form_pema {
+            background: #fff;
+            margin: auto;
+        }
+
+            .form_pema h2 {
+                /*background-image: url(images/head_bg.png);*/
+                background-image: url('../../Content/images/head_bg.png');
+                line-height: 35px;
+                color: #27a09b;
+                font-size: 18px;
+                text-align: center;
+                padding: 0 10px;
+                border: 1px solid #dedede;
+            }
+
+            .form_pema .form_content {
+                background: #fafafa;
+                height: auto;
+                border-left: 1px solid #dedede;
+                border-right: 1px solid #dedede;
+                border-bottom: 1px solid #dedede;
+                padding: 10px;
+                color: #666;
+                font-size: 13px;
+                margin-bottom: 10px;
+            }
+
+        #form_global {
+            width: auto;
+            height: auto;
+        }
+
+        .table1 {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        #form_global label {
+            float: left;
+            line-height: 16px;
+            padding: 0 5px;
+            width: 185px;
+            font-size: 13px;
+            margin: 3px 20px;
+        }
+
+        #form_global input.hasDatepicker {
+            background: #f6fdfd;
+        }
+
+        #form_global input, #form_global textarea, #form_global select {
+            width: 185px;
+            padding: 3px 5px;
+            color: #666;
+            border: 1px solid #ccc;
+            margin: 3px 0 3px 0;
+            font-size: 13px;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+            transition: all .25s ease-in-out;
+            -webkit-transition: all .25s ease-in-out;
+            -moz-transition: all .25s ease-in-out;
+            box-shadow: 0 0 5px rgba(81,203,238,0);
+            -webkit-box-shadow: 0 0 5px rgba(81,203,238,0);
+            -moz-box-shadow: 0 0 5px rgba(81,203,238,0);
+            vertical-align: middle;
+        }
+
+            #form_global input.submit {
+                width: auto;
+                min-width: 85px;
+                cursor: pointer;
+                position: relative;
+                border: 1px solid #299e9e;
+                color: #fff;
+                padding: 6px 16px;
+                text-decoration: none;
+                font-size: 14px;
+                background: #3cb6b6;
+                box-shadow: 0 2px 3px rgba(0,0,0,.25);
+                -moz-box-shadow: 0 1px 3px rgba(0,0,0,.25);
+                -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.25);
+            }
+
+        #form_glb_small fieldset#form_glb_small fieldset {
+            background: #fff;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            margin: 0 0 10px;
+            box-shadow: 0 2px 5px rgba(50,50,50,.1);
+            -webkit-box-shadow: 0 2px 5px rgba(50,50,50,.1);
+            -moz-box-shadow: 0 2px 5px rgba(50,50,50,.1);
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+            $.ajax({
+                type: 'GET',
+                url: '/Kitchen/GR',
+                //data: { Letter: $('.lits').val() },
+                success: function (result) {
+                    debugger;
+                    //$('#Ingredients').empty();
+                    $.each(result, function (key, val) {
+                        $('#RecipeName').append('<option  style="width:75%;" value="' + result[key].ID + '">' + result[key].recipe_name + '</option>')
+                    });
+                },
+                error: function (result) {
+
+                }
+            });
+            $('#search').click(function () {
+                //alert($('#RecipeName').find('option:selected').text());
+                $.ajax({
+                    type: 'GET',
+                    url: '/Kitchen/GRD',
+                    data: { recipeid: $('#RecipeName').val() },
+                    success: function (result) {
+                        debugger;
+                        $('#recipename').text(result[0].R.recipe_name)
+                        var tobeserved = $('#servings').val();
+                        var totalserved = result[0].R.number_servings;
+                        var calculatedserving = ((tobeserved) / (totalserved)).toFixed(2);
+                        //alert(calculatedserving);
+                        $('#yield').text(Math.round(calculatedserving * result[0].R.yeild));
+                        $('#portionsize').text( result[0].R.preparation_size);
+                        $('#noofservings').text(Math.round(calculatedserving * result[0].R.number_servings));
+                        //$('#Ingredients').empty();
+                        var cost = 0;
+                        var calories = 0;
+                        $('#ings tbody').empty();
+                        $('#ings').append('<tbody>');
+                        $.each(result, function (key, val) {
+                            var costperitem = (calculatedserving * ((result[key].RI.qty / 100) * result[key].IN.cost)).toFixed(2);
+                            var caloriesperitem = (calculatedserving * result[key].RI.cal).toFixed(2);
+                            $('#ings').append('<tr><td>' + result[key].IN.INGREDIENT_NAME + '</td><td>' + (calculatedserving * result[key].RI.qty).toFixed(2) + '</td><td>' + caloriesperitem + '</td><td>' + costperitem + '</td></tr>')
+                            cost = (cost + +costperitem);
+                            calories = (calories + +caloriesperitem);
+                        });
+                        $('#ings').append('</tbody>');
+                        $('#totalcost').text(Math.round(cost.toFixed(2)));
+                        $('#totalcalories').text(Math.round(calories.toFixed(2)));
+                    },
+                    error: function (result) {
+
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container" style="margin-top:65px;">
+        <div class="panel-group" id="accordion">
+            <div class="faqHeader">Recipe Details</div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        Retrieve Recipe Details
+                    </h4>
+                </div>
+            </div>
+            <form id="addrecipe" name="form1" method="#" action="~/Kitchen/Nutrition" enctype="multipart/form-data">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3">
+                        Recipe Name :
+                    </div>
+                    <div class="col-md-3">
+                        <select class="js-example-basic-single" name="RecipeName" style="width:75%;" id="RecipeName">
+                            <option style="width:75%;" value="-1">Select</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-3">
+
+                    </div>
+                    <div class="col-md-3">
+                        Number of People to be Served :
+                    </div>
+                    <div class="col-md-3">
+                        <input type="number" id="servings" name="servings" autocomplete="off" />
+                    </div>
+                    <div class="col-md-3">
+
+                    </div>
+                </div>
+                <br />
+                <div class="col-md-12">
+                    <center>
+                        <input type="button" value="Search" id="search">
+                    </center>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="main">
+        <div style="float:left; width:auto; height:auto; padding:20px;">
+            <img src="pdf/examples/res/index.jpeg" width="200" height="100" />
+        </div>
+        <div style="float:left; width:auto; height:auto; padding:20px;font-family:Arial, Helvetica, sans-serif; font-size:11.5pt; color:#d95701;">
+            <table class="table1" align="left" style="padding-right:10px;">
+                <tr>
+                    <td>Name Of Recipe</td>
+                    <td>:</td>
+                    <td><strong><span id="recipename"></span></strong></td>
+                </tr>
+                <tr>
+                    <td>Total Yeild (gms)</td>
+                    <td>:</td>
+                    <td><span id="yield"></span></td>
+                </tr>
+                <tr>
+                    <td>Portion Size</td>
+                    <td>:</td>
+                    <td><span id="portionsize"></span></td>
+                </tr>
+                <tr>
+                    <td>Number Of Servings</td>
+                    <td>:</td>
+                    <td><span id="noofservings"></span> </td>
+                </tr>
+                <tr>
+                    <td>Total Cost</td>
+                    <td>:</td>
+                    <td><span id="totalcost"></span></td>
+                </tr>
+                <tr>
+                    <td>Total Calories</td>
+                    <td>:</td>
+                    <td><span id="totalcalories"></span></td>
+                </tr>
+            </table>
+        </div>
+        <div style="width:970px; height:auto; padding:20px; margin:0 auto; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#FFFFFF;">
+            <table class="table1" width="960" height="129" cellpadding="0" cellspacing="0" id="ings">
+                <thead>
+                    <tr>
+                        <th style="border-right:1px solid #fff;"><strong>Ingredients</strong></th>
+                        <th style="border-right:1px solid #fff;"><strong>Quantity (gms)</strong></th>
+                        <th><strong>Calories (KCal)</strong></th>
+                        <th>Cost (₹)</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+</body>
+</html>

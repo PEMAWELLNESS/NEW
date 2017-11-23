@@ -1,0 +1,389 @@
+﻿@model Rooms.Models.NC_TBL_BOOKED_DATES
+@{
+    ViewBag.Title = "DatesConformation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+    <script src="~/Scripts/JSFiles/DatesConformation.js"></script>
+    
+    <script type="text/javascript">
+        var urltt = '@Url.Action("PersonalDetails", "RegistrationForm")';
+        var userTyp = '@ViewBag.UserType';
+
+        if ('@ViewBag.formmode' == "Edit") {
+            var AccompanyTyp = '@ViewBag.Accompanytype';
+
+        }
+        else {
+            var AccompanyTyp = "";
+
+        }
+
+        if ('@ViewBag.formmode' == "" || '@ViewBag.formmode' == null) {
+            var Formmode = "";
+        }
+        else {
+            var Formmode = '@ViewBag.formmode';
+
+        }
+    </script>
+    @*<link rel="stylesheet" href="/resources/demos/style.css">*@
+    @*<link href="~/Content/themes/smoothness/jquery-ui.css" rel="stylesheet" />*@
+    <link href="~/Content/form_pw.css" rel="stylesheet" />
+    <link href="~/Content/style_pw.css" rel="stylesheet" />
+    <style>
+       
+        .ui-highlight .ui-state-default {
+            background: #4cff00;
+            border-color: #4cff00;
+            color: #fff;
+            text-align: center;
+        }
+
+        .ui-block .ui-state-default {
+            background: #ff0000;
+            border-color: #ff0000;
+            color: #fff;
+            text-align: center;
+        }
+
+        .ui-selected .ui-state-default {
+            background: #17607D;
+            border-color: #666;
+            color: #fff;
+            text-align: center;
+        }
+
+        .ui-nonavail .ui-state-default {
+            background: #ff0000;
+            border-color: #666;
+            color: #fff;
+            text-align: center;
+        }
+
+        .ui-avail .ui-state-default {
+            background: #32C6BC;
+            border-color: #666;
+            color: #fff;
+            text-align: center;
+        }
+        
+        #help_img {
+            vertical-align:middle;
+        }
+      
+    </style>
+</head>
+<body>
+
+    <div class="form_pema">
+        <h2>Booking Information</h2>
+        <div class="form_content">
+            <!--Form Global starts here-->
+            <div id="form_global">
+               
+                <form>
+                    <fieldset>
+
+                        <table>
+                            <tr>
+                                <td><div class="img_active_button">Booking&nbsp;Information</div></td>
+                                <td><div class="img_disble_button">Personal&nbsp;Details</div></td>
+                                <td><div class="img_disble_button">Health&nbsp;Details</div></td>
+                                <td><div class="img_disble_button">Habit&nbsp;Details</div></td>
+                                <td><div class="img_disble_button">Payment&nbsp;Details</div></td>
+                            </tr>
+                        </table>
+
+
+                        <table>
+                            @*<tr><td colspan="3"><span class=" place_btn"><input type="button" id="Save" value="Next" class="submit" /> </span></td></tr>*@
+                            <tr>
+
+                                <td>
+                                    <label for="UserTyp">User Type</label>
+                                </td>
+                                <td colspan="3">
+                                    @*<select id="UserType" name="UserTypeeDrop">
+                                        <option value="-1">Select UserType</option>
+                                        <option value="WebUser">WebUser</option>
+                                        <option value="WalkinUser">WalkinUser</option>
+                                    </select>*@
+                                    <input type="text" id="UserType" readonly="readonly"/>
+
+                                </td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td>
+                                    <label id="UserUHID">Enter UHID<span class="mandatory">*</span></label>
+                                        
+                                </td>
+                                <td colspan="3">
+                                    <input type="text" id="walkinuserUHID" tabindex="1" class="requiredselect"/>
+
+                                </td>
+
+
+                            </tr>
+                            <tr>
+
+                                <td>
+                                                                      
+                                    <label for="PackageType">Package Type<span class="mandatory">*</span></label>
+                                    </td>
+                                <td>
+                                    <select id="PackageTypeDrop" tabindex="2" name="PackageTypeDrop" class="requiredselect">
+                                        <option value="-1">Select Package Type</option>
+                                    </select>
+
+                                </td>
+                                <td colspan="2">
+                                    <input type="button" value="Tariffs" id="CheckTariffs" class="submit" />
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td>
+                                    <label for="PackageName">Package Name<span class="mandatory">*</span></label>
+                                    
+                                </td>
+                                <td>
+                                    <select id="PackageNameDrop" tabindex="3" name="PackageNameDrop" class="requiredselect">
+                                        <option value=" -1">
+                                        Select Package Name</option>
+
+                                    </select>
+                                </td>
+
+                                <td colspan="2" rowspan="5" style="vertical-align:top">
+                                    @*this is  only for representing colors with names added on 04/04/2015 by venkatesh,No page load hiding said by thirumala *@
+
+                                    <div id="display-colors">
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <input type="text" style="background-color:#32C6BC; width: 10px; height: 10px;margin-left:24px;" value="" />
+                                                    <label for="lblvacan" style="width:35px; height :10px;">Availability</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" style="background-color:#17607D; width: 10px; height: 10px;margin-left:24px;" value="" />
+
+                                                    <label for="lblvacan" style="width:35px; height :10px">Selected</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" style="background-color:#ff0000; width: 10px; height: 10px;margin-left:24px;" value="" />
+                                                    <label for="lblvacan" style="width:67px; height :10px">NonAvailability</label>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </div>
+
+                                    @*this is  only for representing colors with names *@
+                                    <div id="date" style="margin-left:7px">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td>
+                                    <label for="Room View">Room View<span class="mandatory">*</span></label>
+                                </td>
+                                <td colspan="3">
+                                    <select id="RoomviewDrop" tabindex="4" name="RoomviewDrop" class="requiredselect">
+                                        <option value="-1">Select Room View</option>
+                                    </select>
+
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td>
+                                    <label for="Room Type">Room Type<span class="mandatory">*</span></label>
+                                </td>
+                                <td colspan="3">
+                                    <select id="RoomTypeDrop" tabindex="5" name="RoomTypeDrop" class="requiredselect">
+                                        <option value="-1">Select Room Type</option>
+                                    </select>
+
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td>
+
+                                    <label for="ArrivalDate">Arrival Date<span class="mandatory">*</span></label>
+                                </td>
+                                <td colspan="3">
+                                    <input type="text" id="arrivaldate" tabindex="6" class="requiredselect" readonly="readonly" />&nbsp;
+
+
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                <td>    
+                                    <label for="DepartureDate">Departure Date</label>
+                                </td>
+                                <td colspan="3">
+                                    <input type="text" id="departuredate"/>
+
+                                </td>
+
+
+                            </tr>
+
+                            <tr>
+
+                                <td>
+                                    <label for="AlternateArrivalDate">Alt Arrival Date</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="alternatearrivaldate" class="requiredselect" readonly="readonly" />
+
+                                </td>
+                                <td>
+                                    <label for="AlternateDepartureDate">Alt Departure Date</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="alternatedepartureldate"/>
+
+                                </td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>
+                                    <label for="No of Days">No of Days</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="Noofdays" readonly="readonly"/>
+                                </td>
+                                <td>
+                                    <label for="PackageAmt">Package Amount</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="RoomTariff" style="display:none" />
+                                    <input type="text" id="PackageAmount" readonly="readonly"/>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <label for="AccompanyType">Accompany Type</label>
+                                </td>
+                                <td>
+                                    <select id="AccompanyType" tabindex="7" name="AccompanyTypeDrop">
+                                        <option value="-1">No Accompany</option>
+                                        <option value="Attender">Attender</option>
+                                        <option value="Accompany">Accompany</option>
+                                    </select>
+                                    @*<input type="button" value="Help" id="Help" class="submit" />*@
+                                    <a id="Help" href="#"><img src="~/Content/images/help_img.png" title="Help" id="help_img" alt="Help"/> </a>
+
+                                </td>
+                                <td>
+                                    <label for="AttenderName" id="AttendName">Attender Name<span class="mandatory">*</span></label>
+                                    <label for="Accompany" id="AccUHID">Accompany UHID<span class="mandatory">*</span></label>
+
+                                </td>
+                                <td>
+                                    <input type="text" id="AttenderName" class="requiredselect" />
+
+
+                                    <input type="text" id="AccompanyUHID" class="requiredselect" />
+                                    @*<a href='http://202.153.40.214:7777/Register/Index' target="_blank" id="Register">GET UHID</a>*@
+                                    <a href= '@Url.Action("Index", "Register")' target="_blank" id="Register">GET UHID</a>
+                                    @*<a href='http://pemanutrition.com/' target="_blank" id="Register">GET UHID</a>*@
+                                   
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="DiscountType">Membership/CampaignCode</label>
+                                </td>
+                                <td>
+                                    <select id="DiscType" tabindex="8" name="DiscType">
+                                        <option value="-1">Not Exist</option>
+                                        <option value="Membership">Membership</option>
+                                        <option value="CompaignCode">Campaign Code</option>
+                                    </select>
+
+                                </td>
+                                <td>
+                                    @*<a href='http://202.153.40.214:7777/MembershipMngt/MembershipM' target="_blank" id="Membershipidc">GET MEMBERSHIPID</a>*@
+                                    <a href='@Url.Action("MembershipM", "MembershipMngt")' target="_blank" id="Membershipidc">GET MEMBERSHIPID</a>
+                                    <label for="MembershipId" id="MembershipId">Membership Id<span class="mandatory">*</span></label>
+                                    <label for="CampaignCode" id="CampaignCode">Campaign Code<span class="mandatory">*</span></label>
+
+                                </td>
+                                <td>
+                                    <input type="text" id="MemId" class="requiredselect" />
+
+
+                                    <input type="text" id="CC" class="requiredselect" />
+
+                                </td>
+
+                            </tr>
+                            <tr>
+
+                                @*<td>
+
+                                    <label for="GroupCode" id="GroupCod">Group Code</label>
+                                </td>
+                                <td>
+
+                                    <input type="text" id="GroupCode" />
+                                </td>*@
+                                <td>
+                                    <label for="Transport" id="Transport">Transportation Required</label>
+
+                                </td>
+                                <td>
+                                    <input type="checkbox" tabindex="9" id="TransportReq">
+                                </td>
+
+                            </tr>
+                            <tr><td colspan="4" align="center"><span><input type="button" tabindex="10" id="Save" value="Next" class="submit" /> </span></td></tr>
+                        </table>
+                        <div id="TariffForm">
+                        </div>
+                        <div id="HelpForm">
+                        </div>
+                    </fieldset>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,385 @@
+﻿@model Rooms.Models.NC_TBL_PERSONAL_DETAILS
+
+@{
+    ViewBag.Title = "PersonalDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<head>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/Scripts/JSFiles/PersonalDetails.js"></script>
+    <link href="~/4/form_glb_small.css" rel="stylesheet" />
+    <link href="~/4/form_pw.css" rel="stylesheet" />
+    <link href="~/4/jquery-ui - Copy.css" rel="stylesheet" />
+    <link href="~/4/jquery-ui.css" rel="stylesheet" />
+    <link href="~/4/reset_css.css" rel="stylesheet" />
+    <link href="~/4/style_dashboard.css" rel="stylesheet" />
+</head>
+
+
+<body>
+    <div class="form_pema">
+        <h2>PersonalDetails</h2>
+        <div class="form_content">
+            <!--Form Global starts here-->
+            <div id="form_global">
+
+                @using (Html.BeginForm())
+            {
+                    @Html.ValidationSummary(true)
+                    <fieldset>
+
+
+                        <table style="margin-top:60px;">
+                            <tr>
+                                <td><div class="img_disble_button">Booking&nbsp;Information</div></td>
+                                <td><div class="img_active_button">Personal&nbsp;Details</div></td>
+                                <td><div class="img_disble_button">Health&nbsp;Details</div></td>
+                                <td><div class="img_disble_button">Habit&nbsp;Details</div></td>
+                                <td><div class="img_disble_button">Payment&nbsp;Details</div></td>
+                            </tr>
+                        </table>
+
+
+                        <table>
+
+                            @*<tr><td colspan="4" align="right">
+
+                                <input type="button" value="Previous" class="submit" onclick="history.go(-1);" />&nbsp;
+                                    <input type="submit" id="FirstSubmitbutton" value="Next" class="submit" /></td>
+                                </tr>*@
+                            <tr>
+                                <td><label>Earlier PRNO</label></td>
+                                <td>
+                                    <input type="text" id="EPRNO" placeholder="Earlier PRNO" />
+                                </td>
+
+                                <td>
+                                    &nbsp;
+
+                                </td>
+
+                                <td>
+                                    &nbsp;
+
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    @*@Html.LabelFor(model => model.FirstName)*@
+                                    <label>First Name<span class="mandatory">*</span></label>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.FirstName, new { @readonly = true })
+                                    @Html.ValidationMessageFor(model => model.FirstName)
+                                </td>
+                                <td style="display:none">
+
+                                    <label>Middle Name</label>
+                                </td>
+                                <td style="display:none">
+                                    @Html.TextBoxFor(model => model.MiddleName, new { @readonly = true })
+                                    @Html.ValidationMessageFor(model => model.MiddleName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    <label>Surname<span class="mandatory">*</span></label>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.LastName, new { @readonly = true })
+                                    @Html.ValidationMessageFor(model => model.LastName)
+                                </td>
+                                <td>
+                                    <label>Alias Name</label>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.AliasName)
+                                    @Html.ValidationMessageFor(model => model.AliasName)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="display:none">
+                                    <label>Father/Husband Name<span class="mandatory">*</span></label>
+                                </td>
+                                <td style="display:none">
+                                    @Html.TextBoxFor(model => model.FatherHusbandName, new { @readonly = true })
+                                    @Html.ValidationMessageFor(model => model.FatherHusbandName)
+                                </td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <label>Gender<span class="mandatory">*</span></label>
+                                </td>
+                                <td>
+                                    @Html.RadioButton("Gender", "M", true, new { id = "rb1", @readonly = "readonly" })Male
+                                    @Html.RadioButton("Gender", "F", new { id = "rb2", @readonly = "readonly" })Female
+                                    @Html.ValidationMessageFor(model => model.Gender)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @*@Html.LabelFor(model => model.MaritalStatus)*@
+                                    <label>Marital Status<span class="mandatory">*</span></label>
+                                </td>
+                                <td>
+
+                                    @Html.RadioButton("MaritalStatus", "S", true, new { id = "rb3" })Single
+                                    @Html.RadioButton("MaritalStatus", "M", new { id = "rb4" })Married
+                                    @Html.ValidationMessageFor(model => model.MaritalStatus)
+                                </td>
+
+                                <td>
+                                    @*@Html.LabelFor(model => model.FlatNo)*@
+                                    <label>FlatNo<span class="mandatory">*</span></label>
+                                </td>
+                                <td>
+
+                                    @Html.EditorFor(model => model.FlatNo)
+                                    @Html.ValidationMessageFor(model => model.FlatNo)
+                                </td>
+
+
+                            </tr>
+
+                            <tr>
+                                <td>@Html.LabelFor(model => model.Building)</td>
+                                <td>
+                                    @Html.EditorFor(model => model.Building)
+                                    @Html.ValidationMessageFor(model => model.Building)
+                                </td>
+                                <td>
+                                    @*@Html.LabelFor(model => model.Street)*@
+                                    <label>Street<span class="mandatory">*</span></label>
+                                </td>
+
+                                <td>
+                                    @Html.EditorFor(model => model.Street)
+                                    @Html.ValidationMessageFor(model => model.Street)
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    @*@Html.LabelFor(model => model.City)*@
+                                    <label>City<span class="mandatory">*</span></label>
+                                </td>
+
+                                <td>
+                                    @Html.EditorFor(model => model.City)
+                                    @Html.ValidationMessageFor(model => model.City)
+                                </td>
+                                <td>
+                                    @*@Html.LabelFor(model => model.PinCode)*@
+                                    <label>PinCode</label>
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.PinCode)
+                                    @Html.ValidationMessageFor(model => model.PinCode)
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    @*@Html.LabelFor(model => model.Nationality)*@
+                                    <label>Nationality<span class="mandatory">*</span></label>
+                                </td>
+                                <td>
+                                    @Html.DropDownList("Nationality", ViewBag.Nationalities as SelectList, "Select Nationality")
+                                    @Html.ValidationMessageFor(model => model.Nationality)
+                                </td>
+                                <td>
+                                    @*@Html.LabelFor(model => model.Country)*@
+                                    <label>Country<span class="mandatory">*</span></label>
+                                </td>
+                                <td>
+                                    @Html.DropDownList("Country", ViewBag.Countries as SelectList, "Select Country")
+                                    @Html.ValidationMessageFor(model => model.Country)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @*@Html.LabelFor(model => model.DOB)*@
+                                    <label>Date of Birth<span class="mandatory">*</span></label>
+                                </td>
+                                <td>
+
+                                    @*@Html.TextBoxFor(model => model.DOB, "{0:dd/MM/yyyy}", new { @readonly = true })*@
+                                    @Html.TextBoxFor(model => model.DOB, "{0:dd/MM/yyyy}")
+
+                                    @Html.ValidationMessageFor(model => model.DOB)
+                                    @*<input type="text" id="DOB" name="DOB" />*@
+                                </td>
+                                <td>
+                                    @*@Html.LabelFor(model => model.Age)*@
+                                    <label>Age</label>
+                                </td>
+                                <td bgcolor="red">
+                                    @Html.TextBoxFor(model => model.Age, new { @readonly = true, style = "bgcolour:red;" })
+                                    @Html.ValidationMessageFor(model => model.Age)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @*@Html.LabelFor(model => model.MobileNo)*@
+                                    <label>Mobile Number<span class="mandatory">*</span></label>
+                                </td>
+
+                                <td>
+                                    @Html.TextBoxFor(model => model.MobileNo, new { @readonly = true })
+                                    @Html.ValidationMessageFor(model => model.MobileNo)
+                                </td>
+
+                                <td>
+                                    @Html.LabelFor(model => model.EmergencyContactNo)
+
+                                </td>
+
+                                <td>
+                                    @Html.EditorFor(model => model.EmergencyContactNo)
+                                    @Html.ValidationMessageFor(model => model.EmergencyContactNo)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @*@Html.LabelFor(model => model.EmailId)*@
+                                    <label>E-Mail<span class="mandatory">*</span></label>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.EmailId, new { @readonly = true })
+                                    @Html.ValidationMessageFor(model => model.EmailId)
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.Occupation)
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.Occupation)
+                                    @Html.ValidationMessageFor(model => model.Occupation)
+                                </td>
+
+
+
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    @*@Html.LabelFor(model => model.Height)*@
+                                    <label>Height(in Cms)<span class="mandatory">*</span></label>
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.Height)
+                                    @Html.ValidationMessageFor(model => model.Height)
+                                </td>
+                                <td>
+                                    @*@Html.LabelFor(model => model.Weight)*@
+                                    <label>Weight(in Kgs)<span class="mandatory">*</span></label>
+
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.Weight)
+                                    @Html.ValidationMessageFor(model => model.Weight)
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    @*@Html.LabelFor(model => model.BP)*@
+                                    <label>BP<span class="mandatory">*</span></label>
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.BP, "", new { placeholder = "Systolic / Diastolic" })
+                                    @Html.ValidationMessageFor(model => model.BP)
+                                </td>
+                                <td>
+                                    @*@Html.LabelFor(model => model.PulseRate)*@
+                                    <label>Pulse Rate<span class="mandatory">*</span></label>
+
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.PulseRate)
+                                    @Html.ValidationMessageFor(model => model.PulseRate)
+                                </td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <font size="2">
+                                        How did you hear about us?<span class="mandatory">*</span><br /><br />
+                                        If client referral please provide PRNumber of referral so that person may receive recognitition.
+                                        <p>&nbsp;</p>
+                                    </font>
+
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            @*<tr>
+                                <td colspan="7"></td>
+                                    </tr>*@
+                            <tr>
+                                <td colspan="4">
+                                    <font size="2">
+                                        @Html.RadioButton("ReferralFrom", "Client Referral", new { id = "Referralrb1" })Client Referral
+                                        @Html.RadioButton("ReferralFrom", "Email", new { id = "Referralrb2" })Email
+                                        @Html.RadioButton("ReferralFrom", "Postcard", new { id = "Referralrb3" })Postcard
+
+                                        @Html.RadioButton("ReferralFrom", "Website", new { id = "Referralrb4" })Website
+
+                                        @Html.RadioButton("ReferralFrom", "SPA Finder", true, new { id = "Referralrb5" })SPA Finder
+                                        @Html.RadioButton("ReferralFrom", "Review Site", new { id = "Referralrb6" })Review Site
+
+                                        @Html.RadioButton("ReferralFrom", "Walked by", new { id = "Referralrb7" })Walked by
+                                        @Html.RadioButton("ReferralFrom", "Advertisement", new { id = "Referralrb8" })Advertisement
+                                        @Html.RadioButton("ReferralFrom", "Other", new { id = "Referralrb9" })Other
+                                        @Html.ValidationMessageFor(model => model.ReferralFrom)
+                                        <p>&nbsp;</p>
+                                    </font>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(model => model.ReferralPRNO, new { id = "ReferralDetails" })
+                                    @Html.LabelFor(model => model.ReferralOthers, new { id = "OtherDetails" })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.ReferralPRNO)
+                                    @Html.EditorFor(model => model.ReferralOthers)
+                                    <p>&nbsp;</p>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" align="center">
+
+                                    @*<input type="button" value="Previous" class="submit" onclick="history.go(-1);" />&nbsp;
+                                        <input type="submit" id="FirstSubmitbutton" value="Next" class="submit" />*@
+                                    <input type="submit" name="btn" value="Previous" class="submit" />&nbsp;
+                                    <input type="submit" name="btn" id="FirstSubmitbutton" value="Next" class="submit" />
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
+
+                }
+
+            </div>
+        </div>
+    </div>
+</body>

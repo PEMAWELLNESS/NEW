@@ -1,0 +1,496 @@
+﻿
+@{
+    ViewBag.Title = "Create1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/form_pw.css" rel="stylesheet" />
+    <link href="~/Content/style_pw.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/TimePicker/include/ui-1.10.0/ui-lightness/jquery-ui-1.10.0.custom.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/TimePicker/jquery.ui.timepicker.css?v=0.3.3" type="text/css" />
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.core.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.widget.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.tabs.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/include/ui-1.10.0/jquery.ui.position.min.js"></script>
+    <script type="text/javascript" src="~/Content/TimePicker/jquery.ui.timepicker.js?v=0.3.3"></script>
+    <style>
+        .table1 {
+            display: none;
+        }
+
+        #LoadingImage {
+            display: none;
+            margin: -48px 0px 0px 0px;
+            padding: 170px 10px 10px 10px;
+            position: absolute;
+            left: 0%;
+            top: 225px;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            background: white url(Content/loader.gif) no-repeat center center !important;
+            border: 0px solid #000;
+            z-index: 1;
+        }
+
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+            width: 31px !important;
+            text-align: center !important;
+        }
+
+        .ui-timepicker-table {
+            font-size: 10px !important;
+        }
+
+        .form-horizontal .form-group {
+            font-size: 15px;
+        }
+
+        .form-horizontal .control-label {
+            text-align: left !important;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $(document).on("click", ".guestlist tr", function (e) {
+                debugger;
+                var td = this.cells[0];
+                $(this.cells).css({
+                    'background-color': 'grey'
+                });
+                var td = this.cells[0];
+                $("#GuestName1").val($(this.cells[2]).text()).trigger("change");
+                $("#PRNO").val($(this.cells[0]).text()).trigger("change");
+                $("#GuestName").val($(this.cells[2]).text()).trigger("change");
+                $('.guestlist tr').css({
+                    'pointer-events': 'none'
+                });
+            });
+            $.ajax({
+                type: "POST",
+                url: "/TP/GGD",
+                success: function (result) {
+                    debugger;
+                    var $table = $('<table/>');
+                    $table.addClass("table table-bordered table-hover table-striped tbb");
+                    $table.append(' <th style="text-align:center!important;">PRNO</th><th style="text-align:center!important;">Room No</th><th style="text-align:center!important;">Guest Name</th>');
+                    for (var i = 0; i < result.length; i++) {
+                        $table.append('<tr><td>' + result[i].PRNO + '</td><td>' + result[i].Room_No + '</td><td>' + result[i].Guest_Name + '</td></tr>');
+                        $('.guestlist').append($table);
+                    }
+                    $('.guestlist').show();
+                }
+            });
+            $('#PRNO').change(function () {
+                $.ajax({
+                    url: "/TP/GTN/",
+                    data: { PRNO: $("#PRNO").val() },
+                    cache: false,
+                    async: false,
+                    type: "GET",
+                    success: function (data) {
+                        if (data == 0) {
+                            alert("No Treatments are Available in master");
+                        }
+                        else {
+                            debugger;
+                            $("#TreatmentID").empty();
+                            $("#TreatmentID").append('<option value="-1">Select Treatment</option>');
+                            $.each(data, function (i, x) {
+                                $("#TreatmentID").append('<option value="' + x.TreatmentID + '">' + x.TreatName + '</option>');
+                            });
+                            //$('#healername').val(data);
+                        }
+                    },
+                    error: function (response) {
+                        alert("error : " + response);
+                    }
+                });
+            })
+            $('#TreatmentID').change(function () {
+                $.ajax({
+                    url: "/TP/GRD/",
+                    data: {
+                        TRNAME: $('#TreatmentID').val(),
+                        StartTime: $('#timepicker_start').val()
+                    },
+                    cache: false,
+                    async: false,
+                    type: "GET",
+                    success: function (data) {
+                        if (data == 0) {
+                            alert("Rooms are not available for the Selected Treatment in Selected period of time");
+                        }
+                        else {
+                            debugger;
+                            $("#RoomID").empty();
+                            $("#RoomID").append('<option value="-1">Select Room Name</option>');
+                            $.each(data, function (i, x) {
+                                $("#RoomID").append('<option value="' + x.ID + '">' + x.RoomName + '</option>');
+                            });
+                            //$('#healername').val(data);
+                        }
+                    },
+                    error: function (response) {
+                        alert("error : " + response);
+                    }
+                });
+            })
+            $('.Schdeuletime').timepicker({
+                showLeadingZero: false,
+               // onSelect: tpStartSelect,
+            });
+            $('#timepicker_start').timepicker({
+                showLeadingZero: false,
+                onSelect: tpStartSelect,
+            });
+            $('#timepicker_end').timepicker({
+                showLeadingZero: false,
+                onSelect: tpEndSelect,
+                setTime:new Date()
+            });
+            $('#timepicker_end').change(function () {
+                debugger;
+                if ($('#timepicker_start').val() != "" && $('#timepicker_end').val() != "") {
+                    $("#LoadingImage").show();
+                    $.ajax({
+                        data: {
+                            StartTime: $('#timepicker_start').val(),
+                            EndTime: $('#timepicker_end').val()
+                        },
+                        url: "/TP/GetRoomNumbers/",
+                        cache: false,
+                        async: false,
+                        type: "POST",
+                        success: function (data) {
+                            debugger;
+                            if (data == 0) {
+                                alert("No Employees are Available in master");
+                            }
+                            else {
+                                debugger;
+                                $("#roomsid").empty();
+                                $("#roomsid").append('<option value="-1">Select Room Number</option>');
+                                $.each(data, function (i, x) {
+                                    $("#roomsid").append('<option value="' + x.RoomNumber + '">' + x.RoomNumber + '</option>');
+                                });
+                            }
+                        },
+                        error: function (response) {
+                            alert("error : " + response);
+                        }
+                    });
+                    $.ajax({
+                        url: "/TP/GHG/",
+                        data: {
+                            PRNO: $('#PRNO').val(),
+                            StartTime: $('#timepicker_start').val(),
+                            EndTime: $('#timepicker_end').val()
+                        },
+                        cache: false,
+                        async: false,
+                        type: "GET",
+                        success: function (data) {
+                            if (data == 0) {
+                                alert("All the Healers are busy. Kindly Select any another slot");
+                            }
+                            else {
+                                debugger;
+                                $("#HealerID").empty();
+                                $("#HealerID").append('<option value="-1">Select Healer Name</option>');
+                                $.each(data, function (i, x) {
+                                    $("#HealerID").append('<option value="' + x.EMPNO + '">' + x.EMPNAME + '</option>');
+                                });
+                                //$('#healername').val(data);
+                            }
+                        },
+                        error: function (response) {
+                            alert("error : " + response);
+                        }
+                    });
+                    $.ajax({
+                        url: "/TP/PRS/",
+                        data: {
+                            PRNO: $("#PRNO").val(),
+                            StartTime: $('#timepicker_start').val(),
+                            EndTime: $('#timepicker_end').val()
+                        },
+                        cache: false,
+                        async: false,
+                        type: "GET",
+                        success: function (data) {
+                            debugger;
+                            if (data != 0) {
+                                alert('This Guest has already booked a treatment in the given period of time');
+                                $('#SchdeuleTime').val('');
+                                $('#timepicker_start').val('');
+                                $('#timepicker_end').val('');
+                            }
+                            else {
+                                debugger;
+                            }
+                        },
+                        error: function (response) {
+                            debugger;
+                            alert("error : " + response);
+                        }
+                    })
+                    $("#LoadingImage").fadeOut(2000);
+                }
+            });
+            function tpStartSelect(time, endTimePickerInst) {
+                debugger;
+                $('#timepicker_end').timepicker('option', {
+                    minTime: {
+                        hour: endTimePickerInst.hours,
+                        minute: endTimePickerInst.minutes
+                    }
+                });
+                
+            }
+
+            // when end time change, update maximum for start timepicker
+            function tpEndSelect(time, startTimePickerInst) {
+                $('#timepicker_start').timepicker('option', {
+                    maxTime: {
+                        hour: startTimePickerInst.hours,
+                        minute: startTimePickerInst.minutes
+                    }
+                });
+                $('#timepicker_start').timepicker('option', {
+                    maxTime: {
+                        hour: 23,
+                        minute: 59
+                    }
+                });
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $(document).on("click", ".classAdd1", function () { //
+                debugger;
+                if ($('#SchdeuleTime').val() == "") {
+                    alert("Please Fill Details.");
+                }
+                else {
+                    var rowCount = $('.data-contact-person1').length + 1;
+                    if (rowCount > 0) {
+                        var buttons = document.querySelector('.table1');
+                        buttons.style.display = 'block';
+                    }
+                    var contactdiv1 = "";
+                    contactdiv1 = '<tr class="data-contact-person1">' +
+                        '<td>  <input style="text-align:center;width:94%;" type="text" class="Schdeuletime" name="SchdeuleTime' + rowCount + '" id="SchdeuleTime' + rowCount + '"  class="form-control f-name04" value="' + $('#SchdeuleTime').val() + '" readonly></td>' +
+                         '<td><input style="text-align:center;width:94%;" type="text" name="StartTime' + rowCount + '" id="StartTime' + rowCount + '"  class="form-control f-name04" value="' + $('#timepicker_start').val() + '" readonly></td>' +
+                         '<td><input style="text-align:center;width:94%;" type="text" name="EndTime' + rowCount + '" id="EndTime' + rowCount + '"  class="form-control f-name04" value="' + $('#timepicker_end').val() + '" readonly></td>' +
+                         '<td><input style="text-align:center;width:94%;" type="text" name="HealerID' + rowCount + '" id="HealerID"  class="form-control f-name04" value="' + $('#HealerID option:selected').text() + '" readonly></td>' +
+                         '<td><input style="text-align:center;width:94%;" type="text" name="TreatmentID' + rowCount + '" id="TreatmentID"  class="form-control f-name04" value="' + $('#TreatmentID option:selected').text() + '" readonly></td>' +
+                         '<td><input style="text-align:center;width:94%;" type="text" name="RoomID' + rowCount + '" id="RoomID"  class="form-control f-name04" value="' + $('#RoomID option:selected').text() + '" readonly></td>' +
+                       '<td><button type="button" id="btnDelete" value="' + rowCount + '" class="deleteContact btn btn btn-danger btn-xs">Remove</button></td>' +
+                       '</tr>';
+                    $('#maintable1').append(contactdiv1); // Adding these controls to Main table class
+                    $('#rowCount1').val(rowCount);
+                    $('#SchdeuleTime').val("");
+                    $('#timepicker_start').val("");
+                    $('#timepicker_end').val("");
+                    $('#HealerID').val("");
+                    $('#TreatmentID').val("");
+                    $('#RoomID').val("");
+                }
+            });
+            $(document).on("click", ".deleteContact", function () {
+                var value = this.value;
+                $("#Lision1New" + value).val("");
+                $(this).closest("tr").remove();
+
+                // closest used to remove the respective 'tr' in which I have my controls
+            });
+        });
+    </script>
+    <script>
+        function Cancell() {
+            $.ajax({
+                url: "/TP/CancelledTreatments",
+                success: function (data) {
+                    location.reload();
+                },
+            });
+        }
+        function LoginD() {
+            debugger;
+            PRNO = $("#PRNO").val();
+            GuestName = $("#GuestName").val();
+            ScheduleTime = $("#SchdeuleTime").val();
+            StartTime = $("#timepicker_start").val();
+            EndTime = $("#timepicker_end").val();
+            Healer = $("#HealerID").val();
+            Treatment = $("#TreatmentID").val();
+            Room = $("#RoomID").val();
+            var Details =
+          {
+              PRNO: PRNO,
+              GuestName: GuestName,
+              ScheduleTime: ScheduleTime,
+              StartTime: StartTime,
+              EndTime: EndTime,
+              Healer: Healer,
+              Treatment: Treatment,
+              Room: Room
+          }
+            $.ajax({
+                url: "/TP/AddTreatment",
+                type: "POST",
+                data: JSON.stringify(Details),
+                contentType: "application/json",
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    if (data.Value == "Success") {
+
+                        //window.location.href = "TP/Create1"
+                        $("#PRNO").val();
+                        $("#GuestName").val();
+                        $("#timepicker_schedule").val();
+                        $("#timepicker_start").val();
+                        $("#timepicker_end").val();
+                        $("#HealerID").val();
+                        $("#TreatmentID").val();
+                        $("#RoomID").val()
+                    }
+
+                    else {
+                        alert(data.message);
+                    }
+                    $("#Login").removeAttr('disabled');
+                },
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="LoadingImage"><img src="@Url.Content("~/Content/loader.gif")" alt="Loading..." />  </div>
+
+    <form id="demo-form2" method="post" action="~/TP/Create1" data-parsley-validate class="form-horizontal form-label-left" enctype="multipart/form-data">
+        <div class="form-horizontal form-group">
+            <div class="col-md-6 form_pema">
+                <h4 style="font-size:25px;color:red;text-align:center;">Current Guest List</h4>
+                <div class="guestlist" style="margin-top:28px;height:443px;overflow: scroll" ;></div>
+            </div>
+            <div class="col-md-6 form_pema" style="margin-top:10px;">
+                <div style="font-size:25px;color:red;text-align:center;"><h4 style="font-size:25px;margin-top:-5px;">Schedule Treatment :<input style="border: none;" type="text" id="GuestName1" name="GuestName1" readonly /></h4></div>
+                <hr />
+                <div class="form_content" style="background-color:white!important;border: none!important;">
+                    <!--Form Global starts here-->
+                    <div id="form_global">
+                        <div class="row">
+                            <input type="hidden" id="rowCount1" name="rowCount1" value="0" />
+                            <div class="col-md-2"></div>
+                            <div class="col-md-3">PRNO</div>
+                            <div class="col-md-4"><input type="text" id="PRNO" name="PRNO" readonly /></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-3">Guest Name</div>
+                            <div class="col-md-4"><input type="text" id="GuestName" name="GuestName" readonly /></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-3">Schdule Time</div>
+                            <div class="col-md-4"><input type="text" class="Schdeuletime" id="SchdeuleTime" name="SchdeuleTime" readonly /></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-3">Start Time</div>
+                            <div class="col-md-4"><input type="text" id="timepicker_start" name="StartTime" readonly /></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-3">End Time</div>
+                            <div class="col-md-4"><input type="text" id="timepicker_end" name="EndTime" readonly /></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-3">Healer Name</div>
+                            <div class="col-md-4">
+                                <select id="HealerID" name="HealerID" style="width:98%;height:32px;">
+                                    <option value="0">Select Healer Name</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-3">Treatment Name</div>
+                            <div class="col-md-4">
+                                <select id="TreatmentID" name="TreatmentID" style="width:98%;height:32px;">
+                                    <option value="0">Select Treatment Name</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-3">Room NO</div>
+                            <div class="col-md-4">
+                                <select id="RoomID" name="RoomID" style="width:98%;height:32px;">
+                                    <option value="0">Select Room Name</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-5"></div>
+                        <div class="col-md-2"><span><input type="button" id="ADD" value="ADD" onclick="LoginD()" class="submit classAdd1" /></span></div>
+                        <div class="col-md-2"><span><input type="button" onclick="Cancell()" id="Cancel" value="Cancel" class="submit" /></span></div>
+
+                    </div>
+                </div>
+                @*<div class="form-group">
+                        <div class="col-md-offset-4 col-md-4">
+                            <input type="submit" value="Save Details" class="btn btn-default" />
+                        </div>
+                    </div>*@
+            </div>
+
+        </div>
+        <div class="col-md-12">
+            <div class="form_content">
+                <div id="form_global">
+
+                    <table class="table1" id="maintable1" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center;">Schedule Time</th>
+                                <th style="text-align:center;">Start Time</th>
+                                <th style="text-align:center;">End Time</th>
+                                <th style="text-align:center;">Healer Name</th>
+                                <th style="text-align:center;">Treatment Name</th>
+                                <th style="text-align:center;">Room No</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="form_pema">
+            <div class="form_content" style="background-color:white!important;">
+                <!--Form Global starts here-->
+                <div id="form_global">
+                    <div class="row">
+                        <div class="col-md-5"></div>
+                        <div class="col-md-2"><span><input type="submit" id="Save" value="Save" class="submit" /></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    @*<div>
+            @Html.ActionLink("View Treatment List", "TreatmentList")
+        </div>*@    
+</body>
+</html>

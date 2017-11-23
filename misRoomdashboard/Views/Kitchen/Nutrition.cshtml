@@ -1,0 +1,375 @@
+﻿@model Rooms.Models.Recipe
+@{
+    ViewBag.Title = "Nutrition";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.9.1.js"></script>
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/ckeditor/sample.js"></script>
+    <link href="~/Scripts/ckeditor/samples.css" rel="stylesheet" />
+    <style>
+        @@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+
+        /*body {
+             width: 1200px;
+         }*/
+
+        .faqHeader {
+            font-size: 27px;
+            margin: 20px;
+        }
+
+        .panel-heading [data-toggle="collapse"]:after {
+            font-family: 'fontawesome';
+            content: "\f054"; /* "play" icon */
+            float: right;
+            color: #F58723;
+            font-size: 18px;
+            line-height: 22px;
+            /* rotate "play" icon from > (right arrow) to down arrow */
+            -webkit-transform: rotate(-90deg);
+            -moz-transform: rotate(-90deg);
+            -ms-transform: rotate(-90deg);
+            -o-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+        }
+
+        .panel-heading [data-toggle="collapse"].collapsed:after {
+            /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            transform: rotate(90deg);
+            color: #454444;
+        }
+        .form_pema {
+            background: #fff;
+            margin: auto;
+        }
+
+            .form_pema h2 {
+                /*background-image: url(images/head_bg.png);*/
+                background-image: url('../../Content/images/head_bg.png');
+                line-height: 35px;
+                color: #27a09b;
+                font-size: 18px;
+                text-align: center;
+                padding: 0 10px;
+                border: 1px solid #dedede;
+            }
+
+            .form_pema .form_content {
+                background: #fafafa;
+                height: auto;
+                border-left: 1px solid #dedede;
+                border-right: 1px solid #dedede;
+                border-bottom: 1px solid #dedede;
+                padding: 10px;
+                color: #666;
+                font-size: 13px;
+                margin-bottom: 10px;
+            }
+
+        #form_global {
+            width: auto;
+            height: auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        #form_global label {
+            float: left;
+            line-height: 16px;
+            padding: 0 5px;
+            width: 185px;
+            font-size: 13px;
+            margin: 3px 20px;
+        }
+
+        #form_global input.hasDatepicker {
+            background: #f6fdfd;
+        }
+
+        #form_global input, #form_global textarea, #form_global select {
+            width: 185px;
+            padding: 3px 5px;
+            color: #666;
+            border: 1px solid #ccc;
+            margin: 3px 0 3px 0;
+            font-size: 13px;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+            transition: all .25s ease-in-out;
+            -webkit-transition: all .25s ease-in-out;
+            -moz-transition: all .25s ease-in-out;
+            box-shadow: 0 0 5px rgba(81,203,238,0);
+            -webkit-box-shadow: 0 0 5px rgba(81,203,238,0);
+            -moz-box-shadow: 0 0 5px rgba(81,203,238,0);
+            vertical-align: middle;
+        }
+
+            #form_global input.submit {
+                width: auto;
+                min-width: 85px;
+                cursor: pointer;
+                position: relative;
+                border: 1px solid #299e9e;
+                color: #fff;
+                padding: 6px 16px;
+                text-decoration: none;
+                font-size: 14px;
+                background: #3cb6b6;
+                box-shadow: 0 2px 3px rgba(0,0,0,.25);
+                -moz-box-shadow: 0 1px 3px rgba(0,0,0,.25);
+                -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.25);
+            }
+
+        #form_glb_small fieldset#form_glb_small fieldset {
+            background: #fff;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            margin: 0 0 10px;
+            box-shadow: 0 2px 5px rgba(50,50,50,.1);
+            -webkit-box-shadow: 0 2px 5px rgba(50,50,50,.1);
+            -moz-box-shadow: 0 2px 5px rgba(50,50,50,.1);
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('#rowcount').val(0)
+            $("#recipeimg").change(function () {
+                readURL(this);
+            });
+            $.ajax({
+                type: 'GET',
+                url: '/Kitchen/GI',
+                //data: { Letter: $('.lits').val() },
+                success: function (result) {
+                    debugger;
+                    //$('#Ingredients').empty();
+                    $.each(result, function (key, val) {
+                        $('#Ingredients').append('<option value="' + result[key].INGREDIENT_NAME + '"></option>')
+                    });
+                },
+                error: function (result) {
+
+                }
+            });
+            $.ajax({
+                type: 'GET',
+                url: '/Kitchen/GCAT',
+                success: function (result) {
+                    $.each(result, function (key, val) {
+                        $('#categories').append('<option value="' + result[key].id + '">' + result[key].category + '</option>')
+                    });
+                },
+                error: function (result) {
+
+                }
+            })
+            $(document).on("click", ".Remove", function () {
+                debugger;
+                var test = $(this).closest("tr");
+                var tes = test[0].cells[4].firstChild.id;
+                var totalcal = $('#totalcal').val();
+                $('#totalcal').val(Math.round((+totalcal - +$('#' + tes).val()).toFixed(2)));
+                $(this).closest("tr").remove();
+                var rowCount = $('#rowcount').val() - 1;
+                $('#rowcount').val(rowCount);// closest used to remove the respective 'tr' in which I have my controls
+            });
+            //$(document).on("blur", '#table tr:last-child td:last-child', function () {
+            $('#rowadd').click(function(){
+                debugger;
+                //append the new row here.
+                var rowCount = ($('#table tr').length) - 1;
+                alert('#ingname'+(+rowCount - 1));
+                if ($('#ingname'+(+rowCount - 1)).val() == "" || $('#rawweight'+(+rowCount - 1)).val() == "" || $('#processedweight'+(+rowCount - 1)).val() == "" || $('#calories'+(+rowCount - 1)).val() == "") {
+                } else {
+                    $('#rowcount').val(rowCount);
+                    var table = $("#table");
+                    table.append('<tr>'
+                        + '<td><input type="button" class="Remove" value="Remove"/></td>'
+            + '<td><input id="ingname' + rowCount + '" name="ingname' + rowCount + '" type="text" list="Ingredients" /></td>'
+            + '<td><input type="text" id="rawweight' + rowCount + '" name="rawweight' + rowCount + '"/></td>'
+            + '<td><input type="text" onblur="getdata(this)" id="processedweight' + rowCount + '" name="processedweight' + rowCount + '"/></td>'
+            + '<td><input type="text" id="calories' + rowCount + '" name="calories' + rowCount + '" readonly /></td></tr>');
+                }
+            });
+        });
+        var totalcalories = 0;
+        function getdata(id) {
+            debugger;
+            var processed = id.id;
+            var identifier = processed.substr(processed.indexOf('t') + 1, processed.length - 1);
+            var itemname = $('#ingname' + identifier).val();
+            var processedweight = id.value;
+            if (itemname != "" && !isNaN(processedweight)) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Kitchen/GC',
+                    data: { Ingredient: itemname },
+                    success: function (result) {
+                        debugger;
+                        var calories = ((result / 100) * processedweight).toFixed(2);
+                        $('#calories' + identifier).val(calories);
+                        totalcalories = (+totalcalories + +calories).toFixed(2);
+                        $('#totalcal').val(Math.round(totalcalories));
+                    },
+                    error: function (result) {
+
+                    }
+                });
+            }
+        }
+        function readURL(input) {
+            debugger;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="panel-group" id="accordion">
+            <div class="faqHeader"><center style="color:red;">Add Recipe Details</center></div>
+            <form id="addrecipe" name="form1" method="post" action="~/Kitchen/Nutrition" enctype="multipart/form-data">
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        Recipe Name :
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" name="recipe_name" id="RecipeName" />
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <table id="table" class="table" border="1" cellpadding="0" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <td></td>
+                                <td>Ingredient Name</td>
+                                <td>Raw Weight (gms)</td>
+                                <td>Processed Weight (gms)</td>
+                                <td>Calories (KCal)</td>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td><input type="button" value="Add Row" id="rowadd" /></td>
+                            <td><input style="width:100%;" type="text" id="ingname0" name="ingname0" class="lits" list="Ingredients" /></td>
+                            <td><input style="width:100%;" type="text" id="rawweight0" name="rawweight0" /></td>
+                            <td><input style="width:100%;" type="text" onblur="getdata(this)" id="processedweight0" name="processedweight0" /></td>
+                            <td><input style="width:100%;" type="text" id="calories0" name="calories0" readonly /></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12" style="margin-bottom:10px;">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-3">
+                                Total Calories 
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" id="totalcal" name="cal" style="color:red;" /><input type="hidden" id="rowcount" name="rowcount" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12" style="margin-bottom:10px;">
+                        <div class="col-md-6">
+                            <div class="col-md-3">
+                                <img id="blah" src="" alt="your image" height="75" width="75">
+                            </div>
+                            <div class="col-md-3">
+                                <input type='file' id="recipeimg" name="recipeimg" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-3">
+                                Categories 
+                            </div>
+                            <div class="col-md-3">
+                                <select id="categories" name="category">
+                                    <option value="0">Select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-md-12" style="margin-bottom:10px;">
+                        <div class="col-md-6">
+                            <div class="col-md-3">
+                                Yield 
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" id="yield" name="yeild" placeholder="gms" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-3">
+                                Portion Size
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" id="portion" name="preparation_size" placeholder="gms" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="col-md-3">
+                            Servings
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" id="servings" name="number_servings" placeholder="People" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-3">
+                            Preparation Time 
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" id="preptime" name="preparation_time" placeholder="Minutes" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" style="margin-bottom:10px;">
+                    <span style="color:red;">Method of Preparation</span><br />
+                    <textarea class="ckeditor" name="desc" id="description" value="Recipe Finder" style="width:500px; height:121px; background:#EEE; border:1px solid #d4d2d2; color:#666; font-family:Arial, Helvetica, sans-serif; font-size:12px; padding:5px; margin-bottom:10px;"></textarea>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-5"></div>
+                    <input type="submit" value="Submit" name="submitRec">
+                </div>
+            </form>
+        </div>
+    </div>
+    <datalist id="Ingredients"></datalist>
+</body>
+</html>

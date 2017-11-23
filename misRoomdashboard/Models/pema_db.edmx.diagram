@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6e3778d28eae4cd3bf20b2576204011b" Name="Diagram1">
+        <EntityTypeShape EntityType="pema_dbModel.nc_tbl_bill_type_master" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_Billing_Trans" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_BOOKED_DATES" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_CAMPAIGN_MASTER" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_COUNTRY_MASTER" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_Gateway_Payment_Details" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_GATEWAYPAYMENT_MODE_MASTER" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_Guest_Group_Master" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_GUEST_ROOM_TRANSACTION" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_HABIT_DETAILS" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_HBQuest_master" Width="1.5" PointX="2.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_HEALTH_DETAILS" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_HLQuest_master" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_MEMBERSHIPDETAILS_DETAILS" Width="1.5" PointX="10.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_MEMBERSHIPDETAILS_HEADER" Width="1.5" PointX="8.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_MEMBERSHIPDETAILS_MASTER" Width="1.5" PointX="10.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_NATIONALITY_MASTER" Width="1.5" PointX="4.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_NUMBERING_SERIES" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_PACKAGE_MASTER" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_PAYMENT_TRANS" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_PAYMENT_TYPE_MASTER" Width="1.5" PointX="12.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_PERSONAL_DETAILS" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_ROOM_MASTER" Width="1.5" PointX="2.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_Treatment_Master" Width="1.5" PointX="4.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.NC_TBL_VITAL_MASTER" Width="1.5" PointX="14.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="pema_dbModel.WS_Tbl_Registration" Width="1.5" PointX="14.75" PointY="14.75" IsExpanded="true" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

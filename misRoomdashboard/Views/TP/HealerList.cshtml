@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewBag.Title = "HealerList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/moment.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.print.min.js"></script>
+    <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <script>
+        $(document).ready(function () {
+
+            $.ajax({
+                type: 'POST',
+                url: '/TP/GH',
+                success: function (result) {
+                    debugger;
+                    var table = $('#treatments').DataTable({
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'excel', 'pdf'
+                        ],
+                        data: result,
+                        destroy: true,
+                        columns: [
+                            { "data": "EMPNO" },
+                            { "data": "EMPNAME" },
+                            { "data": "Designation" },
+                            { "data": "EMPSTATUS" },
+                        ],
+                    });
+                },
+                error: function () {
+
+                }
+            })
+            var table = $('#treatments').DataTable();
+            $('#treatments tbody').on('click', 'tr', function () {
+                debugger;
+                $('#EMPNO').val($(this).find('td').eq(0).text())
+                alert('You clicked on ' + data[0] + '\'s row');
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="form-group" style="margin-top:10px;">
+        <center style="font-size:25px;color:red;">Healers List</center>
+        <div class="modal-body" style="width:90%;margin-left:78px;">
+            <table id="treatments" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>EMPNO</th>
+                        <th>EMPNAME</th>
+                        <th>Designation</th>
+                        <th>EMPSTATUS</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="container-fluid">
+            <form method="post">
+                <table style="line-height: 1.9;">
+                    <tr>
+                        <td style="width:55%;"></td>
+                        <td>Emp Name : </td>
+                        <td><input type="text" name="EMPNO" required id="EMPNO" /></td>
+                    </tr>
+                    <tr>
+                        <td style="width:55%;"></td>
+                        <td>Emp Status : </td>
+                        <td>
+                            <select name="EMPSTATUS">
+                                <option value="Active" checked>Active</option>
+                                <option value="Inactive" checked>Inactive</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:50%;"></td>
+                        <td>
+                            <button type="submit">Update</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>

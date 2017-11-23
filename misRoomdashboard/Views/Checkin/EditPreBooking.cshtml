@@ -1,0 +1,270 @@
+﻿
+@{
+    ViewBag.Title = "EditPreBooking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/form_pw.css" rel="stylesheet" />
+<link href="~/Content/style_pw.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://momentjs.com/downloads/moment.js"></script>
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.print.min.js"></script>
+<link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+        GetEmployeDet();
+        $('#name').on('keypress', function () {
+            var val = $(this).val();
+            if (!/^[a-zA-Z\s]*$/g.test(val)) {
+                alert('Only alphabets are allowed');
+                $('#name').val("");
+                $('#name').focus();
+                return false;
+            }
+        });
+        $('#birthday').on('change', function () {
+            getAge()
+        });
+        $(".number").keypress(function (e) {
+            debugger
+            if ((e.which < 48 || e.which > 57) && e.which != 43) {
+                //$("#errmsg4").html("Digits Only").show().fadeOut("slow");
+                alert('Digits Only');
+                return false;
+            }
+        });
+    });
+    function functionDate(par) {
+        if (par == null || par == undefined)
+            return "";
+        var pattern = /Date\(([^)]+)\)/;
+        var results = pattern.exec(par);
+
+        var dt = new Date(parseFloat(results[1]));
+        //  var n = dt.toLocaleDateString();
+
+        var sd = dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear();
+        //alert(sd);
+        // var n1 = dt.toLocaleString();
+        //  var s = n1.split(',')
+
+        return sd;
+    }
+    function CheckNull(par) {
+        if (par == null || par == undefined)
+            return "";
+        else
+            return par;
+    }
+    function GetEmployeDet() {
+        debugger;
+        var url = "/Checkin/GetPreBookingDet/";
+
+        var id = $('#prno').val();
+        if (id != "") {
+            $.ajax({
+                url: url,
+                async: false,
+                type: "GET",
+                data: { Booked_NO: id },
+                success: (function (data) {
+                    debugger;
+                    if (data != "") {
+                        $.each(data, function (i, x) {
+                            debugger;
+                            $('#fname').val(x.Guest_Name)
+                            $('#roomno').val(x.Room_No)
+                            $('#number').val(x.Mobile)
+                            $('#email').val(x.Email)
+                            $('#Status').val(x.Status)
+                            if (x.Gender == "Male") {
+                                $('input[name=gender]').filter('[value=Male]').prop('checked', true);
+                            }
+                            else {
+                                $('input[name=gender]').filter('[value=Female]').prop('checked', true);
+                            }
+                            //if (x.Date_From != null) {
+                            //    var pattern = /Date\(([^)]+)\)/;
+                            //    var results = pattern.exec(x.Date_From);
+                            //    var IST = new Date(parseFloat(results[1])); // Clone UTC Timestamp
+                            //    IST.setHours(IST.getHours() + 5); // set Hours to 5 hours later
+                            //    IST.setMinutes(IST.getMinutes() + 30); // set Minutes to be 30 minutes later
+                            //    document.getElementById("Checkindate").valueAsDate = new Date(IST);
+
+                            //}
+                            //if (x.Date_To != null) {
+                            //    var pattern = /Date\(([^)]+)\)/;
+                            //    var results = pattern.exec(x.Date_To);
+                            //    var IST = new Date(parseFloat(results[1])); // Clone UTC Timestamp
+                            //    IST.setHours(IST.getHours() + 5); // set Hours to 5 hours later
+                            //    IST.setMinutes(IST.getMinutes() + 30); // set Minutes to be 30 minutes later
+                            //    document.getElementById("Checkoutdate1").valueAsDate = new Date(IST);
+
+                            //}
+                            $('#Checkindate').val(functionDate(x.Date_From))
+                            $('#Checkoutdate1').val(functionDate(x.Date_To))
+                        })
+                    }
+                })
+            })
+        }
+    }
+    function validatemail(event) {
+        debugger;
+        var guestmail = document.getElementById("email").value;
+        if (guestmail != "") {
+            var atpos = guestmail.indexOf("@@");
+            var len = guestmail.substring(atpos, length);
+            var dotpos = guestmail.lastIndexOf(".");
+            if (len.length < 4 || atpos <= 3 || dotpos < atpos + 2 || dotpos + 2 > guestmail.length) {
+                $("#email").focus();
+                $("#email").val('');
+                alert("Please enter a Valid Email");
+            }
+            else {
+            }
+        }
+    }
+    function getAge() {
+        debugger;
+        var today = new Date();
+        var birthDate = new Date($('#birthday').val());
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        $('#Age').val(age);
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $("#Checkoutdate1").datepicker({
+            dateFormat: 'dd/mm/yy',
+            minDate: '0',
+        });
+        $("#Checkindate").datepicker({
+            dateFormat: 'dd/mm/yy',
+            minDate: '0',
+        });
+        //.datepicker("setDate", new Date());
+    });
+</script>
+<body>
+    <div class="form_pema">
+        <h2 style="font-size:30px;">Guest Details</h2>
+        <div class="form_content">
+            <!--Form Global starts here-->
+            <div id="form_global">
+                <form method="post" action="/Checkin/EditPreBooking">
+                    <fieldset>
+
+                        <table>
+                            <tr>
+                                <td style="width:10%"></td>
+
+                                <td style="width:10%;">
+                                    <label>Booking No</label>
+                                </td>
+                                <td>
+                                    <input tabindex="2" type="text" id="prno" name="prno" class="requiredselect" value="@ViewBag.ID" readonly />
+
+                                </td>
+                                <td style="width:10%;">
+                                    <label>Room No</label>
+                                </td>
+                                <td>
+                                    <input style="text-align:center;" tabindex="2" type="text" id="roomno" name="roomno" required class="requiredselect" readonly="readonly" />
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:10%"></td>
+
+                                <td style="width:10%;">
+                                    <label>Guest Name</label>
+                                </td>
+                                <td style="width:10%;">
+                                    <input type="text" id="fname" name="fname" tabindex="3" required class="requiredselect" />
+                                </td>
+                                <td>
+                                    <label>Gender</label>
+                                </td>
+                                <td>
+                                    <input type="radio" name="gender" value="Male" checked />Male
+                                    <input type="radio" name="gender" value="Female" />Female
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:10%"></td>
+
+                                <td style="width:10%;">
+                                    <label>E-Mail</label>
+                                </td>
+                                <td>
+                                    <input tabindex="5" type="text" id="email" name="email" required class="requiredselect" />
+
+                                </td>
+                                <td style="width:10%;">
+                                    <label>Contact Number</label>
+                                </td>
+                                <td>
+                                    <input tabindex="6" type="text" id="number" name="number" required class="requiredselect" />
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:10%"></td>
+                                <td style="width:10%;">
+                                    <label>Expected Checkin date</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="Checkindate" name="Checkindate" tabindex="7" required class="requiredselect" />
+
+                                </td>
+                                <td style="width:10%;">
+                                    <label>Room Category</label>
+                                </td>
+                                <td>
+                                    <select style="width: 194px;" id="Status" name="Status">
+                                        <option value="Blocked">Blocked</option>
+                                        <option value="In-house">In-house</option>
+
+                                    </select>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:10%"></td>
+                                <td style="width:10%;">
+                                    <label id="Checkouttr">Expected Checkout date</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="Checkoutdate1" name="Checkoutdate1" tabindex="8" required class="requiredselect" />
+
+                                </td>
+                                <td style="width:10%;"></td>
+                                <td></td>
+                            </tr>
+                            <tr><td colspan="6" align="center"><span><input type="submit" tabindex="10" id="Save" value="Save" class="submit" /> </span></td></tr>
+                        </table>
+                    </fieldset>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+
