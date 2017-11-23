@@ -9,9 +9,116 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <script src="~/Scripts/CustomJS/jquery.min.js"></script>
+    <style>
+        input:focus {
+            outline: none;
+        }
+    </style>
 </head>
 <body>
-    <p>well come</p>
+    <div style="font-size:23px;">
+        <center><b style="border-bottom:1px solid black">BAYPARK HOTEL & RESORTS PVT. LTD.</b></center><br />
+        <center><b style="border-bottom:1px solid black">LEAVE APPLICATION FORM </b></center>
+    </div><br />
+    <div class="form-group" style="font-size:20px;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-3"><b style="float:right;">Employee Id :</b></div>
+                    <div class="col-md-3">
+                        <input type="text" style="border-bottom:1px solid black;border-left:none;border-right:none;border-top:none;" id="employeeid" name="employeeid" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4"><b style="float:right;">Employee Name :</b></div>
+                    <div class="col-md-3">
+                        <input type="text" style="border-bottom:1px solid black;border-left:none;border-right:none;border-top:none;" id="employeename" name="employeename" />
+                    </div>
+                </div>
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-3"><b style="float:right;">Type of Leave :</b></div>
+                    <div class="col-md-3">
+                        <table>
+                            <tr>
+                                <td style="width:25%;"></td>
+                                <td>
+                                    <input type="checkbox" id="cl" name="cl" />
+                                </td>
+                                <td><b>&nbsp;&nbsp;&nbsp;CL</b></td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%;"></td>
+                                <td>
+                                    <input type="checkbox" id="sl" name="sl" />
+                                </td>
+                                <td><b>&nbsp;&nbsp;&nbsp;SL</b></td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%;"></td>
+                                <td>
+                                    <input type="checkbox" id="Pl" name="Pl" />
+                                </td>
+                                <td><b>&nbsp;&nbsp;&nbsp;PL</b></td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%;"></td>
+                                <td>
+                                    <input type="checkbox" id="lop" name="lop" />
+                                </td>
+                                <td><b>&nbsp;&nbsp;&nbsp;LOP</b></td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%;"></td>
+                                <td>
+                                    <input type="checkbox" id="other" name="other" />
+                                </td>
+                                <td><b>&nbsp;&nbsp;&nbsp;Others</b></td>
+                            </tr>
+                        </table>
+                        @*<input type="checkbox" id="cl" name="cl" />&nbsp;&nbsp;&nbsp;CL<br />
+                        <input type="checkbox" id="sl" name="sl" />&nbsp;&nbsp;&nbsp;SL<br />
+                        <input type="checkbox" id="pl" name="pl" />&nbsp;&nbsp;&nbsp;PL<br />
+                        <input type="checkbox" id="lop" name="lop" />&nbsp;&nbsp;&nbsp;LOP<br />
+                        <input type="checkbox" id="cl" name="cl" />&nbsp;&nbsp;&nbsp;CL<br />
+                        <input type="checkbox" id="cl" name="cl" />&nbsp;&nbsp;&nbsp;Others<input type="text" style="border-bottom:1px solid black;border-left:none;border-right:none;border-top:none;" id="others" name="others" />*@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <table>
+                        <tr>
+                            <td style="width:25%;"></td>
+                            <td><b style="float:right;">Designation :</b></td>
+                            <td>
+                                <input type="text" style="margin-left:23px;border-bottom:1px solid black;border-left:none;border-right:none;border-top:none;" id="designation" name="designation" />
+                            </td>
+                        </tr>
+                        <tr>
+                                 <td style="width:25%;"></td>
+                                <td><b style="float:right;">From :</b></td>
+                                <td>
+                                    <input type="text" style="margin-left:23px;border-bottom:1px solid black;border-left:none;border-right:none;border-top:none;" id="designation" name="designation" />
+                                </td>
+                            </tr>
+                    </table>
+                    @*<div class="col-md-1"></div>
+                        <div class="col-md-4"><b style="float:right;">Designation :</b></div>
+                        <div class="col-md-3">
+                            <input type="text" style="border-bottom:1px solid black;border-left:none;border-right:none;border-top:none;" id="employeename" name="employeename" />
+                        </div>
+                        <div class="col-md-4"><b style="float:right;">From :</b></div>
+                        <div class="col-md-3">
+                            <input type="text" style="border-bottom:1px solid black;border-left:none;border-right:none;border-top:none;" id="employeename" name="employeename" />
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
-

@@ -144,14 +144,14 @@ namespace Rooms.Controllers
         }
         public ActionResult LeaveMangement()
         {
-            if (string.IsNullOrEmpty(Session["LogedUserID"] as string))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
+            //if (string.IsNullOrEmpty(Session["LogedUserID"] as string))
+            //{
+            //    return RedirectToAction("Index", "Home");
+            //}
+            //else
+            //{
                 return View();
-            }
+            //}
         }
     }
 }
