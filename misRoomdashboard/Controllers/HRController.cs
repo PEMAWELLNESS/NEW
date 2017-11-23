@@ -142,5 +142,16 @@ namespace Rooms.Controllers
             targetpath = ConfigurationManager.AppSettings["folderpath2"] + "Attendance.xls";
             return File(targetpath, "application/vnd.ms-excel", "Attendance.xls");
         }
+        public ActionResult LeaveMangement()
+        {
+            if (string.IsNullOrEmpty(Session["LogedUserID"] as string))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View();
+            }
+        }
     }
 }
