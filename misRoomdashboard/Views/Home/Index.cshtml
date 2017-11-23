@@ -1,541 +1,232 @@
 ﻿@{
-    ViewBag.Title = "Baypark";
+    ViewBag.Title = "Home Page";
 }
-<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCJnj2nWoM86eU8Bq2G4lSNz3udIkZT4YY&sensor=false">
-</script>
-<link href="~/jquery.simpleTicker/jquery.simpleTicker.css" rel="stylesheet" />
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-<script src="~/jquery.simpleTicker/jquery.simpleTicker.js"></script>
-<script>
-    $(document).ready(function () {
-        GetTodayEvents();
-        GetDobnew();
-        //ConvertDatefromoneddmmyyytommddyyy();
-    });
-    //function ConvertDatefromoneddmmyyytommddyyy(date) {
-    //    var cdate = date.split('/');
-    //    return cdate[1] + "/" + cdate[0] + "/" + cdate[2];
 
-    //}
+<div class="jumbotron">
+    <h1>ASP.NET Identity</h1>
+    <p class="lead">ASP.NET Identity is the membership system for ASP.NET apps. Following are the features of ASP.NET Identity in this sample application.</p>
+    <p><a href="http://www.asp.net/identity" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+</div>
 
-    function functionDate(par) {
-        if (par == null || par == undefined)
-            return "";
-        var pattern = /Date\(([^)]+)\)/;
-        var results = pattern.exec(par);
-
-        var dt = new Date(parseFloat(results[1]));
-        //  var n = dt.toLocaleDateString();
-
-        var sd = dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear();
-        //alert(sd);
-        // var n1 = dt.toLocaleString();
-        //  var s = n1.split(',')
-
-        return sd;
-    }
-    function CheckNull(par) {
-        if (par == null || par == undefined)
-            return "";
-        else
-            return par;
-    }
-
-    function ConvertDatefromoneddmmyyytommddyyy(date) {
-        var cdate = date.split('/');
-        return cdate[1] + "/" + cdate[0] + "/" + cdate[2];
-
-    }
-    function GetTodayEvents() {
-
-        $.ajax({
-            type: "GET",
-            url: "Home/GetEventsOfTheDay",
-            success: function (data) {
-                // var html = "<h3 style='font-size: 16px;font-family: cambria;'>convertdatetime(data[i].MOM_Assigned_Date)</h3><br />";
-                if (data != "No Events") {
-                    for (var i = 0; i < data.length; i++) {
-                        var html = "<h4 style='font-size: 16px;font-family: cambria;'>" + functionDate(data[i].MOM_Assigned_Date) + "</h4><br />";
-                        // var html = "<h4 style='font-size: 16px;font-family: cambria;'>" + data[i].MOM_Assigned_Date+ "</h4><br />";
-                        html += "<h5 style='font-size: 16px;font-family: cambria;color: #080808;'>Key Point :</h5>";
-                        html += "<h5 style='font-size: 16px;font-family: cambria;'>" + data[i].Key_Point + "</h5><br />";
-                        html += "<h5 style='font-size: 16px;font-family: cambria;color: #080808;'>Description :</h5>";
-                        html += "<h5 style='font-size: 16px;font-family: cambria;'>" + data[i].Description + "</h5><br />";
-                        html += "<h5 style='font-size: 16px;font-family: cambria;color: #080808;'>Responsibility :</h5>";
-                        html += "<h5 style='font-size: 16px;font-family: cambria;'>" + data[i].Responsibility + "</h5><br />";
-                        html += "<h5 style='font-size: 16px;font-family: cambria;color: #080808;'>Start Date :</h5>";
-                        html += "<h5 style='font-family: cambria;'>" + functionDate(data[i].Start_Date) + "</h5><br />";
-                        html += "<h5 style='font-size: 16px;font-family: cambria;'>Target_Date :</h5>";
-                        html += "<h5 style='font-family: cambria;'>" + functionDate(data[i].Target_Date) + "</h5><br />";
-                        html += "<h5 style='font-size: 16px;font-family: cambria;color: #080808;'>Remarks :</h5>";
-                        html += "<h5 style='font-size: 16px;'>" + data[i].Remarks + "</h5><br />";
-                        html += "<h5 style='font-size: 16px;font-family: cambria;color: #080808;'>Status :</h5>";
-                        html += "<h5 style='font-size: 16px;'>" + data[i].Status + "</h5><br />";
-                        //html += "<h5 style='font-size: 16px;font-family: cambria;'>MOM Assigned Date :</h5><br />";
-                        //html += "<h5 style='font-family: cambria;'>" +  functionDate(data[i].MOM_Assigned_Date) + "</h5><br />";
-                    }
-
-                    $("#todaymom").html(html);
-                }
-                else {
-                    $("#todaymom").html("No Events");
-                }
-            },
-            error: function () {
-
-            }
-        });
-    }
-
-    function GetDobnew() {
-
-        $.ajax({
-            type: "GET",
-            url: "Home/GetDobnew",
-            success: function (data) {
-                var html;
-                if (data != "No Events") {
-
-                    for (var i = 0; i < data.length; i++) {
-                        html = "<li><h5 style='font-size: 16px;font-family: cambria;color: #080808;'>Employee Name : " + data[i].Emp_name + "</h5><br/>"
-                        + "<h5 style='font-size: 16px;font-family: cambria;color: #080808;'>Desigination : " + data[i].Emp_designation + "</h5><br/>"
-                        + "<h5 style='font-size: 16px;font-family: cambria;color: #080808;'>Department : " + data[i].Dept + "</h5><br/>"
-                        + "<h5 style='font-size: 16px;font-family: cambria;'>Date of Birth : " + functionDate(data[i].DateofBirthDate) + "</h5></li>";
-                        $("#todaydobul").append(html);
-                    }
-                    $.simpleTicker($("#todayDOB"), {
-                        'effectType': 'slide'
-                    });
-
-                }
-                else {
-                    $("#todaydobul").html("No Events");
-                }
-            },
-            error: function () {
-
-            }
-        });
-    }
-</script>
-<script>
-    $(document).ready(function () {
-        $("#PASSWORD").keypress(function (event) {
-            if (event.which == 13) {
-                $("#Login").click();
-            }
-        });
-    });
-    function LoginD() {
-        alert("search invoked. Query : " + $("#PASSWORD").val());
-    }
-</script>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - A PEMA WELLNESS</title>
-    <link href="~/Content/New/bootstrap.css" rel="stylesheet" />
-    <link href="~/Content/New/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/New/Site.css" rel="stylesheet" />
-
-    <link href="~/Content/New/Style.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/New/Custom.css" rel="stylesheet" />
-    <link href="~/Content/New/Custom.css" rel="stylesheet" />
-    <link href="~/Content/New/Logpage.css" rel="stylesheet" />
-</head>
-
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-
-                @Html.ActionLink("PEMA WELLNESS MANAGEMENT INFORMATION SYSTEM", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-        </div>
+<div class="row">
+    <div class="col-md-4">
+        <dl>
+            <dt>Initialize ASP.NET Identity</dt>
+            <dd>
+                You can initialize ASP.NET Identity when the application starts. Since ASP.NET Identity is Entity Framework based in this sample,
+                you can create DatabaseInitializer which is configured to get called each time the app starts.
+                <strong>Please look in App_Start\IdentityConfig.cs</strong>
+                This code shows the following
+                <ul>
+                    <li>When should the Initializer run and when should the database be created</li>
+                    <li>Create Admin user</li>
+                    <li>Create Admin role</li>
+                    <li>Add Admin user to Admin role</li>
+                </ul>
+            </dd>
+        </dl>
     </div>
-    <br /><br /><br />
-    <div class="col-sm-3 col-md-3">
-        <h2 class="head1">Pema News</h2>
-        <ul class="list">
-            <li><a href="#">PEMA IT Solutions</a></li>
-            <li><a href="#">PEMA Academy</a></li>
-            <li><a href="#">PEMA Bio-Farming</a></li>
-            <li><a href="#">PEMA Clinics</a></li>
-        </ul>
+    <div class="col-md-4">
+        <dl>
+            <dt>Add profile data for the user</dt>
+            <dd>
+                <a href="http://blogs.msdn.com/b/webdev/archive/2013/10/16/customizing-profile-information-in-asp-net-identity-in-vs-2013-templates.aspx">Please follow this tutorial.</a>
 
-        <div class="events1" style="border:1px solid #ccc;vertical-align:top;background-image:url(/Images/Birback.gif)">
-
-            <img src="~/Images/animated-birthday-image-0164.gif" style="width:100%;height: 155px;border-radius:25%;" />
-
-
-            <div id="todayDOB" class="ticker">
-                <ul id="todaydobul"></ul>
-            </div>
-
-
-        </div>
+                <ul>
+                    <li>Add profile information in the Users Table</li>
+                    <li>Look in Models\IdentityModels.cs for examples</li>
+                </ul>
+            </dd>
+        </dl>
     </div>
-    <div class="col-sm-6 col-md-6">
-      
-        <div id="SlideshowImages" style="height:80%;">
-
-            <figure>
-               <img src="~/Images/IMG_3446.JPG" alt="" title="" id="wows1_0" style="height:100%" />
-                <img src="~/Images/IMG_3453.JPG" alt="" title="" id="wows1_1" style="height:100%" />
-                <img src="~/Images/IMG_3454.JPG" alt="" title="" id="wows1_2" style="height:100%" />
-                <img src="~/Images/IMG_3455.JPG" alt="" title="" id="wows1_4" style="height:100%" />
-                <img src="~/Images/IMG_3456.JPG" alt="" title="" id="wows1_4" style="height:100%" />
-                <img src="~/Images/IMG_3459.JPG" alt="" title="" id="wows1_5" style="height:100%" />
-                <img src="~/Images/IMG_3460.JPG" alt="" title="" id="wows1_6" style="height:100%" />
-                <img src="~/Images/IMG_3461.JPG" alt="" title="" id="wows1_7" style="height:100%" />
-                @*<img src="~/Content/data1/Gaph id="wows1_4" style="height:100%"s/d3.png" alt="" title="" id="wows1_0" style="height:100%" />
-                <img src="~/Content/data1/Gaphs/h3.png" alt="" title="" id="wows1_1" style="height:100%" />
-                <img src="~/Content/data1/Gaphs/r3.png" alt="" title="" id="wows1_2" style="height:100%" />
-                <img src="~/Content/data1/Gaphs/t1.png" alt="" title="" id="wows1_4" style="height:100%" />
-                <img src="~/Content/data1/Gaphs/T1.png" alt="" title="" id="wows1_4" style="height:100%" />*@
-            </figure>
-        </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Validation</dt>
+            <dd>
+                When you create a User using a username or password, the Identity system performs validation on the username and password, and the passwords are hashed before they are
+                stored in the database. You can customize the validation by changing some of the properties of the validators such as Turn alphanumeric on/off, set minimum password length
+                or you can write your own custom validators and register them with the UserManager.
+            </dd>
+        </dl>
     </div>
-    <div class="col-sm-6 col-md-3">
-        <div class="rt_column" style="width:100%;">
-            <div class="rt_clm_content">
-                <div id="login">
-                    <form action="/" method="post">
-                        <input name="__RequestVerificationToken" type="hidden" value="AIRHApJeP2PcdRXg28uj5HSVuLR7ZsINjL4FiEDEXl9KGZFrI8lGB8lRv3zvvTIp1D8omMepleOVTlCMI21wnidbTcBq0f91aSK5KXTgXqs1">                                                                <div id="login_title">
-                            <h1>Login</h1>
-                        </div>
-                        <div class="editor-field focus">
-                            <input id="LOGIN_NAME" name="LOGIN_NAME" placeholder="User ID" type="text" value="">
-                            <span class="field-validation-valid" data-valmsg-for="LOGIN_NAME" data-valmsg-replace="true"></span>
-                        </div>
-                        <div class="editor-field">
-                            <input id="PASSWORD" name="PASSWORD" placeholder="Password" type="password">
-                            <span class="field-validation-valid" data-valmsg-for="PASSWORD" data-valmsg-replace="true"></span>
-                        </div>
-                        <div id="formid">
-                            <input type="button" id="Login" value="Log in" onclick="LoginD()">
-                        </div>
-                        @*<p>
-                                @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                            </p>*@
-                        <div id="div2">
-                            <b></b>
-                        </div>
-                    </form>
-
-                    <!-- form -->
-                    <div class="button"></div>
-                    <!-- button -->
-                </div>
-                <!-- login -->
-                <div class="clear"></div>
-                <div class="events">
-                    <h2>MINUTES OF MEETING</h2>
-                    <div id="news_block" style="height:73%!important;">
-                        <div id="news_info">
-                            @*<marquee direction="up" onmouseover="this.stop();" onmouseout="this.start();" scrollamount="2" scrolldelay="10" style="height:252px">*@
-                            @*<ul>
-                                    <li>
-                                        <p id="todaymom"></p>
-                                    </li>
-
-                                </ul>*@
-                            @*</marquee>*@
-
-
-                            @*@foreach (var item in ViewBag.GetUploaddetailsData)
-                                {
-
-                                    <iframe class="doc" src="https://docs.google.com/gview?url=http://119.226.111.114:5666/MyFiles/@item.File_Name&embedded=true"></iframe>
-
-
-
-                                }*@
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Register a user and login</dt>
+            <dd>
+                Click @Html.ActionLink("Register", "Register", "Account") and see the code in AccountController.cs and Register Action.
+                Click @Html.ActionLink("Log in", "Login", "Account") and see the code in AccountController.cs and Login Action.
+            </dd>
+        </dl>
     </div>
-</body>
+    <div class="col-md-4">
+        <dl>
+            <dt>Social Logins</dt>
+            <dd>
+                You can the support so that users can login using their Facebook, Google, Twitter, Microsoft Account and more.
+            </dd>
+            <dd>
+                <ul>
+                    <li>
+                        <a href="http://www.windowsazure.com/en-us/documentation/articles/web-sites-dotnet-deploy-aspnet-mvc-app-membership-oauth-sql-database/">Add Social Logins</a>
+                    </li>
+                    <li>
+                        <a href="http://blogs.msdn.com/b/webdev/archive/2013/10/16/get-more-information-from-social-providers-used-in-the-vs-2013-project-templates.aspx">Get more data about the user when they login suing Facebook</a>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Basic User Management</dt>
+            <dd>
+                Do Create, Update, List and Delete Users.
+                Assign a Role to a User.
+                Only Users In Role Admin can access this page. This uses the [Authorize(Roles = "Admin")] on the UserAdmin controller.
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Basic Role Management</dt>
+            <dd>
+                Do Create, Update, List and Delete Roles.
+                Only Users In Role Admin can access this page. This authorization is doen by using the [Authorize(Roles = "Admin")] on the RolesAdmin controller.
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Account Confirmation</dt>
+            <dd>
+                When you register a new account, you will be sent an email confirmation.
+                You can use an email service such as <a href="http://www.windowsazure.com/en-us/documentation/articles/sendgrid-dotnet-how-to-send-email/">SendGrid</a> which integrate nicely with Windows Azure and requires no configuration or
+                set up an SMTP server to send email.
+                You can send email using the EmailService which is registered in App_Start\IdentityConfig.cs
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Two-Factor Authentication</dt>
+            <dd>
+                This sample shows how you can use Two-Factor authentication. This sample has a SMS and email service registered where you can send SMS or email for sending the security code.
+                You can add more two-factor authentication factors such as QR codes and plug them into ASP.NET Identity.
+                <ul>
+                    <li>
+                        You can use a SMS using <a href="https://www.twilio.com/">Twilio</a> or use any means of sending SMS. Please <a href="https://www.twilio.com/docs/quickstart/csharp/sms/sending-via-rest">read</a> for more details on using Twilio.
+                        You can send SMS using the SmsService which is registered in App_Start\IdentityConfig.cs
+                    </li>
+                    <li>
+                        You can use an email service such as <a href="http://www.windowsazure.com/en-us/documentation/articles/sendgrid-dotnet-how-to-send-email/">SendGrid</a> or
+                        set up an SMTP server to send email.
+                        You can send email using the EmailService which is registered in App_Start\IdentityConfig.cs
+                    </li>
 
-</html>
-<style>
-    .head1 {
-        width: 94%;
-        background: #018487;
-        color: #ffffff;
-        font-size: 18px;
-        font-weight: 500;
-        text-align: left;
-        padding: 9px 0 9px 15px;
-        margin: 10px 0px;
-        width: 104%;
-        position: relative;
-        border-bottom: 3px solid #FC0;
-    }
-
-    .head2 {
-        width: 94%;
-        background: #018487;
-        color: #ffffff;
-        font-size: 18px;
-        font-weight: 500;
-        text-align: left;
-        padding: 9px 0 9px 15px;
-        margin: 10px 0px;
-        width: 100%;
-        position: relative;
-        border-bottom: 3px solid #FC0;
-    }
-
-    .list {
-        display: inline-block;
-        /*padding: 0px 15px;*/
-        width: 104%;
-        color: #FFF;
-        font-size: 14px;
-        text-align: left;
-        line-height: 44px;
-        outline: medium none;
-        position: relative;
-        text-transform: uppercase;
-        transition: all 0.3s ease 0s;
-        z-index: 1;
-    }
-
-        .list li {
-            display: inline-block;
-            border-radius: 0 30px 30px 0;
-            background: #3cb6b6;
-            margin: 0 0 10px 15px;
-            width: 100%;
-            margin-left: 0px;
-        }
-
-            .list li a {
-                text-decoration: none;
-                display: inline-block;
-                padding: 0px 15px;
-                width: 88%;
-                color: #FFF;
-                font-size: 14px;
-                text-align: left;
-                line-height: 44px;
-                outline: medium none;
-                position: relative;
-                text-transform: uppercase;
-                transition: all 0.3s ease 0s;
-                z-index: 1;
-            }
-
-                .list li a:after {
-                    background: none repeat scroll 0 0 #015557;
-                    border-radius: 0 30px 30px 0;
-                    content: "";
-                    height: 100%;
-                    left: 0;
-                    position: absolute;
-                    top: 0;
-                    transition: all 0.3s ease 0s;
-                    width: 0;
-                    z-index: -1;
-                }
-
-    #login {
-        background: #f9f9f9;
-        border: #c4c6ca solid 1px;
-        margin: 0 auto;
-        position: relative;
-        text-align: center;
-    }
-
-    #login_title h1 {
-        font-size: 18px;
-        color: #666;
-        padding: 6px 0;
-    }
-
-    #login form input[type="text"], #login form input[type="password"] {
-        width: 90%;
-        border-radius: 3px;
-        box-shadow: 0 1px 0 #fff, 0 -2px 5px rgba(0,0,0,0.08) inset;
-        border: #c8c8c8 solid 1px;
-        color: #777;
-        font: 13px Helvetica, Arial, sans-serif;
-        margin: 0 0 10px;
-        padding: 5px 10px 5px 5px;
-    }
-
-    #login form input[type="button"] {
-        width: 100px;
-        border-radius: 17px / 18px 18px 17px 17px;
-        background-color: #cccccc;
-        border: #acacac solid 1px;
-        background-image: linear-gradient(to top, #c3c5c5, #fff);
-        color: #666;
-        cursor: pointer;
-        font: bold 15px Helvetica, Arial, sans-serif;
-        margin: 5px 0 10px 5px;
-        position: relative;
-        line-height: 30px;
-    }
-
-    .rt_column .events h2 {
-        background: #018487;
-        padding: 8px 12px;
-        font-size: 18px;
-        color: #fff;
-        text-align: left;
-        border-bottom: 3px solid #FC0;
-    }
-
-    .rt_column .events1 h2 {
-        background: #018487;
-        padding: 8px 12px;
-        font-size: 18px;
-        color: #fff;
-        text-align: left;
-        border: 1px solid #ccc;
-        width: 104%;
-        height: 40%;
-        background-image: url(/Images/Birback.gif);
-    }
-
-    #news_block {
-        width: 100%;
-        height: 100%;
-    }
-
-
-    #imagedob {
-        width: 100%;
-        height: 252px;
-        text-align: center;
-    }
-
-    #news_info {
-        background: #fff;
-        width: 100%;
-        height: 328px;
-        text-align: center;
-        overflow: auto;
-    }
-
-
-    :host([direction="up"]), :host([direction="down"]) {
-        overflow: initial;
-        overflow-y: hidden;
-        white-space: initial;
-    }
-
-    #news_info ul li {
-        list-style: none;
-        width: auto;
-        border-bottom: 1px dotted #666;
-        padding: 0 8px;
-        margin: 0 0 10px 0;
-    }
-
-    .news_highlets {
-        font-size: 13px;
-        color: #09C;
-        text-decoration: none;
-    }
-
-    #news_info ul li p {
-        color: #666;
-        font-size: 12px;
-        text-align: justify;
-        line-height: 18px;
-        padding-bottom: 10px;
-    }
-
-    .slider_main {
-        width: 97%;
-        margin: 10px auto;
-    }
-
-    .bx-wrapper {
-        position: relative;
-        border: 5px solid #dddbdb;
-    }
-
-    .main_wrap .slider_main .bx-wrapper {
-        margin: 0 auto;
-    }
-
-    main_wrap .slider_main .bx-wrapper .bx-viewport {
-        background: none;
-        border: none;
-        box-shadow: none;
-        left: 0;
-    }
-
-    .mySlides {
-        display: none;
-    }
-    /*add by suri*/
-    footer {
-        width: 100%;
-        background: #018487;
-        padding: 20px 0;
-        font-size: 12px;
-        color: #f8f8f8;
-        height: 50px;
-    }
-
-    .footer-style {
-        margin: 0 auto;
-        text-align: center;
-    }
-</style>
-<script>
-    function LoginD() {
-        var LOGIN_NAME = $("#LOGIN_NAME").val();
-        var PASSWORD = $("#PASSWORD").val();
-        if (!$("#LOGIN_NAME").val() || $("#LOGIN_NAME").hasClass("error")) {
-            $("#LOGIN_NAME").addClass("error");
-            $("#LOGIN_NAME").focus();
-
-            return false;
-        }
-        else if (!$("#PASSWORD").val()) {
-            $("#PASSWORD").addClass("error");
-            $("#PASSWORD").focus();
-
-            return false;
-        }
-        var Details =
-            {
-                Userid: LOGIN_NAME,
-                Pwd: PASSWORD
-            }
-        $("#Login").prop("disabled", true);
-        $.ajax({
-            url: "/Home/CheckLoginDeatils",
-            type: "POST",
-            data: JSON.stringify(Details),
-            contentType: "application/json",
-            dataType: 'json',
-            async: false,
-            success: function (data) {
-                if (data.Value == "Success") {
-
-                    window.location.href = "Checkin/Roomdashboard"
-                    $("#LOGIN_NAME").val('');
-                    $("#PASSWORD").val('');
-                }
-
-                else {
-                    $("#PASSWORD").addClass("error");
-                    $("#PASSWORD").focus();
-                    alert(data.message);
-                }
-                $("#Login").removeAttr('disabled');
-            },
-        });
-    }
-</script>
+                    <li>
+                        When you login, you can add a phone number by clicking the Manage page.
+                    </li>
+                    <li>
+                        Once you add a phone number and have the Phone service hooked to send a SMS, you will get a code through SMS to confirm your phone number.
+                    </li>
+                    <li>
+                        In the Manage page, you can turn on Two-Factor authentication.
+                    </li>
+                    <li>
+                        When you logout and login, after you enter the username and password, you will get an option of how to get the security code to use for two-factor authentication.
+                    </li>
+                    <li>
+                        You can copy the code from your SMS or email and enter in the form to login.
+                    </li>
+                    <li>
+                        The sample also shows how to protect against Brute force attacks against two-factor codes. When you enter a code incorrectly for 5 times then you will be
+                        lockedout for 5 min before you can enter a new code. These settings can be configured in App_Start\IdentityConfig.cs by setting  DefaultAccountLockoutTimeSpan and MaxFailedAccessAttemptsBeforeLockout on the UserManager.
+                    </li>
+                    <li>
+                        If the machine you are browsing this website is your own machine, you can choose to check the "Remember Me" option after you enter the code.
+                        This option will remember you forever on this machine and will not ask you for the two-factor authentication, the next time when you login to the website.
+                        You can change your "Remember Me" settings for two-factor authentication in the Manage page.
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Account Lockout</dt>
+            <dd>
+                Provide a way to Lockout out the user if the user enters their password or two-factor codes incorrectly.
+                The number of invalid attempts and the timespan for the users are locked out can be configured.
+                A developer can optionally turn off Account Lockout for certain user accounts should they need to.
+            </dd>
+            <ul>
+                <li>Account LockOut settings can be configured in the UserManager in IdentityConfig.cs</li>
+            </ul>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Security Token provider</dt>
+            <dd>
+                Support a way to regenerate the Security Token for the user in cases when the User changes there password or any other security related information such as removing an associated login(such as Facebook, Google, Microsoft Account etc).
+                This is needed to ensure that any tokens generated with the old password are invalidated. In the sample project, if you change the users password then a new token is generated for the user and any previous tokens are invalidated.
+                This feature provides an extra layer of security to your application since when you change your password, you will be logged out from everywhere (all other browsers) where you have logged into this application.
+            </dd>
+            <dd>
+                <ul>
+                    <li>The provider is registered when you add CookieAuthentication in StartupAuth to your application.</li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Password Reset</dt>
+            <dd>
+                Allows the user to reset their passwords if they have forgotten their password. In this sample users need to confirm their email before they can reset their passwords.
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Custom Storage providers</dt>
+            <dd>
+                You can extend ASP.NET Identity to write your own custom storage provider for storing the ASP.NET Identity system and user data
+                in a persistance system of your choice such as MondoDb, RavenDb, Azure Table Storage etc.
+            </dd>
+            <dd>
+                <ul>
+                    <li>
+                        <a href="http://www.asp.net/identity/overview/extensibility/overview-of-custom-storage-providers-for-aspnet-identity">
+                            learn more on how to implement your own storage provider
+                        </a>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-4">
+        <dl>
+            <dt>Documentation</dt>
+            <dd>
+                <ul>
+                    <li>
+                        Tutorials: <a href="www.asp.net/identity">www.asp.net/identity</a>
+                    </li>
+                    <li>
+                        StackOverflow: <a href="http://stackoverflow.com/questions/tagged/asp.net-identity">http://stackoverflow.com/questions/tagged/asp.net-identity</a>
+                    </li>
+                    <li>
+                        Twitter: #identity #aspnet
+                    </li>
+                    <li>
+                        <a href="http://curah.microsoft.com/55636/aspnet-identity">ASP.NET Identity on curah</a>
+                    </li>
+                    <li>
+                        Have bugs or suggestions for ASP.NET Identity <a href="http://aspnetidentity.codeplex.com/">http://aspnetidentity.codeplex.com/</a>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+</div>

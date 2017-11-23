@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
-namespace Rooms
+namespace IdentitySample
 {
     public class BundleConfig
     {
@@ -26,9 +25,6 @@ namespace Rooms
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
-            //bundles.Add(new StyleBundle("~/Content/css").
-            //    Include("~/Content/style_dashboard.css", "~/Content/reset_css.css", "~/Content/form_pw.css", "~/Content/form_glb_small.css", "~/Content/style_pw.css", "~/Content/themes/base/jquery-ui.css", "~/Content/themes/smoothness/jquery-ui.css", "~/Scripts/jtable/themes/basic/jtable_basic.min.css", "~/Scripts/jtable/themes/lightcolor/gray/jtable.min.css"));
-            //bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include("~/Scripts/jquery-2.1.1.min.js", "~/Scripts/jquery-ui-1.11.2.min.js", "~/Scripts/jquery.unobtrusive-ajax.min.js", "~/Scripts/jtable/jquery.jtable.min.js", "~/Content/themes/base/jquery-ui.min.js", "~/Scripts/jquery.validate.min.js", "~/Scripts/jquery.validate.unobtrusive.min.js"));
         }
     }
 }
